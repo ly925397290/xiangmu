@@ -22,7 +22,7 @@
         <div class="message">x-admin2.0-管理登录</div>
         <div id="darkbannerwrap"></div>
 
-        <form method="post" class="layui-form" action="{{url('dologin')}}">
+        <form method="post" class="layui-form" action="{{url('admin/dologin')}}">
 			{{csrf_field()}}
             <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
             <hr class="hr15">

@@ -23,6 +23,6 @@ class LoginController extends Controller
      public function dologin(Request $request)
      {
         // 后台首页显示
-        return redirect('index');
+        return redirect('admin/index');
      }
 }

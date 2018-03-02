@@ -16,34 +16,38 @@ Route::get('/', function () {
 });
 
 // 后台登录页面显示
-Route::get('login','Admin\LoginController@login');
+Route::get('admin/login','Admin\LoginController@login');
 // 后台登录处理
-Route::post('dologin','Admin\LoginController@dologin');
+Route::post('admin/dologin','Admin\LoginController@dologin');
 // 后台首页
-Route::get('index','Admin\IndexController@index');
+Route::get('admin/index','Admin\IndexController@index');
 // 后台详情页
-Route::get('welcome','Admin\IndexController@welcome');
+Route::get('admin/welcome','Admin\IndexController@welcome');
 //用户管理
-Route::resource('user','Admin\UserController');
+Route::resource('admin/user','Admin\UserController');
+// 用户状态
+Route::post('admin/user/changestatus','Admin\UserController@changestatus');
+// 用户批量删除
+Route::post('admin/user/delAll','Admin\UserController@delAll');
 // 订单管理
-Route::resource('user','Admin\OrderController');
+// Route::resource('user','Admin\OrderController');
 // 商品管理
-Route::resource('user','Admin\GoodsController');
+// Route::resource('user','Admin\GoodsController');
 // 商铺管理
-Route::resource('user','Admin\ShopController');
+// Route::resource('user','Admin\ShopController');
 // 活动管理
-Route::resource('user','Admin\ActivityController');
+// Route::resource('user','Admin\ActivityController');
 // 广告管理
-Route::resource('user','Admin\AdverController');
+// Route::resource('user','Admin\AdverController');
 // 轮播图管理
-Route::resource('user','Admin\SlidController');
+// Route::resource('user','Admin\SlidController');
 // 导航管理
-Route::resource('user','Admin\NavController');
-// 菜单管理
-Route::resource('user','Admin\GoodStyleController');
+// Route::resource('user','Admin\NavController');
+// 分类管理
+Route::resource('admin/cate','Admin\CateController');
 // 文章管理
-Route::resource('user','Admin\WorksController');
+// Route::resource('user','Admin\WorksController');
 // 评论管理管理
-Route::resource('user','Admin\MessageController');
+// Route::resource('user','Admin\MessageController');
 //网站配置管理
-Route::resource('user','Admin\WebsController');
+// Route::resource('user','Admin\WebsController');

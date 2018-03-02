@@ -10,17 +10,16 @@
            </a>
            <ul class="sub-menu">
                <li>
-                   <a _href="{{url('user')}}">
+                   <a _href="{{url('/admin/user')}}">
                        <i class="iconfont">&#xe6a7;</i>
                        <cite>会员列表</cite>
-
                    </a>
                </li >
            </ul>
-       </li>
+       </li>/
        <li>
            <a href="javascript:;">
-               <i class="iconfont">&#xe723;</i>
+               <i class="layui-icon" style="top: 3px;"></i>
                <cite>订单管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
@@ -35,7 +34,7 @@
        </li>
        <li>
            <a href="javascript:;">
-               <i class="iconfont">&#xe723;</i>
+               <i class="layui-icon" style="top: 3px;"></i>
                <cite>商品管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
@@ -95,7 +94,7 @@
        </li>
        <li>
            <a href="javascript:;">
-               <i class="iconfont">&#xe723;</i>
+               <i class="layui-icon" style="top: 3px;"></i>
                <cite>轮播图管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
@@ -125,15 +124,15 @@
        </li>
        <li>
            <a href="javascript:;">
-               <i class="iconfont">&#xe723;</i>
-               <cite>菜单管理</cite>
+               <i class="layui-icon" style="top: 3px;"></i>
+               <cite>分类管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
            <ul class="sub-menu">
                <li>
-                   <a _href="order-list.html">
+                   <a _href="{{url('admin/cate')}}">
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
+                       <cite>分类列表</cite>
                    </a>
                </li >
            </ul>
@@ -155,7 +154,7 @@
        </li>
        <li>
            <a href="javascript:;">
-               <i class="iconfont">&#xe723;</i>
+               <i class="layui-icon" style="top: 3px;"></i>
                <cite>评论管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>

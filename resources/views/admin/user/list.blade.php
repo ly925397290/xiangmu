@@ -7,6 +7,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{asset('admin/favicon.ico')}}" type="image/x-icon" />
     <link rel="stylesheet" href="{{asset('admin/css/font.css')}}">
 	<link rel="stylesheet" href="{{asset('admin/css/xadmin.css')}}">
@@ -33,16 +34,28 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
+        <form class="layui-form layui-col-md12 x-so" method="get" action="{{ url('admin/user') }}">
+          <div class="layui-inline">
+            <select name="num">
+              <option value="2"
+                      @if($request['num'] == 2)  selected  @endif
+              >2
+              </option>
+              <option value="5"
+                      @if($request['num'] == 5)  selected  @endif
+              >5
+              </option>
+            </select>
+          </div>
           <input class="layui-input" placeholder="开始日" name="start" id="start">
           <input class="layui-input" placeholder="截止日" name="end" id="end">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+          <input type="text" name="keywords1"  placeholder="请输入用户名" value="{{$request->keywords1}}" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','{{url('user/create')}}',600,400)"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加用户','{{url('admin/user/create')}}',600,400)"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
       </xblock>
       <table class="layui-table">
@@ -53,54 +66,50 @@
             </th>
             <th>ID</th>
             <th>用户名</th>
-            <th>性别</th>
-            <th>手机</th>
-            <th>邮箱</th>
-            <th>地址</th>
-            <th>加入时间</th>
+            <th>类型</th>
             <th>状态</th>
             <th>操作</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>1</td>
-            <td>小明</td>
-            <td>男</td>
-            <td>13000000000</td>
-            <td>admin@mail.com</td>
-            <td>北京市 海淀区</td>
-            <td>2017-01-01 11:11:42</td>
-            <td class="td-status">
-              <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
-            <td class="td-manage">
-              <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+            @foreach($user as $v)
+            <tr>
+              <td>
+                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$v->uid}}'><i class="layui-icon">&#xe605;</i></div>
+              </td>
+              <td>{{$v->uid}}</td>
+              <td>{{$v->uname}}</td>
+              <td>{{$v->identity}}</td>
+              @if($v->status)
+              <td class="td-status">
+                <span class="layui-btn layui-btn-normal layui-btn-mini">@if($v->status == 1)已启用@endif</span></td>
+              <td class="td-manage">
+              <a title="禁用" onclick="member_stop(this,'{{$v->uid}}')" href="javascript:;" status="{{$v->status}}">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="详情"  onclick="x_admin_show('详情','{{url('user/1')}}',600,400)" href="javascript:;">
-                <i class="layui-icon">&#xe642;</i>
+              @else
+              <td class="td-status">
+                <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">@if($v->status == 0)已禁用@endif</span></td>
+              <td class="td-manage">
+              <a title="启用" onclick="member_stop(this,'{{$v->uid}}')" href="javascript:;" status="{{$v->status}}">
+                <i class="layui-icon"></i>
               </a>
-              <a title="编辑"  onclick="x_admin_show('编辑','{{url('user/1/edit')}}',600,400)" href="javascript:;">
-                <i class="layui-icon">&#xe642;</i>
-              </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                <i class="layui-icon">&#xe640;</i>
-              </a>
-            </td>
+              @endif
+                <a title="详情"  onclick="x_admin_show('详情','{{url('user/1')}}',600,400)" href="javascript:;">
+                  <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/1/edit')}}',600,400)" href="javascript:;">
+                  <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" onclick="member_del(this,'{{$v->uid}}')" href="javascript:;">
+                  <i class="layui-icon">&#xe640;</i>
+                </a>
+              </td>
           </tr>
+            @endforeach
         </tbody>
       </table>
       <div class="page">
-        <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
-        </div>
+        {!! $user->appends($request->all())->render() !!}
       </div>
 
     </div>
@@ -121,34 +130,85 @@
 
        /*用户-停用*/
       function member_stop(obj,id){
+          // 获取当前用户状态
+          var status = $(obj).attr('status');
           layer.confirm('确认要停用吗？',function(index){
-
               if($(obj).attr('title')=='启用'){
-
                 //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type : "POST",
+                    url : '/admin/user/changestatus',
+                    data : {"uid":id,"status":status},
+                    dataType : "Json",
+                    success : function(msg){
+                        // console.log(msg)
+                        if(msg.status){
+                            layer.msg('已启用!',{icon: 6,time:1000});
+                            location.reload(true);
 
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
+                        }else{
+                            location.reload(true);
 
+                            layer.msg('修改失败!',{icon: 5,time:1000});
+                        }
+                    }
+                });
               }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
+                    //发异步把用户状态进行更改
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type : "POST",
+                        url : '/admin/user/changestatus',
+                        data : {"uid":id,"status":status},
+                        dataType : "Json",
+                        success : function(msg){
+                                // console.log(msg)
+                            if(msg.status){
+                                location.reload(true);
 
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
-              }
+                                layer.msg('已禁用!',{icon: 5,time:1000});
+                            }else{
+                                location.reload(true);
 
-          });
-      }
+                                layer.msg('修改失败!',{icon: 5,time:1000});
+                            }
+                        }
+                    });
+                }
+
+            });
+        }
 
       /*用户-删除*/
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "DELETE",
+                url : '/admin/user/'+id,
+                data : {"uid":id},
+                dataType : "Json",
+                success : function(msg){
+                        // console.log(msg)
+                    if(msg.status){
+                        location.reload(true);
+                        $(obj).parents("tr").remove();
+                        layer.msg('删除成功!',{icon:1,time:1000});
+                    }else{
+                        location.reload(true);
+                        layer.msg('删除失败!',{icon:1,time:1000});
+                    }
+                }
+              });
+              
           });
       }
 
@@ -156,12 +216,34 @@
 
       function delAll (argument) {
 
-        var data = tableCheck.getData();
-
-        layer.confirm('确认要删除吗？'+data,function(index){
+        // var data = tableCheck.getData();
+        var ids =   [];
+        $('.layui-form-checked').not('.header').each(function(i,v){
+             ids.push($(v).attr('data-id'));
+        })
+        layer.confirm('确认要删除吗？',function(index){
             //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+            $.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              type : "POST",
+              url : '/admin/user/delAll',
+              data : {"ids":ids},
+              dataType : "Json",
+              success : function(msg){
+                // console.log(msg)
+                if(msg.status){
+                    layer.msg('删除成功', {icon: 1});
+                    $(".layui-form-checked").not('.header').parents('tr').remove();
+                    location.reload(true);
+
+                }else{
+                    location.reload(true);
+                    layer.msg('删除失败', {icon: 1});
+                }
+              }
+            });
         });
       }
     </script>
