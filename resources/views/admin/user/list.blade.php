@@ -47,8 +47,7 @@
               </option>
             </select>
           </div>
-          <input class="layui-input" placeholder="开始日" name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">
+
           <input type="text" name="keywords1"  placeholder="请输入用户名" value="{{$request->keywords1}}" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>

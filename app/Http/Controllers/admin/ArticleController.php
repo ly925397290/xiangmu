@@ -42,12 +42,12 @@ class ArticleController extends Controller
 //            // $disk->put('avatars/1', $fileContents);
             // \Storage::disk('qiniu')->writeStream('uploads/'.$newfilename, fopen($file->getRealPath(), 'r'));
 
-
+             // 将图片上传到本地服务器
 
 
 //             //将上传文件的位置返回给客户端
 
-           return '/uploads/'.$newfilename;
+           return '/upload/'.$newfilename;
        }
         
     }

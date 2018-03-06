@@ -5,7 +5,7 @@
        <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe6b8;</i>
-               <cite>用户cdscsd管理</cite>
+               <cite>用户管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
            <ul class="sub-menu">

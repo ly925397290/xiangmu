@@ -124,9 +124,8 @@
                                     contentType: false,
                                     processData: false,
                                     success: function(data) {
-                                       console.log(data);
-                                        $('#art_thumb_img').attr('src','{{asset('+data+')}}');
-                                         $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
+                                        $('#art_thumb_img').attr('src',data);
+                                         // $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
                                          $('#art_thumb').val(data);
                                     },
                                     error: function(XMLHttpRequest, textStatus, errorThrown) {

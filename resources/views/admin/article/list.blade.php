@@ -34,15 +34,14 @@
     <div class="x-body">
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input" placeholder="开始日" name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">
+
           <input type="text" name="username"  placeholder="请输入文章名或作者" autocomplete="off" class="layui-input" value="{{$request->username}}">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
         
-      <a href="{{url('admin/article/create')}}"><i class="layui-icon"></i>添加文章</a> 
+      <a href="{{url('admin/article/create')}}" class="layui-btn"><i class="layui-icon"></i>添加文章</a> 
         <span class="x-right" style="line-height:40px">共有数据{{$count}} 条</span>
       </xblock>
       <table class="layui-table">
@@ -61,9 +60,7 @@
         <tbody>
          @foreach($articles as $v)
           <tr>
-            <th><input type="text" style="background: white ;width:30px;margin-top: 30px;margin-left: 10px;" name="number" value="{{$v['number']}}" onchange="changeOrder(this,{{$v['aid']}}) " ></th>
-
-            <th>{{$v['aid']}}</th>     
+           <th>{{$v['aid']}}</th>     
             <th>{{$v['apath']}}</th>
             <th>{{$v['title']}}</th>
             <th><img src="{{$v['art_thumb']}}"></th>
@@ -73,10 +70,10 @@
             <th> 
               <div class="tpl-table-black-operation">
                   <a href="{{url('admin/article/'.$v['aid'].'/edit')}}">
-                      <i class="am-icon-pencil"></i> 修改
+                      <i class="layui-icon">&#xe642;</i>
                   </a>
                   <a href="javascript:;" onclick="member_del(this,'{{$v['aid']}}')" class="tpl-table-black-operation-del">
-                      <i class="am-icon-trash"></i> 删除
+                      <i class="layui-icon">&#xe640;</i>
                   </a>
               </div>
           </th>         
