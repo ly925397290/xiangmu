@@ -5,7 +5,7 @@
        <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe6b8;</i>
-               <cite>用户管理</cite>
+               <cite>用户cdscsd管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
            <ul class="sub-menu">
@@ -73,9 +73,9 @@
            </a>
            <ul class="sub-menu">
                <li>
-                   <a _href="order-list.html">
+                   <a _href="{{url('/admin/goods')}}">
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
+                       <cite>商品列表</cite>
                    </a>
                </li >
            </ul>
@@ -178,9 +178,9 @@
            </a>
            <ul class="sub-menu">
                <li>
-                   <a _href="order-list.html">
+                   <a _href="{{url('/admin/article')}}">
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
+                       <cite>文章列表</cite>
                    </a>
                </li >
            </ul>

@@ -40,7 +40,7 @@ Route::resource('admin/permission','Admin\PermissionController');
 // 订单管理
 // Route::resource('user','Admin\OrderController');
 // 商品管理
-// Route::resource('user','Admin\GoodsController');
+ Route::resource('admin/goods','Admin\GoodsController');
 // 商铺管理
 // Route::resource('user','Admin\ShopController');
 // 活动管理
@@ -54,7 +54,8 @@ Route::resource('admin/permission','Admin\PermissionController');
 // 分类管理
 Route::resource('admin/cate','Admin\CateController');
 // 文章管理
-// Route::resource('user','Admin\WorksController');
+Route::post('admin/article/upload','Admin\ArticleController@upload');
+ Route::resource('admin/article','Admin\ArticleController');
 // 评论管理管理
 // Route::resource('user','Admin\MessageController');
 //网站配置管理
