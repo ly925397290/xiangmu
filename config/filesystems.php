@@ -80,6 +80,15 @@ return [
             'url_type'  => 'publicURL',
         ],
 
+        'qiniu' => [
+            'driver'     => 'qiniu',
+            'access_key' => env('QINIU_ACCESS_KEY', 'EMykU3fAz_CjrR3EFRaPodAqP32vdwKp3jEo3T3A'),
+            'secret_key' => env('QINIU_SECRET_KEY', 'XuF7IBUX4I0Ig_Dh1ou1TKXYWACwYLCeQ48TbYbS'),
+            'bucket'     => env('QINIU_BUCKET', 'lidandan'),
+            'domain'     => env('QINIU_DOMAIN', 'http://p549v73s3.bkt.clouddn.com/'), // or host: https://xxxx.clouddn.com
+        ],
+        
+
     ],
 
 ];
