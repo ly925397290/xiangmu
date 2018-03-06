@@ -32,7 +32,7 @@ class ArticleController extends Controller
             //生成新文件名
 
              $newfilename = md5(date('YmdHis').rand(1000,9999).uniqid()).'.'.$ext;
-             // $res = $file->move(public_path().'/upload',$newfilename);
+             $res = $file->move(public_path().'/upload',$newfilename);
 
 
             
@@ -40,7 +40,7 @@ class ArticleController extends Controller
             // $disk = Storage::disk('qiniu');
             // return $disk;
 //            // $disk->put('avatars/1', $fileContents);
-            \Storage::disk('qiniu')->writeStream('uploads/'.$newfilename, fopen($file->getRealPath(), 'r'));
+            // \Storage::disk('qiniu')->writeStream('uploads/'.$newfilename, fopen($file->getRealPath(), 'r'));
 
 
 
