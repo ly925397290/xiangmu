@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\model\cate;
-use DB;
-class CateController extends Controller
+use App\model\pcate;
+class PcateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,16 +16,8 @@ class CateController extends Controller
      */
     public function index()
     {
-        $cate = DB::table('data_cate')->select('*',DB::raw('concat(path,",",id) as paths'))->orderBy('paths','asc')->get();
-        // 处理分类名称
-        foreach ($cate as $key => $value) {
-            // 统计字符串出现的次数
-            $n = substr_count($value['path'],',');
-            // 重复使用字符串 拼接分类名称
-            $cate[$key]['title'] = str_repeat('|----',$n).$cate[$key]['title'];
-        }
-
-        return view('admin.cate.category',['cate'=>$cate]);
+        $data = pcate::get();
+        return view('admin.pcate.list',compact('data'));
     }
 
     /**
@@ -36,7 +27,7 @@ class CateController extends Controller
      */
     public function create()
     {
-        //
+ 
     }
 
     /**
@@ -48,32 +39,17 @@ class CateController extends Controller
     public function store(Request $request)
     {
         // 1.接收数据
-        $data = $request->except('_token');
-        // return $data;
-        // 处理数据
-        if($data['pid'] == 0){
-            // 顶级分类
-            $data['path'] = 0;
-        }else{
-            // 子分类
-            // 查询父级分类的数据
-            $parent_data = cate::where('id',$data['pid'])->first();
-            // 处理数据 
-            $data['path'] = $parent_data['path'].','.$parent_data['id'];
-        }
-        // 2.添加到数据库
-        $cate = new cate;
-        $cate->pid = $data['pid'];
-        $cate->path = $data['path'];
-        $cate->title = $data['cate_name'];
-        $res = $cate->save();
-        // 3.判读是否成功返回给客户端
+        $input = $request->except('_token');
+        // return $input;
+        // 2.将数据入库
+        $res = pcate::create($input);
+        // 3.判断是否成功并将结果返回给客户端
         if($res){
-            return redirect('/admin/cate')->with('success','添加成功');
+            $status = 1;
         }else{
-            return back()->with('error','添加失败');
+            $status = 0;
         }
-
+        return $status; 
     }
 
     /**
@@ -95,7 +71,7 @@ class CateController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.pcate.edit');
     }
 
     /**

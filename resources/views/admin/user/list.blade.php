@@ -97,7 +97,7 @@
                 <a title="详情"  onclick="x_admin_show('详情','{{url('user/1')}}',600,400)" href="javascript:;">
                   <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/1/edit')}}',600,400)" href="javascript:;">
+                <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/$v->uid/edit')}}',600,400)" href="javascript:;">
                   <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a title="删除" onclick="member_del(this,'{{$v->uid}}')" href="javascript:;">
@@ -130,10 +130,10 @@
 
        /*用户-停用*/
       function member_stop(obj,id){
-          // 获取当前用户状态
-          var status = $(obj).attr('status');
-          layer.confirm('确认要停用吗？',function(index){
-              if($(obj).attr('title')=='启用'){
+        // 获取当前用户状态
+        var status = $(obj).attr('status');
+            if($(obj).attr('title')=='启用'){
+              layer.confirm('确认要启用吗？',function(index){
                 //发异步把用户状态进行更改
                 $.ajax({
                     headers: {
@@ -156,32 +156,33 @@
                         }
                     }
                 });
-              }else{
-                    //发异步把用户状态进行更改
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type : "POST",
-                        url : '/admin/user/changestatus',
-                        data : {"uid":id,"status":status},
-                        dataType : "Json",
-                        success : function(msg){
-                                // console.log(msg)
-                            if(msg.status){
-                                location.reload(true);
+              });
+            }else{
+              layer.confirm('确认要禁用吗？',function(index){
+                //发异步把用户状态进行更改
+                $.ajax({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  type : "POST",
+                  url : '/admin/user/changestatus',
+                  data : {"uid":id,"status":status},
+                  dataType : "Json",
+                  success : function(msg){
+                          // console.log(msg)
+                      if(msg.status){
+                          location.reload(true);
 
-                                layer.msg('已禁用!',{icon: 5,time:1000});
-                            }else{
-                                location.reload(true);
+                          layer.msg('已禁用!',{icon: 5,time:1000});
+                      }else{
+                          location.reload(true);
 
-                                layer.msg('修改失败!',{icon: 5,time:1000});
-                            }
-                        }
-                    });
-                }
-
-            });
+                          layer.msg('修改失败!',{icon: 5,time:1000});
+                      }
+                  }
+                });
+              });
+            }
         }
 
       /*用户-删除*/

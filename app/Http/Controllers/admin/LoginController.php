@@ -25,4 +25,5 @@ class LoginController extends Controller
         // 后台首页显示
         return redirect('admin/index');
      }
+
 }

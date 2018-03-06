@@ -16,7 +16,40 @@
                    </a>
                </li >
            </ul>
-       </li>/
+       </li>
+       <li>
+           <a href="javascript:;">
+               <i class="iconfont">&#xe726;</i>
+               <cite>管理员管理</cite>
+               <i class="iconfont nav_right">&#xe697;</i>
+           </a>
+           <ul class="sub-menu">
+               <li>
+                   <a _href="{{url('admin/admin')}}">
+                       <i class="iconfont">&#xe6a7;</i>
+                       <cite>管理员列表</cite>
+                   </a>
+               </li >
+               <li>
+                   <a _href="{{url('admin/role')}}">
+                       <i class="iconfont">&#xe6a7;</i>
+                       <cite>角色管理</cite>
+                   </a>
+               </li >
+               <li>
+                   <a _href="{{url('admin/pcate')}}">
+                       <i class="iconfont">&#xe6a7;</i>
+                       <cite>权限分类管理</cite>
+                   </a>
+               </li >
+               <li>
+                   <a _href="{{url('admin/permission')}}">
+                       <i class="iconfont">&#xe6a7;</i>
+                       <cite>权限管理</cite>
+                   </a>
+               </li >
+           </ul>
+       </li>
        <li>
            <a href="javascript:;">
                <i class="layui-icon" style="top: 3px;"></i>
@@ -167,39 +200,7 @@
                </li >
            </ul>
        </li>
-       <li>
-           <a href="javascript:;">
-               <i class="iconfont">&#xe726;</i>
-               <cite>管理员管理</cite>
-               <i class="iconfont nav_right">&#xe697;</i>
-           </a>
-           <ul class="sub-menu">
-               <li>
-                   <a _href="admin-list.html">
-                       <i class="iconfont">&#xe6a7;</i>
-                       <cite>管理员列表</cite>
-                   </a>
-               </li >
-               <li>
-                   <a _href="admin-role.html">
-                       <i class="iconfont">&#xe6a7;</i>
-                       <cite>角色管理</cite>
-                   </a>
-               </li >
-               <li>
-                   <a _href="admin-cate.html">
-                       <i class="iconfont">&#xe6a7;</i>
-                       <cite>权限分类</cite>
-                   </a>
-               </li >
-               <li>
-                   <a _href="admin-rule.html">
-                       <i class="iconfont">&#xe6a7;</i>
-                       <cite>权限管理</cite>
-                   </a>
-               </li >
-           </ul>
-       </li>
+       
        <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe723;</i>
@@ -207,10 +208,16 @@
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
            <ul class="sub-menu">
-               <li>
-                   <a _href="order-list.html">
+                <li>
+                   <a _href="{{url('admin/webs/create')}}">
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
+                       <cite>网站配置添加</cite>
+                   </a>
+               </li >
+               <li>
+                   <a _href="{{url('admin/webs')}}">
+                       <i class="iconfont">&#xe6a7;</i>
+                       <cite>网站配置列表</cite>
                    </a>
                </li >
            </ul>

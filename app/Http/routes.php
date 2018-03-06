@@ -29,6 +29,14 @@ Route::resource('admin/user','Admin\UserController');
 Route::post('admin/user/changestatus','Admin\UserController@changestatus');
 // 用户批量删除
 Route::post('admin/user/delAll','Admin\UserController@delAll');
+// 管理员管理
+Route::resource('admin/admin','Admin\AdminController');
+//角色管理
+Route::resource('admin/role','Admin\RoleController');
+// 权限分类管理
+Route::resource('admin/pcate','Admin\PcateController');
+// 权限管
+Route::resource('admin/permission','Admin\PermissionController');
 // 订单管理
 // Route::resource('user','Admin\OrderController');
 // 商品管理
@@ -50,4 +58,8 @@ Route::resource('admin/cate','Admin\CateController');
 // 评论管理管理
 // Route::resource('user','Admin\MessageController');
 //网站配置管理
-// Route::resource('user','Admin\WebsController');
+Route::resource('admin/webs','Admin\WebsController');
+// 网站配置批量删除
+Route::post('admin/webs/delAll','Admin\WebsController@delAll');
+// 网站配置批量修改
+Route::post('admin/webs/editAll','Admin\WebsController@editAll');

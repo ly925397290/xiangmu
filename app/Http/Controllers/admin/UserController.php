@@ -60,6 +60,7 @@ class UserController extends Controller
         $flight->identity = $input['identity'];
         //将数据保存到数据库
         $res = $flight->save();
+        // $res = user::create($input); 
         // 3.判读是否成功返回给客户端
         if($res){
             $data = [
