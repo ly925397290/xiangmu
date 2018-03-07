@@ -5,7 +5,7 @@
        <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe6b8;</i>
-               <cite>用户cdscsd管理</cite>
+               <cite>用户管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
            <ul class="sub-menu">
@@ -62,47 +62,17 @@
                </li >
            </ul>
        </li>
-       <li>
+        <li>
            <a href="javascript:;">
-               <i class="iconfont">&#xe723;</i>
-               <cite>活动管理</cite>
-               <i class="iconfont nav_right">&#xe697;</i>
-           </a>
-           <ul class="sub-menu">
-               <li>
-                   <a _href="order-list.html">
-                       <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
-                   </a>
-               </li >
-           </ul>
-       </li>
-       <li>
-           <a href="javascript:;">
-               <i class="iconfont">&#xe723;</i>
-               <cite>广告管理</cite>
-               <i class="iconfont nav_right">&#xe697;</i>
-           </a>
-           <ul class="sub-menu">
-               <li>
-                   <a _href="order-list.html">
-                       <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
-                   </a>
-               </li >
-           </ul>
-       </li>
-       <li>
-           <a href="javascript:;">
-               <i class="layui-icon" style="top: 3px;"></i>
+               <i class="iconfont">&#xe6b8;</i>
                <cite>轮播图管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
            <ul class="sub-menu">
                <li>
-                   <a _href="order-list.html">
+                   <a _href="{{url('/admin/slide')}}">
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
+                       <cite>轮播图列表</cite>
                    </a>
                </li >
            </ul>
@@ -115,9 +85,9 @@
            </a>
            <ul class="sub-menu">
                <li>
-                   <a _href="order-list.html">
+                   <a _href={{url('/admin/nav')}}>
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
+                       <cite>导航列表</cite>
                    </a>
                </li >
            </ul>

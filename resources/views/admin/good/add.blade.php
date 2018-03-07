@@ -1,78 +1,114 @@
 <!DOCTYPE html>
 <html>
-
-  <head>
+  
+  
+    <head>
     <meta charset="UTF-8">
-    <title>添加页</title>
+    <title>欢迎页面-X-admin2.0</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{asset('admin/favicon.ico')}}" type="image/x-icon" />
-    
-
-    <link rel="stylesheet" href="{{ asset('admin/style/css/ch-ui.admin.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/style/font/css/font-awesome.min.css') }}">
-    <script type="text/javascript" src="{{ asset('admin/style/js/jquery.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/style/js/ch-ui.admin.js') }}"></script>
-    <!-- <script type="text/javascript" src="{{ asset('layer/layer.js') }}"></script> -->
+    <link rel="stylesheet" href="{{asset('admin/css/font.css')}}">
+  <link rel="stylesheet" href="{{asset('admin/css/xadmin.css')}}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{{asset('admin/lib/layui/layui.js')}}" charset="utf-8"></script>
+    <script type="text/javascript" src="{{asset('admin/js/xadmin.js')}}"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-    <!--面包屑导航 开始-->
-   
-    <!--面包屑导航 结束-->
+  
+  <body>
+    <div class="x-body">
+        <form class="layui-form" action="{{ url('admin/goods/') }}" method="post" enctype="multipart/form-data">
 
-  <!--结果集标题与导航组件 开始-->
-  <div class="result_wrap">
-        
-        <div class="result_content">
-            <div class="short_wrap">
-                <a href="#"><i class="fa fa-plus"></i>新增文章</a>
-                <a href="#"><i class="fa fa-recycle"></i>批量删除</a>
-                <a href="#"><i class="fa fa-refresh"></i>更新排序</a>
-            </div>
-        </div>
-    </div>
-    <!--结果集标题与导航组件 结束-->
-    
-    <div class="result_wrap">
+           {{csrf_field()}}
+          <div class="layui-form-item">
+              <label for="gname" class="layui-form-label">
+                  <span class="x-red">*</span>商品名称
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="" name="gname" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="tid" class="layui-form-label">
+                  <span class="x-red">*</span>商品分类
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="tid" name="tid" required="" lay-verify="phone"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
 
 
 
-        <form  id="art_form" action="{{ url('admin/article') }}" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="create_time" value="{{date('Y-m-d H:i:s',time())}}">
-            <table class="add_tab">
-                {{csrf_field()}}
-                <tbody>
-                <tr>
-                    <th width="120"><i class="require">*</i>文章父级分类：</th>
-                    <td>
-                        <select name="cate_id">
-                            <option value='0' name="title">顶级文章父类</option>
-                            @foreach($articles as $v)
-                            <option value="{{$v['aid']}}" name="title" >{{$v['title']}}</option>
-                            @endforeach
-                        </select>
-                    </td>
-                </tr> 
-            <tr>
-                    <th><i class="require">*</i> 文章标题：</th>
-                    <td>
-                        <input type="text" class="lg" name="title">
-                    </td>
-                </tr>
-                <tr>
-                    <th>作者</th>
-                    <td>
-                        <input type="text" class="sm" name="auth">
-                    </td>
-                </tr>
-                <tr>
-                    <th>缩略图：</th>
+
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>商品状态
+              </label>
+              <div class="layui-input-inline">
+                  <select id="status" name="status" class="valid">
+                    <option value="1">上架</option>
+                    <option value="0">下架</option>
+                  </select>
+              </div>
+          </div>
+         
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>推荐位
+              </label>
+              <div class="layui-input-inline">
+                  <select id="" name="" class="valid">
+                    <option value="">左侧推荐</option>
+                    <option value="">右侧推荐</option>
+                    <option value="">下列活动位置</option>
+                  </select>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>商品价格
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_pass" name="price" required="" lay-verify="pass"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                 
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>库存数量
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_pass" name="inven" required="" lay-verify="pass"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                 
+              </div>
+          </div>
+
+
+      
+               
+                <div class="layui-form-item">
+                    <th>　　　　缩略图：</th>
                     <td>
                         
                         <input id="file_upload" name="file_upload" type="file" multiple="true" >
@@ -113,7 +149,7 @@
 
                                  $.ajax({
                                     type: "POST",
-                                    url: '{{url('/admin/article/upload')}}',
+                                    url: '{{url('/admin/goods/upload')}}',
                                      headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     },
@@ -126,7 +162,7 @@
                                     success: function(data) {
                                        console.log(data);
                                         $('#art_thumb_img').attr('src','{{asset('+data+')}}');
-                                         $('#art_thumb_img').attr('src','{{ env('QINIU_DOMAIN') }}'+data);
+                                         $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
                                          $('#art_thumb').val(data);
                                     },
                                     error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -141,68 +177,70 @@
                             table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
                         </style>
                     </td>
-                </tr>
-                <div class="layui-form-item">
-                <label for="L_art_tag" class="layui-form-label">
-                    <span class="x-red">*</span>
-                </label>
-                <div class="layui-input-block">
-                    <input type="hidden" name="art_thumb" id="art_thumb" value="">
-                    {{--上传成功后显示上传图片--}}
-                    <img src="" id="art_thumb_img" alt="" style="width:100px;">
                 </div>
-            </div>
-                <tr>
-                    <th>关键词：</th>
-                    <td>
-                        <input type="text" class="lg" name="art_tag">
-                    </td>
-                </tr>
-                <tr>
-                    <th>文章内容</th>
-                    <td>
-                        <textarea name="content"></textarea>
-                    </td>
-                </tr>
 
+                <div class="layui-form-item">
+                                    <label for="user-intro" class="am-u-sm-3 am-form-label">商品描述</label>
+                                    <div class="am-u-sm-9">
+                                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+                                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
+                                        <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+                                        <script id="editor" name="gdesc" type="text/plain" style="width:600;px;height:100px;"></script>
+                                        <script>
+                                            var ue = UE.getEditor('editor');
+                                        </script>
+                                    </div>
+                </div>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+        
+          //自定义验证规则
+          form.verify({
+            nikename: function(value){
+              if(value.length < 5){
+                return '昵称至少得5个字符啊';
+              }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,repass: function(value){
+                if($('#L_pass').val()!=$('#L_repass').val()){
+                    return '两次密码不一致';
+                }
+            }
+          });
 
-                <!-- <tr>
-                    <th>文章内容：</th>
-                    <td>
-                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
-                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
-                        <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+          //监听提交
+          form.on('submit(add)', function(data){
+            console.log(data);
+            //发异步，把数据提交给php
+            layer.alert("增加成功", {icon: 6},function () {
+                // 获得frame索引
+                var index = parent.layer.getFrameIndex(window.name);
+                //关闭当前frame
+                parent.layer.close(index);
+            });
+            return false;
+          });
+          
+          
+        });
+    </script>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();</script>
+  </body>
 
-
-                        <script id="editor" type="text/plain" name="art_content" style="width:600px;height:300px;">aaaaa</script>
-                        <script type="text/javascript">
-
-                            //实例化编辑器
-                            //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-                            var ue = UE.getEditor('editor');
-                        </script>
-                        <style>
-                            .edui-default{line-height: 28px;}
-                            div.edui-combox-body,div.edui-button-body,div.edui-splitbutton-body
-                            {overflow: hidden; height:20px;}
-                            div.edui-box{overflow: hidden; height:22px;}
-                        </style>
-                    </td>
-                </tr> -->
-                <th>排序：</th>
-                    <td>
-                        <input type="text" class="lg" name="number">
-                    </td>
-                <tr>
+    <tr>
                     <th></th>
                     <td>
                         <input type="submit" value="提交">
                         <input type="button" class="back" onclick="history.go(-1)" value="返回">
                     </td>
                 </tr>
-                </tbody>
-            </table>
-        </form>
-
-    </div>
-
+</html>

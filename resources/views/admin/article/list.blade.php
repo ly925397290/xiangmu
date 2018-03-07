@@ -129,7 +129,7 @@
 
 
       function member_del (obj,id) {
-
+        console.log(1)
          // alert(argument);
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据

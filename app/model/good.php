@@ -19,6 +19,8 @@ class good extends Model
     // 不允许批量修改的字段
     public $guarded = [];
 
+    //
+     protected $fillable  = ['gname','tid','status','price','inven'];
 
         
 //返回格式化的分类数据
