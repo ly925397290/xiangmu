@@ -19,7 +19,7 @@ class permission
 
         $route = \Route::current()->getActionName();
         // return $route;
-        $user = admin::find(6);
+        $user = admin::find(5);
         // return $user;
         $roles = $user->user_role;
         // return $roles;
