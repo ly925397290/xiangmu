@@ -42,17 +42,15 @@
       </div>
       <xblock>
         
-        <button class="layui-btn" onclick="x_admin_show('添加回收的二手商品',1000,700)"><i class="layui-icon"></i>添加回收后的二手商品</button>
+        <a href="{{url('admin/goods/create')}}"><i class="layui-icon"></i>添加回收的二手商品</a> 
         <span class="x-right" style="line-height:40px">共有数据{{$count}} 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
           <tr>
 
-          
             <th width="5px">ID号</th>            
             <th width="15px">所属类别</th>
-           
             <th width="15px">商品名称</th>
             <th width="20px">商品图片</th>
             <th width="15px">商品来源（前台店铺名）或本后台发布</th>
@@ -91,7 +89,9 @@
               @endif
 
           </th>
-          <th><a href="{{url('admin/goods/detail')}}">查看详情</a></th>         
+          <th><a href="{{url('admin/goods/detail/1')}}">查看详情</a></th>  
+
+            
           </tr>
           @endforeach
            
@@ -106,31 +106,31 @@
     <script>
 
          function  gstatus(gid,status) {
-            // if(status  == 0){
-//                 var tanchu =  '您确认要上架吗?'
-//             }else{
-//                 var tanchu =  '您确认要下架吗?'
-//             };
-//             layer.confirm(tanchu,{
-//                 btn:['确认','取消']
-//             },function () {
-//                 $.get("{{url('admin/goods/gstatus')}}/"+gid,function(data){
+            if(status  == 0){
+                var tanchu =  '您确认要上架吗?'
+            }else{
+                var tanchu =  '您确认要下架吗?'
+            };
+            layer.confirm(tanchu,{
+                btn:['确认','取消']
+            },function () {
+                $.get("{{url('admin/goods/gstatus')}}/"+gid,function(data){
 
-// //                    修改状态成功
-//                     if(data.gg == 0){
-//                         layer.msg(data.msg, {icon: 6});
-//                         var t=setTimeout("location.href = location.href;",2000);
-//                     }else if(data.gg == 1){
-//                         layer.msg(data.msg, {icon: 5});
+//                    修改状态成功
+                    if(data.gg == 0){
+                        layer.msg(data.msg, {icon: 6});
+                        var t=setTimeout("location.href = location.href;",2000);
+                    }else if(data.gg == 1){
+                        layer.msg(data.msg, {icon: 5});
 
-//                         var t=setTimeout("location.href = location.href;",2000);
-//                     }else{
-//                         layer.msg(data.msg, {icon: 2});
-//                         var t=setTimeout("location.href = location.href;",2000);
-//                     }
-//                 });
+                        var t=setTimeout("location.href = location.href;",2000);
+                    }else{
+                        layer.msg(data.msg, {icon: 2});
+                        var t=setTimeout("location.href = location.href;",2000);
+                    }
+                });
 
-//             })
+            })
         }
 
       layui.use('laydate', function(){

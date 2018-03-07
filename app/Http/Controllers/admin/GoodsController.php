@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\model\good;
-use App\Model\Cate;
+use App\model\goodsdetail;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
@@ -19,7 +19,7 @@ class GoodsController extends Controller
 
     public function  gstatus($gid)
     {
-        $good = Admin_Goods::find($gid);
+        $good = good::find($gid);
         $status = !$good->status;
         $res = $good->update(['status'=>$status]);
         if($res){
@@ -44,12 +44,13 @@ class GoodsController extends Controller
         
         $input = $request->input('username','');
        
-         $count = DB::table('data_goods')->count();
+        $count = DB::table('data_goods')->count();
 
-        $goods = good::where('gname','like','%'.$input.'%')->paginate(2);
+        $goods = good::where('gname','like','%'.$input.'%')->orderBy('gid','desc')->paginate(2);
+        $goodsdetail = goodsdetail::get();
        
      
-     return view('admin.good.list',['goods'=>$goods,'count'=>$count,'request'=>$request]);
+     return view('admin.good.list',['goods'=>$goods,'count'=>$count,'request'=>$request,'goodsdetail'=>$goodsdetail]);
     }
 
     /**
@@ -59,13 +60,19 @@ class GoodsController extends Controller
      */
 
 
-    public function detail($id)
+    public function detail($id )
     {
-        return 详情页;
+
+        $goods = good::get();
+        $goodsdetail = goodsdetail::get();
+
+
+        return view('admin.good.det',['goods'=>$goods,'goodsdetail'=>$goodsdetail]);
     }
     public function create()
     {
         //
+        return view('admin.good.add');
     }
 
 
@@ -77,8 +84,25 @@ class GoodsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //1.接收数据
+
+        
+        $input = $request->except('_token');
+        //2.添加到数据库
+        $res = good::create($input);
+        $res1 = goodsdetail::create($input);
+        
+        //3.判断是否成功并将结果返回到客户端
+           if($res && $res1)
+        {
+            return  redirect('/admin/goods')->with('msg','添加成功');
+        }else{
+            return back()->with('msg','添加失败');
+        }
     }
+
+
+    
 
     /**
      * Display the specified resource.
@@ -111,8 +135,9 @@ class GoodsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+      
+
+     }
 
     /**
      * Remove the specified resource from storage.

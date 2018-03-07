@@ -44,6 +44,9 @@ Route::resource('admin/permission','Admin\PermissionController');
 // 订单管理
 // Route::resource('user','Admin\OrderController');
 // 商品管理
+Route::get('/admin/goods/gstatus/{id}','Admin\GoodsController@gstatus');
+//商品详情
+Route::get('admin/goods/detail/{id}','Admin\GoodsController@detail');
  Route::resource('admin/goods','Admin\GoodsController');
 // 商铺管理
 // Route::resource('user','Admin\ShopController');
@@ -52,9 +55,11 @@ Route::resource('admin/permission','Admin\PermissionController');
 // 广告管理
 // Route::resource('user','Admin\AdverController');
 // 轮播图管理
-// Route::resource('user','Admin\SlidController');
+ Route::resource('admin/slide','Admin\SlideController');
+ //调整轮播图顺序路由
+ Route::post('admin/slide/changeorder', 'SlideController@changeorder');
 // 导航管理
-// Route::resource('user','Admin\NavController');
+Route::resource('admin/nav','Admin\NavController');
 // 分类管理
 Route::resource('admin/cate','Admin\CateController');
 // 文章管理
