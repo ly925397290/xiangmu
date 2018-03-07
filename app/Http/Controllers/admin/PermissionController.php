@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\pcate;
+use App\model\permission;
+
 class PermissionController extends Controller
 {
     /**
@@ -17,7 +19,10 @@ class PermissionController extends Controller
     public function index()
     {
         // 获取权限分类
-        $pcate = pcate::get();
+        $pcate = permission::get();
+        foreach($pcate as $v){
+            $v['pcate'] = $v->permission_pcate;
+        }
         return view('admin.permission.list',compact('pcate'));
     }
 
@@ -41,12 +46,18 @@ class PermissionController extends Controller
     {
         // 1.接收请求数据
         $input = $request->except('_token');
-        
+        // App\Http\Controllers\Admin\IndexController@index
         // 2.将数据入库
             // 2.1处理数据
-            $input['urls'] = $input['controller'].'/'.$input['method'];
-            return $input;
+            $input['urls'] = 'App\Http\Controllers\\'.$input['controller'].'@'.$input['method'];
+            $res = permission::create($input);
         // 3.判断是否成功并将结构返回给客户端
+            if($res){
+                $status = 1;
+            }else{
+                $status =0 ;
+            }
+            return $status;
     }
 
     /**

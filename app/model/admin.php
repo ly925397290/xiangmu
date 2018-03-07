@@ -14,5 +14,12 @@ class admin extends Model
      * @var bool
      */
     public $timestamps = false;
+    /**
+     * 链接用户与角色多对多关系
+     */
+    public function user_role()
+    {
+    	return $this->belongsToMany('App\model\role','user_role','user_id','role_id');
+    }
     
 }

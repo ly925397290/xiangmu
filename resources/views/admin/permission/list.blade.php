@@ -70,14 +70,15 @@
             <th>操作</th>
         </thead>
         <tbody>
+          @foreach($pcate as $v)
           <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>1</td>
-            <td>admin/user/userlist</td>
-            <td>会员列表</td>
-            <td>会员相关</td>
+            <td>{{$v->id}}</td>
+            <td>{{$v->urls}}t</td>
+            <td>{{$v->permission}}</td>
+            <td>{{$v->pcate->pcate_name}}</td>
             <td class="td-manage">
               <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/permission/1/edit')}}')" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
@@ -87,6 +88,7 @@
               </a>
             </td>
           </tr>
+          @endforeach
         </tbody>
       </table>
       <div class="page">
@@ -139,18 +141,18 @@
                 data : data.field,
                 dataType : "Json",
                 success : function(msg){
-                    console.log(msg)
-                    // if(msg){
-                    //     layer.alert("增加成功", {icon: 6},function () {
+                    // console.log(msg)
+                    if(msg){
+                        layer.alert("增加成功", {icon: 6},function () {
                     
-                    //         location.reload(true);
-                    //     });
-                    // }else{
-                    //     layer.alert("增加失败", {icon: 6},function () {
+                            location.reload(true);
+                        });
+                    }else{
+                        layer.alert("增加失败", {icon: 6},function () {
                   
-                    //         location.reload(true);
-                    //     });
-                    // }
+                            location.reload(true);
+                        });
+                    }
                 }
             });
 

@@ -34,15 +34,13 @@
     <div class="x-body">
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input" placeholder="开始日" name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">
           <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','{{url('admin/role/create')}}')"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加角色','{{url('admin/role/create')}}')"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
       </xblock>
       <table class="layui-table">
@@ -54,19 +52,22 @@
             <th>ID</th>
             <th>角色名</th>
             <th>拥有权限规则</th>
-            <th>描述</th>
             <th>状态</th>
             <th>操作</th>
         </thead>
         <tbody>
+        @foreach($role as $v)
           <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>1</td>
-            <td>超级管理员</td>
-            <td>会员列表，问题列表</td>
-            <td>具有至高无上的权利</td>
+            <td>{{$v->id}}</td>
+            <td>{{$v->role_name}}</td>
+            <td>
+                 @foreach($v->permission as $v1)
+                    {{$v1->permission}}
+                 @endforeach
+            </td>
             <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
             <td class="td-manage">
@@ -81,6 +82,7 @@
               </a>
             </td>
           </tr>
+          @endforeach
         </tbody>
       </table>
       <div class="page">

@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// 无权限访问页面
+Route::get('noaccess','Admin\IndexController@noaccess');
 // 后台登录页面显示
 Route::get('admin/login','Admin\LoginController@login');
 // 后台登录处理
@@ -23,6 +25,8 @@ Route::post('admin/dologin','Admin\LoginController@dologin');
 Route::get('admin/index','Admin\IndexController@index');
 // 后台详情页
 Route::get('admin/welcome','Admin\IndexController@welcome');
+//验证后台用户权限
+Route::group(['middleware'=>['permission']],function(){
 //用户管理
 Route::resource('admin/user','Admin\UserController');
 // 用户状态
@@ -64,3 +68,4 @@ Route::resource('admin/webs','Admin\WebsController');
 Route::post('admin/webs/delAll','Admin\WebsController@delAll');
 // 网站配置批量修改
 Route::post('admin/webs/editAll','Admin\WebsController@editAll');
+});

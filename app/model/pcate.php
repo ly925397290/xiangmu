@@ -19,4 +19,12 @@ class pcate extends Model
      * 批量赋值
      */
     protected $guarded = [];
+
+    /**
+     * 创建权限分类和权限一对多模型
+     */
+    public function pcate_permission()
+    {
+        return $this->hasMany('App\model\permission');
+    }
 }
