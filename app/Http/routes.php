@@ -15,35 +15,61 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// 后台登录页面显示
-Route::get('login','Admin\LoginController@login');
-// 后台登录处理
-Route::post('dologin','Admin\LoginController@dologin');
+// 创建登录页面的 Admin 命名空间
+Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
+	// 后台登录
+	Route::get('login', 'LoginController@login')->name('admin.login');
+	// 获取验证码
+	Route::get('yzm', 'LoginController@yzm');
+	// 提交后台登录数据
+	Route::post('dologin', 'LoginController@dologin');
+	// 未登录测试
+	Route::get('ceshi', 'LoginController@ceshi');
+});
+
+// 加载验证码
+Route::get('/code/captcha/{tmp}', 'Admin\LoginController@captcha');
+
+/**
+* 设置中间件
+* @param 加载后台组件
+*/
+Route::group(['namespace'=>'Admin','namespace'=>'Admin','middleware'=>'login'],function(){
+	// 暂时不往里面放东西项目测试之后再完善
+});
+
+// 设置路由组 统一命名空间下的控制器 有需要的再提出来
+Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
 // 后台首页
-Route::get('index','Admin\IndexController@index');
+Route::get('index','IndexController@index');
 // 后台详情页
-Route::get('welcome','Admin\IndexController@welcome');
+Route::get('welcome','IndexController@welcome');
+// 退出登录
+Route::get('outlogin','LoginController@outlogin');
+});
+
+
 //用户管理
 Route::resource('user','Admin\UserController');
-// 订单管理
-Route::resource('user','Admin\OrderController');
-// 商品管理
-Route::resource('user','Admin\GoodsController');
-// 商铺管理
-Route::resource('user','Admin\ShopController');
-// 活动管理
-Route::resource('user','Admin\ActivityController');
-// 广告管理
-Route::resource('user','Admin\AdverController');
-// 轮播图管理
-Route::resource('user','Admin\SlidController');
-// 导航管理
-Route::resource('user','Admin\NavController');
-// 菜单管理
-Route::resource('user','Admin\GoodStyleController');
-// 文章管理
-Route::resource('user','Admin\WorksController');
-// 评论管理管理
-Route::resource('user','Admin\MessageController');
-//网站配置管理
-Route::resource('user','Admin\WebsController');
+// // 订单管理
+// Route::resource('user','OrderController');
+// // 商品管理
+// Route::resource('user','GoodsController');
+// // 商铺管理
+// Route::resource('user','ShopController');
+// // 活动管理
+// Route::resource('user','ActivityController');
+// // 广告管理
+// Route::resource('user','AdverController');
+// // 轮播图管理
+// Route::resource('user','SlidController');
+// // 导航管理
+// Route::resource('user','NavController');
+// // 菜单管理
+// Route::resource('user','GoodStyleController');
+// // 文章管理
+// Route::resource('user','WorksController');
+// // 评论管理管理
+// Route::resource('user','MessageController');
+// //网站配置管理
+// Route::resource('user','WebsController');
