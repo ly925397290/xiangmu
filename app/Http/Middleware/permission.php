@@ -19,9 +19,10 @@ class permission
 
         $route = \Route::current()->getActionName();
         // return $route;
-        $user = admin::find(5);
+        $user = admin::find(6);
         // return $user;
         $roles = $user->user_role;
+        // return $roles;
         //判断是否是超级管理员
         if($roles[0]->status){
             return $next($request);

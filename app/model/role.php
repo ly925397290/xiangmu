@@ -14,4 +14,12 @@ class role extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * 创建角色和权限多对多模型
+     */
+    public function role_permission()
+    {
+    	return $this->belongsToMany('App\model\permission','role_permission','role_id','permission_id');
+    }
 }

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\model\pcate;
+use App\model\role;
+use App\model\role_permission;
+use DB;
 
 class RoleController extends Controller
 {
@@ -16,7 +20,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('admin.role.list');
+        // 1.获取角色数据
+        $role = role::get();
+        foreach($role as $v){
+            $v['permission'] = $v->role_permission;
+        }
+        return view('admin.role.list',compact('role'));
     }
 
     /**
@@ -26,7 +35,12 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.role.add');
+        $pcate = pcate::get();
+        foreach($pcate as $v){
+            $v['permission'] = $v->pcate_permission;
+        }
+        // return $pcate;
+        return view('admin.role.add',compact('pcate'));
     }
 
     /**
@@ -37,7 +51,17 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 1.获取提交的数据
+        $input = $request->except('_token');
+        // 2.获取数据入库后的ID
+        $role_id = DB::table('data_role')->insertGetId(['role_name'=>$input['data']['role_name'],'status'=>0]);
+        // 3.将角色的Id和权限id放入角色和权限的关联表中
+        foreach ($input['ids'] as $value) {
+            $res = role_permission::create(['role_id'=>$role_id,'permission_id'=>$value]);
+        }
+        // 4.判断数据是否存储成功
+        ($role_id && $res) ? $status = 1 : $status = 0;
+        return $status;
     }
 
     /**

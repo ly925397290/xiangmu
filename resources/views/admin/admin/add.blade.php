@@ -7,6 +7,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{asset('admin/favicon.ico')}}" type="image/x-icon" />
     <link rel="stylesheet" href="{{asset('admin/css/font.css')}}">
   <link rel="stylesheet" href="{{asset('admin/css/xadmin.css')}}">
@@ -62,9 +63,9 @@
           <div class="layui-form-item">
               <label class="layui-form-label"><span class="x-red">*</span>角色</label>
               <div class="layui-input-block">
-                <input type="checkbox" name="like1[write]" lay-skin="primary" title="超级管理员" checked="">
-                <input type="checkbox" name="like1[read]" lay-skin="primary" title="编辑人员">
-                <input type="checkbox" name="like1[write]" lay-skin="primary" title="宣传人员" checked="">
+                @foreach($role as $v)
+                  <div class="layui-unselect layui-form-checkbox " lay-skin="primary" role-id="{{$v->id}}"><span>{{$v->role_name}}</span><i class="layui-icon"></i></div>
+                @endforeach
               </div>
           </div>
           <div class="layui-form-item">
@@ -72,7 +73,7 @@
                   <span class="x-red">*</span>密码
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
+                  <input type="password" id="L_pass" name="password" required="" lay-verify="pass"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -120,7 +121,11 @@
 
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
+            var ids =   [];
+            $('.layui-form-checked').each(function(i,v){
+                 ids.push($(v).attr('role-id'));
+            })
+            console.log(ids);
             //发异步，把数据提交给php
             $.ajax({
                 headers: {
@@ -128,27 +133,27 @@
                 },
                 type : "POST",
                 url : '/admin/admin',
-                data : data.field,
+                data : {'data':data.field,'ids':ids},
                 dataType : "Json",
                 success : function(msg){
-                    console.log(msg)
-                    // if(msg.status){
-                    //     layer.alert("增加成功", {icon: 6},function () {
-                    //         // 获得frame索引
-                    //         var index = parent.layer.getFrameIndex(window.name);
-                    //         //关闭当前frame
-                    //         parent.layer.close(index);
-                    //         parent.location.reload(true);
-                    //     });
-                    // }else{
-                    //     layer.alert("增加失败", {icon: 6},function () {
-                    //         // 获得frame索引
-                    //         var index = parent.layer.getFrameIndex(window.name);
-                    //         //关闭当前frame
-                    //         parent.layer.close(index);
-                    //         parent.location.reload(true);
-                    //     });
-                    // }
+                    // console.log(msg)
+                    if(msg.status){
+                        layer.alert("增加成功", {icon: 6},function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            parent.location.reload(true);
+                        });
+                    }else{
+                        layer.alert("增加失败", {icon: 6},function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            parent.location.reload(true);
+                        });
+                    }
                 }
             });
             // layer.alert("增加成功", {icon: 6},function () {

@@ -56,21 +56,24 @@
             <th>手机</th>
             <th>邮箱</th>
             <th>角色</th>
-            <th>加入时间</th>
             <th>状态</th>
             <th>操作</th>
         </thead>
         <tbody>
+          @foreach($user as $v)
           <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>1</td>
-            <td>admin</td>
-            <td>18925139194</td>
-            <td>113664000@qq.com</td>
-            <td>超级管理员</td>
-            <td>2017-01-01 11:11:42</td>
+            <td>{{$v->id}}</td>
+            <td>{{$v->admin_name}}</td>
+            <td>{{$v->phone}}</td>
+            <td>{{$v->email}}</td>
+            <td>
+                @foreach($v->role as $v1)
+                    {{$v1->role_name}}
+                @endforeach
+            </td>
             <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
             <td class="td-manage">
@@ -85,6 +88,7 @@
               </a>
             </td>
           </tr>
+          @endforeach
         </tbody>
       </table>
       <div class="page">

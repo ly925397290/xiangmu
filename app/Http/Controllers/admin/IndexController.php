@@ -14,6 +14,8 @@ class IndexController extends Controller
      */
      public function index()
      {
+        // $route = \Route::current()->getActionName();
+        // return $route;
         return view('admin.index');
      }
 
@@ -23,5 +25,12 @@ class IndexController extends Controller
       public function welcome()
       {
           return view('admin.welcome');
+      }
+      /**
+       * 无权限访问页面
+       */
+      public function noaccess()
+      {
+        return view('errors.noaccess');
       }
 }
