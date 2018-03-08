@@ -18,15 +18,17 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        //接收请求中的参数
+        $admin_name = $request->input('admin_name','');
         // 1.查询用户信息
-        $user = admin::get();
+        $user = admin::where('admin_name','like','%'.$admin_name.'%')->paginate($request->input('num', 2));
         // 2.查询用户的角色
         foreach($user as $v){
             $v['role'] = $v->user_role;
         }
-        return view('admin.admin.list',compact('user'));
+        return view('admin.admin.list',compact('user','request'));
     }
 
     /**
@@ -81,7 +83,13 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.admin.edit');
+        // 获取所有角色
+        $role = role::get();
+        // 获取管理员数据
+        $admin = admin::find($id);
+        // 获取管理员所拥有的的角色
+        $user_role = $admin->user_role;
+        return view('admin.admin.edit',compact('admin','user_role','role'));
     }
 
     /**
@@ -93,7 +101,21 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // 接收数据
+        $input = $request->except('_tokne');
+        // 修改角色信息
+        $role = admin::where('id',$id)->update(['admin_name'=>$input['data']['admin_name'],'phone'=>$input['data']['phone'],'email'=>$input['data']['email']]);
+        //修改角户角色
+            // 1.先删除用户所有角色
+                DB::table('user_role')->where('user_id',$id)->delete();
+            // 2.重新赋予角色
+                if(!empty($input['ids'])){
+                    foreach ($input['ids'] as $value) {
+                        $res = user_role::create(['user_id'=>$id,'role_id'=>$value]);
+                    }
+                }
+        ($role && $res) ? $status = 1 : $status = 0;
+        return $status;
     }
 
     /**
@@ -104,6 +126,37 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // 查询要删除的管理员
+        $res = admin::find($id)->delete();
+        // 判断是否成功,将结果返回客户端
+        if($res){
+            $data = [
+                'status'=>1,
+            ];
+        }else{
+            $data = [
+                'status'=>0,
+            ];
+        }
+        return $data;
     }
+
+    public function delAll(Request $request)
+     {
+        $input = $request->input('ids');
+//        return $input;
+        $res = admin::destroy($input);
+
+        if($res){
+            $data = [
+                'status'=>1,
+            ];
+        }else{
+            $data = [
+                'status'=>0,
+            ];
+        }
+
+        return $data;
+     }
 }

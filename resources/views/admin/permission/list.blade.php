@@ -70,20 +70,22 @@
             <th>操作</th>
         </thead>
         <tbody>
-          @foreach($pcate as $v)
+          @foreach($permission as $v)
           <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$v->id}}'><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td>{{$v->id}}</td>
             <td>{{$v->urls}}t</td>
             <td>{{$v->permission}}</td>
-            <td>{{$v->pcate->pcate_name}}</td>
+            <td>
+                {{$v->pcate->pcate_name}}
+            </td>
             <td class="td-manage">
-              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/permission/1/edit')}}')" href="javascript:;">
+              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/permission/')}}/{{$v->id}}/edit')" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+              <a title="删除" onclick="member_del(this,'{{$v->id}}')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -93,12 +95,7 @@
       </table>
       <div class="page">
         <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
+          {!! $permission->render() !!}
         </div>
       </div>
 
@@ -128,7 +125,7 @@
                 }
             }
           });
-
+         
           //监听提交
           form.on('submit(add)', function(data){
             //发异步，把数据提交给php
@@ -162,6 +159,67 @@
 
 
         });
+ /**删除**/
+      function member_del(obj,id){
+            layer.confirm('确认要删除吗？',function(index){
+              //发异步删除数据
+              $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "DELETE",
+                url : '/admin/permission/'+id,
+                dataType : "Json",
+                success : function(msg){
+                    if(msg == 1){
+                        location.reload(true);
+                        $(obj).parents("tr").remove();
+                        layer.msg('删除成功!',{icon:1,time:1000});
+                    }else if(msg == 0){
+                        location.reload(true);
+                        layer.msg('删除失败!',{icon:1,time:1000});
+                    }else{
+                        location.reload(true);
+                        layer.msg('此分类下有权限，不能删除',{icon:1,time:1000});
+                    }
+                }
+              });
+              
+          });
+      }
+
+       function delAll (argument) {
+
+        // var data = tableCheck.getData();
+        var ids =   [];
+        $('.layui-form-checked').not('.header').each(function(i,v){
+             ids.push($(v).attr('data-id'));
+        })
+        layer.confirm('确认要删除吗？',function(index){
+            //捉到所有被选中的，发异步进行删除
+            $.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              type : "POST",
+              url : '/admin/permission/delAll',
+              data : {"ids":ids},
+              dataType : "Json",
+              success : function(msg){
+                console.log(msg)
+                if(msg){
+                    layer.msg('删除成功', {icon: 1});
+                    $(".layui-form-checked").not('.header').parents('tr').remove();
+                    location.reload(true);
+
+                }else{
+                    location.reload(true);
+                    layer.msg('删除失败', {icon: 1});
+                }
+              }
+            });
+        });
+      }
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");

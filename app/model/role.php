@@ -14,6 +14,10 @@ class role extends Model
      * @var bool
      */
     public $timestamps = false;
+    /**
+     * 设置批量修改
+     */
+    protected $guarded = [];
 
     /**
      * 创建角色和权限多对多模型

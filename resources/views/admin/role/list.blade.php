@@ -7,6 +7,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{asset('admin/favicon.ico')}}" type="image/x-icon" />
     <link rel="stylesheet" href="{{asset('admin/css/font.css')}}">
   <link rel="stylesheet" href="{{asset('admin/css/xadmin.css')}}">
@@ -33,8 +34,24 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <form class="layui-form layui-col-md12 x-so" method="get" action="{{ url('admin/role') }}">
+          <div class="layui-inline">
+            <select name="num">
+              <option value="2"
+                      @if($request['num'] == 2)  selected  @endif
+              >2
+              </option>
+              <option value="5"
+                      @if($request['num'] == 5)  selected  @endif
+              >5
+              </option>
+              <option value="10"
+                      @if($request['num'] == 10)  selected  @endif
+              >10
+              </option>
+            </select>
+          </div>
+          <input type="text" name="role_name"  placeholder="请输入角色名" autocomplete="off" class="layui-input" value="{{$request->role_name}}">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
@@ -59,7 +76,7 @@
         @foreach($role as $v)
           <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$v->id}}'><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td>{{$v->id}}</td>
             <td>{{$v->role_name}}</td>
@@ -74,10 +91,10 @@
               <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/role/1/edit')}}')" href="javascript:;">
+              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/role/')}}/{{$v->id}}/edit')" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+              <a title="删除" onclick="member_del(this,'{{$v->id}}')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -87,12 +104,7 @@
       </table>
       <div class="page">
         <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
+          {!! $role->appends($request->all())->render() !!}
         </div>
       </div>
 
@@ -136,12 +148,30 @@
           });
       }
 
-      /*用户-删除*/
+      /*角色-删除*/
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "DELETE",
+                url : '/admin/role/'+id,
+                dataType : "Json",
+                success : function(msg){
+                        // console.log(msg)
+                    if(msg.status){
+                        location.reload(true);
+                        $(obj).parents("tr").remove();
+                        layer.msg('删除成功!',{icon:1,time:1000});
+                    }else{
+                        location.reload(true);
+                        layer.msg('删除失败!',{icon:1,time:1000});
+                    }
+                }
+              });
+              
           });
       }
 
@@ -149,12 +179,34 @@
 
       function delAll (argument) {
 
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
+        // var data = tableCheck.getData();
+        var ids =   [];
+        $('.layui-form-checked').not('.header').each(function(i,v){
+             ids.push($(v).attr('data-id'));
+        })
+        layer.confirm('确认要删除吗？',function(index){
             //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+            $.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              type : "POST",
+              url : '/admin/role/delAll',
+              data : {"ids":ids},
+              dataType : "Json",
+              success : function(msg){
+                // console.log(msg)
+                if(msg.status){
+                    layer.msg('删除成功', {icon: 1});
+                    $(".layui-form-checked").not('.header').parents('tr').remove();
+                    location.reload(true);
+
+                }else{
+                    location.reload(true);
+                    layer.msg('删除失败', {icon: 1});
+                }
+              }
+            });
         });
       }
     </script>

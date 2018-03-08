@@ -11,6 +11,7 @@
 |
 */
 
+/****************************后台路由************************************/
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,14 +36,22 @@ Route::post('admin/user/changestatus','Admin\UserController@changestatus');
 Route::post('admin/user/delAll','Admin\UserController@delAll');
 // 管理员管理
 Route::resource('admin/admin','Admin\AdminController');
+// 管理员批量删除
+Route::post('admin/admin/delAll','Admin\AdminController@delAll');
 //角色管理
 Route::resource('admin/role','Admin\RoleController');
+// 角色批量删除
+Route::post('admin/role/delAll','Admin\RoleController@delAll');
 // 权限分类管理
 Route::resource('admin/pcate','Admin\PcateController');
-// 权限管
+// 权限分类批量删除
+Route::post('admin/pcate/delAll','Admin\PcateController@delAll');
+// 权限管理
 Route::resource('admin/permission','Admin\PermissionController');
+// 权限批量删除
+Route::post('admin/permission/delAll','Admin\PermissionController@delAll');
 // 订单管理
-// Route::resource('user','Admin\OrderController');
+Route::resource('admin/order','Admin\OrderController');
 // 商品管理
 Route::get('/admin/goods/gstatus/{id}','Admin\GoodsController@gstatus');
 //商品详情
@@ -74,3 +83,9 @@ Route::post('admin/webs/delAll','Admin\WebsController@delAll');
 // 网站配置批量修改
 Route::post('admin/webs/editAll','Admin\WebsController@editAll');
 });
+
+
+
+/****************************前台路由************************************/
+// 前台首页
+Route::get('home/index','Home\IndexController@index');

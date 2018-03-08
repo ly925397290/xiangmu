@@ -1,0 +1,12 @@
+/*!
+ * 本地化存储(localStorage) 组件
+ *
+ *
+ * 这一程序是自由软件，你可以遵照自由软件基金会出版的GNU通用公共许可证条款来修改和重新发布
+ * 这一程序。或者用许可证的第二版，或者（根据你的选择）用任何更新的版本。
+ * 发布这一程序的目的是希望它有用，但没有任何担保。甚至没有适合特定目的的隐含的担保。更详细
+ * 的情况请参阅GNU通用公共许可证。
+ * 你应该已经和程序一起收到一份GNU通用公共许可证的副本。如果还没有，写信给：
+ * The Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA02139, USA
+ */
+(function(e){var b,d=function(){},a=e.document,c={set:d,get:d,remove:d,clear:d,each:d,obj:d,length:0};(function(){if("localStorage" in e){try{b=e.localStorage;return}catch(p){}}var h=a.getElementsByTagName("head")[0],g=e.location.hostname||"localStorage",q=new Date(),s,l;if(!h.addBehavior){try{b=e.localStorage}catch(p){b=null}return}try{l=new ActiveXObject("htmlfile");l.open();l.write('<script>document.w=window;<\/script><iframe src="/favicon.ico"></iframe>');l.close();s=l.w.frames[0].document;h=s.createElement("head");s.appendChild(h)}catch(p){h=a.getElementsByTagName("head")[0]}try{q.setDate(q.getDate()+36500);h.addBehavior("#default#userData");h.expires=q.toUTCString();h.load(g);h.save(g)}catch(p){return}var r,t;try{r=h.XMLDocument.documentElement;t=r.attributes}catch(p){return}var m="p__hack_",j="m-_-c",k=new RegExp("^"+m),i=new RegExp(j,"g"),n=function(o){return encodeURIComponent(m+o).replace(/%/g,j)},f=function(o){return decodeURIComponent(o.replace(i,"%")).replace(k,"")};b={length:t.length,isVirtualObject:true,getItem:function(o){return(t.getNamedItem(n(o))||{nodeValue:null}).nodeValue||r.getAttribute(n(o))},setItem:function(o,u){try{r.setAttribute(n(o),u);h.save(g);this.length=t.length}catch(v){}},removeItem:function(o){try{r.removeAttribute(n(o));h.save(g);this.length=t.length}catch(u){}},clear:function(){while(t.length){this.removeItem(t[0].nodeName)}this.length=0},key:function(o){return t[o]?f(t[o].nodeName):undefined}};if(!("localStorage" in e)){e.localStorage=b}})();e.LS=!b?c:{set:function(f,g){if(this.get(f)!==undefined){this.remove(f)}b.setItem(f,g);this.length=b.length},get:function(g){var f=b.getItem(g);return f===null?undefined:f},remove:function(f){b.removeItem(f);this.length=b.length},clear:function(){b.clear();this.length=0},each:function(i){var h=this.obj(),g=i||function(){},f;for(f in h){if(g.call(this,f,this.get(f))===false){break}}},obj:function(){var h={},g=0,j,f;if(b.isVirtualObject){h=b.key(-1)}else{j=b.length;for(;g<j;g++){f=b.key(g);h[f]=this.get(f)}}return h},length:b.length};if(e.jQuery){e.jQuery.LS=e.LS}})(window);

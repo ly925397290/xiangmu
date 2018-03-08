@@ -25,6 +25,6 @@ class pcate extends Model
      */
     public function pcate_permission()
     {
-        return $this->hasMany('App\model\permission');
+        return $this->hasMany('App\model\permission','pcate_id');
     }
 }

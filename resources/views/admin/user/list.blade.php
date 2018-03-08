@@ -94,9 +94,9 @@
               </a>
               @endif
                 <a title="详情"  onclick="x_admin_show('详情','{{url('user/1')}}',600,400)" href="javascript:;">
-                  <i class="layui-icon">&#xe642;</i>
+                  <i class="layui-icon">&#xe612;</i>
                 </a>
-                <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/$v->uid/edit')}}',600,400)" href="javascript:;">
+                <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/')}}/{{$v->uid}}/edit',600,400)" href="javascript:;">
                   <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a title="删除" onclick="member_del(this,'{{$v->uid}}')" href="javascript:;">

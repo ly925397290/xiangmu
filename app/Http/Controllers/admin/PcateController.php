@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\pcate;
+use App\model\permission;
+
 class PcateController extends Controller
 {
     /**
@@ -16,7 +18,7 @@ class PcateController extends Controller
      */
     public function index()
     {
-        $data = pcate::get();
+        $data = pcate::paginate(5);
         return view('admin.pcate.list',compact('data'));
     }
 
@@ -71,7 +73,8 @@ class PcateController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.pcate.edit');
+        $data = pcate::find($id);
+        return view('admin.pcate.edit',compact('data'));
     }
 
     /**
@@ -83,7 +86,14 @@ class PcateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        $res = pcate::where('id',$id)->update(['pcate_name'=>$input['pcate_name']]);
+        if($res){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+        return $status;
     }
 
     /**
@@ -94,6 +104,20 @@ class PcateController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // 1.查看此权限分类下有没有权限
+        $pcate = permission::where('pcate_id',$id)->first();
+        // 2.有权限不让删除
+        if(empty($pcate)){
+            $res = pcate::destroy($id);
+            if($res){
+                $status = 1;
+            }else{
+                $status = 0;
+            }
+        }else{
+            $status = 2;
+        }   
+        return $status;
     }
+
 }

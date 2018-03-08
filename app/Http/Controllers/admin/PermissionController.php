@@ -19,11 +19,12 @@ class PermissionController extends Controller
     public function index()
     {
         // 获取权限分类
-        $pcate = permission::get();
-        foreach($pcate as $v){
-            $v['pcate'] = $v->permission_pcate;
+        $pcate = pcate::get();
+        $permission = permission::paginate(5);
+        foreach($permission as $v){
+            $v['pcate']= $v->permission_pcate;
         }
-        return view('admin.permission.list',compact('pcate'));
+        return view('admin.permission.list',compact('pcate','permission'));
     }
 
     /**
@@ -79,7 +80,10 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.permission.edit');
+        $pcate = pcate::get();
+        $permission = permission::find($id);
+        $permission['pcate']= $permission->permission_pcate;
+        return view('admin.permission.edit',compact('permission','pcate'));
 
     }
 
@@ -92,7 +96,16 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        // 1.接收请求数据
+        $input = $request->except('_token');
+        $res = permission::where('id',$id)->update(['permission'=>$input['permission'],'urls'=>$input['urls'],'pcate_id'=>$input['pcate_id']]);
+        if($res){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+        return $status;
     }
 
     /**
@@ -103,6 +116,26 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $res = pcate::destroy($id);
+        if($res){
+                $status = 1;
+            }else{
+                $status = 0;
+            }
+        return $status;
     }
+
+
+    public function delAll(Request $request)
+     {
+        $input = $request->input('ids');
+//        return $input;
+        $res = permission::destroy($input);
+        if($res){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+        return $status;
+     }
 }

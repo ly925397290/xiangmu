@@ -61,9 +61,9 @@
               </label>
               <div class="layui-input-inline">
                   <select class="layui-input" name="identity">
-                      <option value="1">普通管理员</option>
-                      <option value="2">超级管理员</option>
-                      <option value="3">普通用户</option>
+                      <option value="1">普通用户</option>
+                      <option value="2">普通会员</option>
+                      <option value="3">超级会员</option>
                       <option value="4">店主</option>
                   </select>
               </div>
