@@ -65,11 +65,7 @@
                                     </ul>
                                 </div>
                             @endif
-                       
-
-
-
-                    
+                            
                 </tr>
                 <tr>
                      <th><i class="require">*</i> 导航名称：</th>
@@ -87,8 +83,7 @@
                     
                     <img src="">
                 </tr>
-               
-
+            
                 
                 <th>排序：</th>
                     <td>
