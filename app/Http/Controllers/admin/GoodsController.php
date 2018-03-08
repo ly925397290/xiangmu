@@ -62,10 +62,11 @@ class GoodsController extends Controller
 
     public function detail($id )
     {
+       // dd($id);
 
-        $goods = good::get();
+        $goods = good::find($id);
+        
         $goodsdetail = goodsdetail::get();
-
 
         return view('admin.good.det',['goods'=>$goods,'goodsdetail'=>$goodsdetail]);
     }

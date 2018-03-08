@@ -50,7 +50,7 @@
           <tr>
 
             <th width="5px">ID号</th>            
-            <th width="15px">所属类别</th>
+            <th width="15px">所属类别</ssth>
             <th width="15px">商品名称</th>
             <th width="20px">商品图片</th>
             <th width="15px">商品来源（前台店铺名）或本后台发布</th>
@@ -89,10 +89,9 @@
               @endif
 
           </th>
-          <th><a href="{{url('admin/goods/detail/1')}}">查看详情</a></th>  
+          <th><a href={{url('admin/goods/detail/'.$v->gid)}}>查看详情</a></th>    
+          </tr>    
 
-            
-          </tr>
           @endforeach
            
         </tbody>
