@@ -18,9 +18,9 @@ class permission
         // 1. 获取当前访问的方法名
 
         $route = \Route::current()->getActionName();
-        $user = session('user');
+        $uid = session('user')['id'];
+        $user = admin::find($uid);
         $roles = $user->user_role;
-        // return $roles;
         //判断是否是超级管理员
         if($roles[0]->status){
             return $next($request);
