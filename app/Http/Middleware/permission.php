@@ -18,9 +18,7 @@ class permission
         // 1. 获取当前访问的方法名
 
         $route = \Route::current()->getActionName();
-        // return $route;
-        $user = admin::find(5);
-        // return $user;
+        $user = session('user');
         $roles = $user->user_role;
         // return $roles;
         //判断是否是超级管理员
@@ -42,9 +40,8 @@ class permission
                 //2. 获取当前用户拥有的权限
                     //2.1 获取当前用户拥有的角色
                 // $user = session('user');
-                $user = admin::find(5);
                 // return $user;
-                $roles = $user->user_role;
+                // $roles = $user->user_role;
                 // return $roles;
                 //2.2 根据拥有的角色查找关联的权限
                 foreach ($roles as $role) {

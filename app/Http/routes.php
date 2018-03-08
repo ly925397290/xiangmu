@@ -16,6 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 // 无权限访问页面
 Route::get('noaccess','Admin\IndexController@noaccess');
 // 后台登录页面显示
@@ -89,3 +90,37 @@ Route::post('admin/webs/editAll','Admin\WebsController@editAll');
 /****************************前台路由************************************/
 // 前台首页
 Route::get('home/index','Home\IndexController@index');
+
+// 创建登录页面的 Admin 命名空间
+Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
+	// 后台登录
+	Route::get('login', 'LoginController@login')->name('admin.login');
+	// 获取验证码
+	Route::get('yzm', 'LoginController@yzm');
+	// 提交后台登录数据
+	Route::post('dologin', 'LoginController@dologin');
+	// 未登录测试
+	Route::get('ceshi', 'LoginController@ceshi');
+});
+
+// 加载验证码
+Route::get('/code/captcha/{tmp}', 'Admin\LoginController@captcha');
+
+/**
+* 设置中间件
+* @param 加载后台组件
+*/
+Route::group(['namespace'=>'Admin','namespace'=>'Admin','middleware'=>'login'],function(){
+	// 暂时不往里面放东西项目测试之后再完善
+});
+
+// 设置路由组 统一命名空间下的控制器 有需要的再提出来
+Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
+
+// 退出登录
+Route::get('outlogin','LoginController@outlogin');
+});
+
+
+
+

@@ -137,7 +137,7 @@
                 dataType : "Json",
                 success : function(msg){
                     // console.log(msg)
-                    if(msg.status){
+                    if(msg){
                         layer.alert("增加成功", {icon: 6},function () {
                             // 获得frame索引
                             var index = parent.layer.getFrameIndex(window.name);

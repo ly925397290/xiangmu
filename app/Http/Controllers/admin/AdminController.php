@@ -23,7 +23,7 @@ class AdminController extends Controller
         //接收请求中的参数
         $admin_name = $request->input('admin_name','');
         // 1.查询用户信息
-        $user = admin::where('admin_name','like','%'.$admin_name.'%')->paginate($request->input('num', 2));
+        $user = admin::orderBy('id','desc')->where('admin_name','like','%'.$admin_name.'%')->paginate($request->input('num', 2));
         // 2.查询用户的角色
         foreach($user as $v){
             $v['role'] = $v->user_role;
@@ -114,7 +114,7 @@ class AdminController extends Controller
                         $res = user_role::create(['user_id'=>$id,'role_id'=>$value]);
                     }
                 }
-        ($role && $res) ? $status = 1 : $status = 0;
+        ($role || $res) ? $status = 1 : $status = 0;
         return $status;
     }
 

@@ -116,7 +116,7 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $res = pcate::destroy($id);
+        $res = permission::destroy($id);
         if($res){
                 $status = 1;
             }else{

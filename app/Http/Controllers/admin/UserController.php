@@ -15,6 +15,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        // $route = \Route::current()->getActionName();
+        // return $route;
         //接收请求中的参数
         $keywords1 = $request->input('keywords1','');
         $user = user::orderBy('uid','desc')->where('uname','like','%'.$keywords1.'%')->paginate($request->input('num', 2));

@@ -44,10 +44,10 @@
             </select>
           </div>
           <div class="layui-input-inline">
-            <input type="text" name="controller" class="layui-input" placeholder="控制器" lay-verify="controller" id="controller">
+            <input type="text" name="controller" class="layui-input" placeholder="控制器 例:Admin\IndexController" lay-verify="controller" id="controller">
           </div>
           <div class="layui-input-inline" >
-            <input type="text" class="layui-input" name="method" placeholder="方法名" lay-verify="method" id="method">
+            <input type="text" class="layui-input" name="method" placeholder="方法名 例:index" lay-verify="method" id="method">
           </div>
           <input class="layui-input" placeholder="权限名" name="permission" lay-verify="permission" id="permission">
           <button class="layui-btn"  lay-submit="" lay-filter="add"><i class="layui-icon"></i>增加</button>
