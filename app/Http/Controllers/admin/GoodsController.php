@@ -43,14 +43,15 @@ class GoodsController extends Controller
     {
         
         $input = $request->input('username','');
-       
-        $count = DB::table('data_goods')->count();
-
-        $goods = good::where('gname','like','%'.$input.'%')->orderBy('gid','desc')->paginate(2);
+        $goods = good::where('gname','like','%'.$input.'%')->orderBy('gid','desc')->paginate(10);
         $goodsdetail = goodsdetail::get();
-       
-     
-     return view('admin.good.list',['goods'=>$goods,'count'=>$count,'request'=>$request,'goodsdetail'=>$goodsdetail]);
+       //查询商品所属分类
+        foreach ($goods as $value) {
+            $value['cid'] = $value->good_cate->title;
+        }
+        $count = count($goods);
+        // return $goods;
+        return view('admin.good.list',['goods'=>$goods,'count'=>$count,'request'=>$request,'goodsdetail'=>$goodsdetail]);
     }
 
     /**
@@ -72,8 +73,15 @@ class GoodsController extends Controller
     }
     public function create()
     {
-        //
-        return view('admin.good.add');
+        $cate = DB::table('data_cate')->select('*',DB::raw('concat(path,",",id) as paths'))->orderBy('paths','asc')->get();
+        // 处理分类名称
+        foreach ($cate as $key => $value) {
+            // 统计字符串出现的次数
+            $n = substr_count($value['path'],',');
+            // 重复使用字符串 拼接分类名称
+            $cate[$key]['title'] = str_repeat('|----',$n).$cate[$key]['title'];
+        }
+        return view('admin.good.add',compact('cate'));
     }
 
 
@@ -102,52 +110,20 @@ class GoodsController extends Controller
         }
     }
 
-
-    
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function upload(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-      
-
-     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        //1.获取上传文件
+        $file = $request->file('file_upload');
+        //  2.判断上传文件的有效性
+         if($file->isValid()){
+            //获取文件后缀名
+             $ext = $file->getClientOriginalExtension();    //文件拓展名
+            //生成新文件名
+            $newfilename = md5(date('YmdHis').rand(1000,9999).uniqid()).'.'.$ext;
+             // 将图片上传到本地服务器
+            $res = $file->move(public_path().'/upload/goods',$newfilename);
+            //将上传文件的位置返回给客户端
+           return '/upload/goods/'.$newfilename;
+       }
     }
 }

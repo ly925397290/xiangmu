@@ -10,6 +10,25 @@ use App\model\web;
 use DB;
 class WebsController extends Controller
 {   
+    public function upload(Request $request)
+    {
+
+        //1.获取上传文件
+        $file = $request->file('file_upload');
+        //  2.判断上传文件的有效性
+         if($file->isValid()){
+ //            获取文件后缀名
+             $ext = $file->getClientOriginalExtension();    //文件拓展名
+
+            //生成新文件名
+
+             $newfilename = md5(date('YmdHis').rand(1000,9999).uniqid()).'.'.$ext;
+             $res = $file->move(public_path().'/upload/logo/',$newfilename);
+
+           return '/upload/logo/'.$newfilename;
+       }
+        
+    }
     public function putContent()
     {
         // 1.从数据库中读取相关内容数据
@@ -59,11 +78,15 @@ class WebsController extends Controller
                     }
                     $v->web_content = $str;
                     break;
+                case 'file':
+                    $v->web_content = '<img src="'.$v->web_content.'" />';
+                    break;
 
             }
 
         }
-        return view('admin.web.list',compact('data'));
+        $count = count($data);
+        return view('admin.web.list',compact('data','count'));
     }
 
     /**
@@ -155,7 +178,11 @@ class WebsController extends Controller
                     }
                     $v->web_content = $str;
                     break;
-
+                case 'file':
+                    $v->web_content = '<input id="file_upload" name="file_upload" type="file" multiple="true" >
+                                       <input type="hidden" name="web_content" id="art_thumb" value="">
+                                       <img src="" id="art_thumb_img" width="100">';
+                    break;
             }
 
         }
@@ -173,7 +200,6 @@ class WebsController extends Controller
     {
         //1.接收数据
             $input = $request->except('_token','_method');
-            // return $input;
             // return $input['web_content'][0];
         // 2.修改数据库数据
             // $res = web::where('id',$id)->update(['web_title'=>$input['web_title'],'web_name'=>$input['web_name'],'web_content'=>$input['web_content'],'web_order'=>$input['web_order'],'web_tips'=>$input['web_tips']]);
@@ -183,7 +209,7 @@ class WebsController extends Controller
             $webs->web_name = $input['web_name'];
             $webs->web_content = $input['web_content'];
             $webs->web_order = $input['web_order'];
-            $webs->web_tips = $input['web_tips'];
+            $webs->field_value = $input['field_value'];
             $res = $webs->save();
         // 3.判断是否成功并返回给客户端
         if($res){
@@ -255,6 +281,7 @@ class WebsController extends Controller
     public function editAll(Request $request)
     {
         $input = $request->except('_token');
+        return $input;
         DB::beginTransaction();
         try{
             //根据id,遍历所有的记录

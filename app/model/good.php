@@ -20,7 +20,7 @@ class good extends Model
     public $guarded = [];
 
     //
-     protected $fillable  = ['gname','tid','status','price','inven'];
+     protected $fillable  = ['gname','tid','status','price','inven','urls','cid'];
 
         
 //返回格式化的分类数据
@@ -43,4 +43,13 @@ class good extends Model
         }
         return $Category;
     }
+
+    /**
+     * 创建商品属于分类模型
+     */
+    public function good_cate()
+     {
+        return $this->belongsTo('App\model\cate','cid');
+     }
+
 }

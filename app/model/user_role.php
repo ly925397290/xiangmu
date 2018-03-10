@@ -14,9 +14,12 @@ class user_role extends Model
      * @var bool
      */
     public $timestamps = false;
-
+    /**
+     * 设置批量赋值
+     */
     protected $guarded = [];
 
+    
     /**
      * 链接用户与角色多对多关系
      */

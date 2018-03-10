@@ -28,7 +28,8 @@ class AdminController extends Controller
         foreach($user as $v){
             $v['role'] = $v->user_role;
         }
-        return view('admin.admin.list',compact('user','request'));
+        $count = count($user);
+        return view('admin.admin.list',compact('user','request','count'));
     }
 
     /**

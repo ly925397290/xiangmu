@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\model\link;
 
 class IndexController extends Controller
 {
@@ -19,7 +20,8 @@ class IndexController extends Controller
         /**
          * 前台首页显示
          */
-        return view('home.index');
+        $link = link::where('status','1')->get();
+        return view('home.index',compact('link'));
     }
 
     /**

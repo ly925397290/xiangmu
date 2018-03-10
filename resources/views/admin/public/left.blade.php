@@ -13,7 +13,7 @@
                    <a _href="{{url('/admin/user')}}">
                        <i class="iconfont">&#xe6a7;</i>
 
-                       <cite>会员列表</cite>
+                       <cite>用户列表</cite>
                    </a>
                </li >
            </ul>
@@ -68,6 +68,21 @@
        </li>
        <li>
            <a href="javascript:;">
+               <i class="layui-icon" style="top: 3px;"></i>
+               <cite>分类管理</cite>
+               <i class="iconfont nav_right">&#xe697;</i>
+           </a>
+           <ul class="sub-menu">
+               <li>
+                   <a _href="{{url('admin/cate')}}">
+                       <i class="iconfont">&#xe6a7;</i>
+                       <cite>分类列表</cite>
+                   </a>
+               </li >
+           </ul>
+       </li>
+       <li>
+           <a href="javascript:;">
                <i class="layui-icon" style="top: 3px;"></i>
                <cite>商品管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
@@ -89,9 +104,9 @@
            </a>
            <ul class="sub-menu">
                <li>
-                   <a _href="order-list.html">
+                   <a _href="{{url('admin/shop')}}">
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
+                       <cite>商铺列表</cite>
                    </a>
                </li >
            </ul>
@@ -126,21 +141,7 @@
                </li >
            </ul>
        </li>
-       <li>
-           <a href="javascript:;">
-               <i class="layui-icon" style="top: 3px;"></i>
-               <cite>分类管理</cite>
-               <i class="iconfont nav_right">&#xe697;</i>
-           </a>
-           <ul class="sub-menu">
-               <li>
-                   <a _href="{{url('admin/cate')}}">
-                       <i class="iconfont">&#xe6a7;</i>
-                       <cite>分类列表</cite>
-                   </a>
-               </li >
-           </ul>
-       </li>
+       
        <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe723;</i>
@@ -164,9 +165,9 @@
            </a>
            <ul class="sub-menu">
                <li>
-                   <a _href="order-list.html">
+                   <a _href="{{url('admin/message')}}">
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>订单列表</cite>
+                       <cite>评论列表</cite>
                    </a>
                </li >
            </ul>
@@ -189,6 +190,12 @@
                    <a _href="{{url('admin/webs')}}">
                        <i class="iconfont">&#xe6a7;</i>
                        <cite>网站配置列表</cite>
+                   </a>
+               </li >
+               <li>
+                   <a _href={{url('/admin/link')}}>
+                       <i class="iconfont">&#xe6a7;</i>
+                       <cite>友情链接</cite>
                    </a>
                </li >
            </ul>

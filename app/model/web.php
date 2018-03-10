@@ -17,5 +17,5 @@ class web extends Model
     /**
      * 可以批量赋值
      */
-    protected $fillable = ['web_title','web_name','web_content','web_order','web_fips','field_type','field_value'];
+    protected $fillable = ['web_title','web_name','web_content','web_order','field_type','field_value'];
 }

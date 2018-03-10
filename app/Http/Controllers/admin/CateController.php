@@ -25,8 +25,8 @@ class CateController extends Controller
             // 重复使用字符串 拼接分类名称
             $cate[$key]['title'] = str_repeat('|----',$n).$cate[$key]['title'];
         }
-
-        return view('admin.cate.category',['cate'=>$cate]);
+        $count = count($cate);
+        return view('admin.cate.category',['cate'=>$cate,'count'=>$count]);
     }
 
     /**

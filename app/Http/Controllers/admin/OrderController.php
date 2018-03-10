@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\model\Order;
 
 class OrderController extends Controller
 {
@@ -14,9 +15,36 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.order.list');
+        //获取数据
+        $data = Order::orderBy('id','desc')
+        ->where(function($query) use($request){
+            $start = $request->input('start',''); //获取开始时间
+            $end = $request->input('end','');     //获取结束时间
+            $pay_status = $request->input('pay_status',''); //获取支付状态
+            $payment = $request->input('payment',''); //获取支付方式
+            $order_status = $request->input('order_status',''); //获取订单状态
+            $oid = $request->input('oid',''); //获取订单号
+            if(!empty($start) || !empty($end)){
+            // $query->whereBetween('start',[$start,$end])->get(); //查询订单区间
+            }
+            if(!empty($pay_status)){
+                $query->where('pay_status','like','%'.$pay_status.'%'); //查询支付状态
+            }
+            if(!empty($payment)){
+                $query->where('payment','like','%'.$payment.'%'); //查询支付方式
+            }
+            if(!empty($order_status)){
+                $query->where('order_status','like','%'.$order_status.'%'); //查询订单状态
+            }
+            if(!empty($oid)){
+                $query->where('oid','like','%'.$oid.'%'); //查询订单号
+            }
+        })->paginate($request->input('num', 2)); //分页
+        $data = (new order())->tree($data);
+        $count = count($data);
+        return view('admin.order.list',compact('request','data','count'));
     }
 
     /**
@@ -82,6 +110,39 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // 查询要删除的用户
+        $res = order::find($id)->delete();
+        // 判断是否成功,将结果返回客户端
+        if($res){
+            $data = [
+                'status'=>1,
+            ];
+        }else{
+            $data = [
+                'status'=>0,
+            ];
+        }
+        return $data;
     }
+
+    /**
+     * 批量删除
+     */
+    public function delAll(Request $request)
+     {
+        $input = $request->input('ids');
+//        return $input;
+        $res = order::destroy($input);
+        if($res){
+            $data = [
+                'status'=>1,
+            ];
+        }else{
+            $data = [
+                'status'=>0,
+            ];
+        }
+
+        return $data;
+     }
 }

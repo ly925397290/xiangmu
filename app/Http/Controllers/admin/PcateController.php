@@ -19,7 +19,8 @@ class PcateController extends Controller
     public function index()
     {
         $data = pcate::paginate(5);
-        return view('admin.pcate.list',compact('data'));
+        $count = count($data);
+        return view('admin.pcate.list',compact('data','count'));
     }
 
     /**

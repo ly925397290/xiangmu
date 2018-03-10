@@ -53,19 +53,24 @@ Route::group(['middleware'=>['login']],function(){
 		Route::post('admin/permission/delAll','Admin\PermissionController@delAll');
 		// 订单管理
 		Route::resource('admin/order','Admin\OrderController');
+		// 订单批量删除
+		Route::post('admin/order/delAll','Admin\OrderController@delAll');
 		// 商品管理
 		Route::get('/admin/goods/gstatus/{id}','Admin\GoodsController@gstatus');
 		//商品详情
 		Route::get('admin/goods/detail/{id}','Admin\GoodsController@detail');
-		 Route::resource('admin/goods','Admin\GoodsController');
+	 	Route::resource('admin/goods','Admin\GoodsController');
+	 	Route::post('admin/goods/upload','Admin\GoodsController@upload');
 		// 商铺管理
-		// Route::resource('user','Admin\ShopController');
+		Route::resource('admin/shop','Admin\ShopController');
 		// 活动管理
 		// Route::resource('user','Admin\ActivityController');
 		// 广告管理
 		// Route::resource('user','Admin\AdverController');
 		// 轮播图管理
 		 Route::resource('admin/slide','Admin\SlideController');
+		 //轮播图
+		 Route::post('admin/slide/upload','Admin\SlideController@upload');
 		 //调整轮播图顺序路由
 		 Route::post('admin/slide/changeorder', 'SlideController@changeorder');
 		// 导航管理
@@ -73,24 +78,27 @@ Route::group(['middleware'=>['login']],function(){
 		// 分类管理
 		Route::resource('admin/cate','Admin\CateController');
 		// 文章管理
-		Route::post('admin/article/upload','Admin\ArticleController@upload');
 		 Route::resource('admin/article','Admin\ArticleController');
+		// 文章图片上传处理
+		 Route::post('admin/article/upload','Admin\ArticleController@upload');
 		// 评论管理管理
-		// Route::resource('user','Admin\MessageController');
+		Route::resource('admin/message','Admin\MessageController');
+		// 评论批量删除
+		Route::post('admin/message/delAll','Admin\MessageController@delAll');
 		//网站配置管理
 		Route::resource('admin/webs','Admin\WebsController');
 		// 网站配置批量删除
 		Route::post('admin/webs/delAll','Admin\WebsController@delAll');
 		// 网站配置批量修改
 		Route::post('admin/webs/editAll','Admin\WebsController@editAll');
+		// 网站配置图片上传处理
+		 Route::post('admin/webs/upload','Admin\WebsController@upload');
+		// 友情链接
+		Route::resource('admin/link','Admin\LinkController');
+		// 链接状态
+		Route::post('admin/link/changestatus','Admin\LinkController@changestatus');
 	});
 });
-
-
-/****************************前台路由************************************/
-// 前台首页
-Route::get('home/index','Home\IndexController@index');
-
 // 创建登录页面的 Admin 命名空间
 Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
 	// 后台登录
@@ -117,6 +125,12 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
 // 退出登录
 Route::get('outlogin','LoginController@outlogin');
 });
+
+/****************************前台路由************************************/
+// 前台首页
+Route::get('home/index','Home\IndexController@index');
+
+
 
 
 

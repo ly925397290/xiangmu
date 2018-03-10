@@ -65,10 +65,10 @@
           @foreach($goods as $v)
           <tr>
             
-            <th>{{ $v->gid }}</th>     
-            <th>所属类别</th>
+            <th>{{$v->gid }}</th>     
+            <th>{{$v->cid}}</th>
             <th>{{ $v->gname }}</th>
-            <th>{{ $v->pict }}</th>
+            <th><img src="{{$v->urls}}" alt=""></th>
             <th> ?由lid关联出的店铺名:字段值默认为0时是本后台发布</th>
             <th>{{ $v->addtime }}</th> 
             <th>{{ $v->inven }}</th>

@@ -73,8 +73,7 @@
                 </tr>
                 <tr>
                     <th>缩略图：</th>
-                    <td>
-                        
+                    <td>                      
                         <input id="file_upload" name="file_upload" type="file" multiple="true" >
                         {{--<script src="http://www.myblog.com/resources/org/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>--}}
                         {{--<link rel="stylesheet" type="text/css" href="http://www.myblog.com/resources/org/uploadify/uploadify.css">--}}

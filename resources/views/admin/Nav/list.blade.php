@@ -45,9 +45,9 @@
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" ><i class=""></i>导航列表</button>
-        <a class="layui-btn" href="{{url('admin/nav/create')}}",600,400)"><i class="layui-icon"></i>添加</a>
+        <a class="layui-btn" href="{{url('admin/nav/create')}}",600,400)><i class="layui-icon"></i>添加</a>
       
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <span class="x-right" style="line-height:40px">共有数据：{{$count}} 条</span>
       </xblock>
       <table class="layui-table">
         <thead>

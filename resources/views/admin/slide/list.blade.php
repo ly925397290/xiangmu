@@ -45,9 +45,9 @@
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" ><i class=""></i>轮播图列表</button>
-        <a class="layui-btn" href="{{url('admin/slide/create')}}",600,400)"><i class="layui-icon"></i>添加</a>
+        <a class="layui-btn" href="{{url('admin/slide/create')}}",600,400)><i class="layui-icon"></i>添加</a>
       
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <span class="x-right" style="line-height:40px">共有数据：{{$count}} 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
@@ -65,18 +65,16 @@
         <tbody>
             @foreach($slideSlide as $k=>$v)
             <tr>
-              <td>
-                
-                <input type="text" style="background: white;width:30px;margin-top: 30px;margin-left: 10px;" name="order" value="{{$v->order}}" onchange="changeOrder(this,{{$v->sid}}) "</td>
-            
+              <td>           
+                <input type="text" style="background: white;width:30px;margin-top: 30px;margin-left: 10px;" name="order" value="{{$v->order}}" onchange="changeOrder(this,{{$v->sid}}) "</td> 
               <td>{{$v->sid}}</td>
-              <td>{{$v->simg}}</td>
+              <td><img src="{{$v->simg}}" alt=""></td>
               <td>{{$v->sliname}}</td>
               <td>{{$v->surl}}</td>
                 <td>
                 <a href="{{url('admin/slide/'.$v->sid.'/edit')}}">
-                                                        <i class="am-icon-pencil"></i> 编辑
-                                                    </a>
+                    <i class="am-icon-pencil"></i> 编辑
+                </a>
               <a href="javascript:;" onclick="member_del(this,{{$v->sid}})" class="tpl-table-black-operation-del"><i class="am-icon-trash"></i> 删除
               </a>
               </td>
@@ -92,143 +90,20 @@
     <script>
       layui.use(['laydate','layer'], function(){
         var laydate = layui.laydate;
-
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#start' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#end' //指定元素
-        });
-      });
-
-       /*用户-停用*/
-      function member_stop(obj,id){
-          // 获取当前用户状态
-          var status = $(obj).attr('status');
-          layer.confirm('确认要停用吗？',function(index){
-              if($(obj).attr('title')=='启用'){
-                //发异步把用户状态进行更改
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type : "POST",
-                    url : '/admin/slide/changestatus',
-                    data : {"uid":id,"status":status},
-                    dataType : "Json",
-                    success : function(msg){
-                        // console.log(msg)
-                        if(msg){
-                            layer.msg('已启用!',{icon: 6,time:1000});
-                            location.reload(true);
-
-                        }else{
-                            location.reload(true);
-
-                            layer.msg('修改失败!',{icon: 5,time:1000});
-                        }
-                    }
-                });
-              }else{
-                    //发异步把用户状态进行更改
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type : "POST",
-                        url : '/admin/slide/changestatus',
-                        data : {"uid":id,"status":status},
-                        dataType : "Json",
-                        success : function(msg){
-                                // console.log(msg)
-                            if(msg.status){
-                                location.reload(true);
-
-                                layer.msg('已禁用!',{icon: 5,time:1000});
-                            }else{
-                                location.reload(true);
-
-                                layer.msg('修改失败!',{icon: 5,time:1000});
-                            }
-                        }
-                    });
-                }
-
-            });
-        }
-
-
-        var str = "{{session('msg')}}";
-        if(str!=''){
-            layer.msg(str,{icon: 6});
-        }
-
-        function changeOrder(obj,sid){
-            var order = $(obj).val();
-            $.post("{{url('admin/slide/changeorder')}}",{'_token':"{{csrf_token()}}","sid":sid,"order":order},function(data){
-
-                if(data.status == 0){
-
-                    layer.msg(data.msg,{icon: 6});
-                    location.href = location.href;
-                }else{
-                    layer.msg(data.msg,{icon: 5});
-                    location.href = location.href;
-                }
-            })
-        }
-
+      })
       /*用户-删除*/
       function member_del(obj,id){
-        console.log(id)
-        layer.confirm('您确认要删除吗?',{btn:['确认','取消']},
-          function () {
-                $.post("{{url('admin/slide')}}/"+id,{"_method":"delete","_token":"{{csrf_token()}}"},function(data){
-                    // console.log(data)
-//                    删除成功
-                    if(data.error == 0){
-                        layer.msg(data.msg, {icon: 6});
-                        var t=setTimeout("location.href = location.href;",2000);
-                    }else if(data.error == 1){
-                        layer.msg(data.msg, {icon: 5});
-
-                        var t=setTimeout("location.href = location.href;",2000);
-                    }else{
-                        layer.msg(data.msg, {icon: 2});
-                        var t=setTimeout("location.href = location.href;",2000);
-                    }
-
-
-                });
-
-            })
-      }
-
-
-
-      function delAll (argument) {
-
-        // var data = tableCheck.getData();
-        var ids =   [];
-        $('.layui-form-checked').not('.header').each(function(i,v){
-             ids.push($(v).attr('data-id'));
-        })
         layer.confirm('确认要删除吗？',function(index){
-            //捉到所有被选中的，发异步进行删除
-            $.ajax({
+          $.ajax({
               headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
               },
-              type : "POST",
-              url : '/admin/slide/delAll',
-              data : {"ids":ids},
+              type:"DELETE",
+              url : '/admin/slide/'+id,
               dataType : "Json",
               success : function(msg){
                 // console.log(msg)
-                if(msg.status){
+                if(msg){
                     layer.msg('删除成功', {icon: 1});
                     $(".layui-form-checked").not('.header').parents('tr').remove();
                     location.reload(true);
@@ -237,11 +112,10 @@
                     location.reload(true);
                     layer.msg('删除失败', {icon: 1});
                 }
-              }
-            });
-        });
+             } 
+          });
+        })
       }
-
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");

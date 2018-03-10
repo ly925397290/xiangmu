@@ -79,19 +79,19 @@
                 <tbody>
                     <tr>
                         <th width="30%">服务器计算机名</th>
-                        <td><span id="lbServerName">http://127.0.0.1/</span></td>
+                        <td><span id="lbServerName">{{$_SERVER['SERVER_NAME']}}</span></td>
                     </tr>
                     <tr>
                         <td>服务器IP地址</td>
-                        <td>192.168.1.1</td>
+                        <td>{{$_SERVER['SERVER_ADDR']}}</td>
                     </tr>
                     <tr>
                         <td>服务器域名</td>
-                        <td>x.xuebingsi.com</td>
+                        <td>{{$_SERVER['SERVER_NAME']}}</td>
                     </tr>
                     <tr>
                         <td>服务器端口 </td>
-                        <td>80</td>
+                        <td>{{$_SERVER['SERVER_PORT']}}</td>
                     </tr>
                     <tr>
                         <td>服务器IIS版本 </td>
@@ -99,23 +99,23 @@
                     </tr>
                     <tr>
                         <td>本文件所在文件夹 </td>
-                        <td>D:\WebSite\HanXiPuTai.com\XinYiCMS.Web\</td>
+                        <td>{{basename(dirname(__FILE__))}}</td>
                     </tr>
                     <tr>
                         <td>服务器操作系统 </td>
-                        <td>Microsoft Windows NT 5.2.3790 Service Pack 2</td>
+                        <td>{{PHP_OS}}</td>
                     </tr>
                     <tr>
                         <td>系统所在文件夹 </td>
-                        <td>C:\WINDOWS\system32</td>
+                        <td>{{ $_SERVER['DOCUMENT_ROOT']}}</td>
                     </tr>
                     <tr>
                         <td>服务器脚本超时时间 </td>
-                        <td>30000秒</td>
+                        <td>{{get_cfg_var ("memory_limit")}}</td>
                     </tr>
                     <tr>
                         <td>服务器的语言种类 </td>
-                        <td>Chinese (People's Republic of China)</td>
+                        <td>{{ $_SERVER["HTTP_ACCEPT_LANGUAGE"]}}</td>
                     </tr>
                     <tr>
                         <td>.NET Framework 版本 </td>
@@ -123,11 +123,11 @@
                     </tr>
                     <tr>
                         <td>服务器当前时间 </td>
-                        <td>2017-01-01 12:06:23</td>
+                        <td>{{date('Y-m-d H:i:s',time())}}</td>
                     </tr>
                     <tr>
                         <td>服务器IE版本 </td>
-                        <td>6.0000</td>
+                        <td>{{$_SERVER['HTTP_USER_AGENT']}}</td>
                     </tr>
                     <tr>
                         <td>服务器上次启动到现在已运行 </td>

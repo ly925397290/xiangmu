@@ -20,5 +20,5 @@ class Slide extends Model
      */
      public $primaryKey = 'sid';
 
-     public $guarded = [];
+     protected $fillable  = ['simg','surl','status','order','sliname'];
 }

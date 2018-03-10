@@ -19,7 +19,7 @@ class UserController extends Controller
         // return $route;
         //接收请求中的参数
         $keywords1 = $request->input('keywords1','');
-        $user = user::orderBy('uid','desc')->where('uname','like','%'.$keywords1.'%')->paginate($request->input('num', 2));
+        $user = user::orderBy('uid','desc')->where('uname','like','%'.$keywords1.'%')->orwhere('status','like','%'.$keywords1.'%')->paginate($request->input('num', 2));
         foreach($user as $v){
             switch($v->identity){
                 case 1:
@@ -36,7 +36,8 @@ class UserController extends Controller
                     break;
             }
         }
-        return view('admin.user.list',['user'=>$user, 'request'=> $request]);
+        $count = count($user);
+        return view('admin.user.list',['user'=>$user,'request'=> $request,'count'=>$count]);
     }
 
     /**
@@ -91,7 +92,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.user.edit');
+        //查询用户的信息
+        $user = user::find($id);
+        return view('admin.user.edit',compact('user'));
     }
 
     /**
@@ -99,7 +102,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**

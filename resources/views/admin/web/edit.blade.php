@@ -72,7 +72,7 @@
                     <span class="x-red">*</span>说明
                 </label>
                 <div class="layui-input-block">
-                    <textarea name="web_tips" value="{{$v->web_tips}}" class="layui-textarea">{{$v->web_tips}}</textarea>
+                    <textarea name="field_value" value="{{$v->field_value}}" class="layui-textarea">{{$v->field_value}}</textarea>
                 </div>
 
             </div>
@@ -87,7 +87,51 @@
       </form>
     </div>
     <script>
+      $(function () {
+            $("#file_upload").change(function () {
+                uploadImage();
+            });
+        });
+        function uploadImage() {
+        // 判断是否有选择上传文件
+        var imgPath = $("#file_upload").val();
+        if (imgPath == "") {
+            alert("请选择上传图片！");
+            return;
+        }
+        //判断上传文件的后缀名
+        var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
 
+        if (strExtension != 'jpg' && strExtension != 'gif'
+            && strExtension != 'png' && strExtension != 'bmp') {
+            alert("请选择图片文件");
+            return;
+        }
+       
+      //只将上传文件打包进formData
+      var formData = new FormData();
+      formData.append('file_upload',$('#file_upload')[0].files[0]);
+       $.ajax({
+          type: "POST",
+          url: '{{url('/admin/webs/upload')}}',
+           headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          data: formData,
+          async: true,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function(data) {
+              $('#art_thumb_img').attr('src',data);
+               // $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
+               $('#art_thumb').val(data);
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+              alert("上传失败，请检查网络后重试");
+          }
+      });
+    }
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form

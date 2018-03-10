@@ -24,7 +24,8 @@ class PermissionController extends Controller
         foreach($permission as $v){
             $v['pcate']= $v->permission_pcate;
         }
-        return view('admin.permission.list',compact('pcate','permission'));
+        $count = count($pcate);
+        return view('admin.permission.list',compact('pcate','permission','count'));
     }
 
     /**

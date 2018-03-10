@@ -24,8 +24,7 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form" action="{{ url('admin/goods/') }}" method="post" enctype="multipart/form-data">
-
+        <form class="layui-form" id="art_form" action="{{ url('admin/goods/') }}" method="post" enctype="multipart/form-data">
            {{csrf_field()}}
           <div class="layui-form-item">
               <label for="gname" class="layui-form-label">
@@ -44,17 +43,17 @@
                   <span class="x-red">*</span>商品分类
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="tid" name="tid" required="" lay-verify="phone"
-                  autocomplete="off" class="layui-input">
+                  <select class="layui-input" name="cid">
+                            <option value="0">请选择</option>
+                            @foreach($cate as $k=>$v)
+                            <option value="{{$v['id']}}">{{$v['title']}}</option>
+                            @endforeach
+                      </select>
               </div>
               <div class="layui-form-mid layui-word-aux">
                   <span class="x-red">*</span>
               </div>
           </div>
-
-
-
-
           <div class="layui-form-item">
               <label for="username" class="layui-form-label">
                   <span class="x-red">*</span>商品状态
@@ -102,95 +101,92 @@
               <div class="layui-form-mid layui-word-aux">
                  
               </div>
-          </div>
-
-
-      
-               
-                <div class="layui-form-item">
-                    <th>　　　　缩略图：</th>
-                    <td>
-                        
-                        <input id="file_upload" name="file_upload" type="file" multiple="true" >
-                        {{--<script src="http://www.myblog.com/resources/org/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>--}}
-                        {{--<link rel="stylesheet" type="text/css" href="http://www.myblog.com/resources/org/uploadify/uploadify.css">--}}
-                        <script type="text/javascript">
-                            $(function () {
-                                $("#file_upload").change(function () {
-                                    uploadImage();
-                                });
-                            });
-                            function uploadImage() {
+          </div>            
+          <div class="layui-form-item">
+              <th>缩略图：</th>
+              <td> 
+                  <input type="file" id="file_upload" name="file_upload" value="">
+                  <input type="hidden" name="urls" id="urls" value="">
+                  <img src="" id="art_thumb_img" width="200">
+                  <script type="text/javascript">
+                      $(function () {
+                          $("#file_upload").change(function () {
+                              uploadImage();
+                          });
+                      });
+                      function uploadImage() {
 //                            判断是否有选择上传文件
-                                var imgPath = $("#file_upload").val();
-                                if (imgPath == "") {
-                                    alert("请选择上传图片！");
-                                    return;
-                                }
-                                //判断上传文件的后缀名
-                                var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+                          var imgPath = $("#file_upload").val();
+                          if (imgPath == "") {
+                              alert("请选择上传图片！");
+                              return;
+                          }
+                          //判断上传文件的后缀名
+                          var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
 
-                                if (strExtension != 'jpg' && strExtension != 'gif'
-                                    && strExtension != 'png' && strExtension != 'bmp') {
-                                    alert("请选择图片文件");
-                                    return;
-                                }
-                           
-                                // var myform = document.getElementById('art_from');
+                          if (strExtension != 'jpg' && strExtension != 'gif'
+                              && strExtension != 'png' && strExtension != 'bmp') {
+                              alert("请选择图片文件");
+                              return;
+                          }
+                     
+                          // var myform = document.getElementById('art_from');
 
-                               //将整个表单打包进formData
-                        var formData = new FormData($('#art_form')[0]);
-
-                        //只将上传文件打包进formData
-                        // var formData = new FormData();
-                        // formData.append('fileupload',$('#file_upload')[0].files[0]);
-
-
-
-                                 $.ajax({
-                                    type: "POST",
-                                    url: '{{url('/admin/goods/upload')}}',
-                                     headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-
-                                    data: formData,
-                                    async: true,
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false,
-                                    success: function(data) {
-                                       console.log(data);
-                                        $('#art_thumb_img').attr('src','{{asset('+data+')}}');
-                                         $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
-                                         $('#art_thumb').val(data);
-                                    },
-                                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                        alert("上传失败，请检查网络后重试");
-                                    }
-                                });
-                            }
-                        </script>
-                        <style>
-                            .uploadify{display:inline-block;}
-                            .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
-                            table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
-                        </style>
-                    </td>
+                         //将整个表单打包进formData
+                      var formData = new FormData($('#art_form')[0]);
+                      console.log(formData)
+                      //只将上传文件打包进formData
+                      // var formData = new FormData();
+                      // formData.append('fileupload',$('#file_upload')[0].files[0]);
+                               $.ajax({
+                                  type: "POST",
+                                  url: '{{url('/admin/goods/upload')}}',
+                                   headers: {
+                                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                  },
+                                  data: formData,
+                                  async: true,
+                                  cache: false,
+                                  contentType: false,
+                                  processData: false,
+                                  success: function(data) {
+                                     console.log(data);
+                                      $('#art_thumb_img').attr('src',data);
+                                      $('#urls').val(data);
+                                  },
+                                  error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                      alert("上传失败，请检查网络后重试");
+                                  }
+                              });
+                          }
+                      </script>
+                      <style>
+                          .uploadify{display:inline-block;}
+                          .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
+                          table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
+                      </style>
+                  </td>
+              </div>
+              <div class="layui-form-item">
+                <label for="user-intro" class="am-u-sm-3 am-form-label">商品描述</label>
+                <div class="am-u-sm-9">
+                    <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+                    <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
+                    <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+                    <script id="editor" name="gdesc" type="text/plain" style="width:600;px;height:100px;"></script>
+                    <script>
+                        var ue = UE.getEditor('editor');
+                    </script>
                 </div>
-
-                <div class="layui-form-item">
-                                    <label for="user-intro" class="am-u-sm-3 am-form-label">商品描述</label>
-                                    <div class="am-u-sm-9">
-                                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
-                                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
-                                        <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
-                                        <script id="editor" name="gdesc" type="text/plain" style="width:600;px;height:100px;"></script>
-                                        <script>
-                                            var ue = UE.getEditor('editor');
-                                        </script>
-                                    </div>
-                </div>
+              </div>
+              <tr>
+              <th></th>
+              <td>
+                  <input type="submit" value="提交">
+                  <input type="button" class="back" onclick="history.go(-1)" value="返回">
+              </td>
+          </tr>
+        </form>
     <script>
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
@@ -235,12 +231,4 @@
         s.parentNode.insertBefore(hm, s);
       })();</script>
   </body>
-
-    <tr>
-                    <th></th>
-                    <td>
-                        <input type="submit" value="提交">
-                        <input type="button" class="back" onclick="history.go(-1)" value="返回">
-                    </td>
-                </tr>
 </html>

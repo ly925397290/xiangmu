@@ -23,7 +23,7 @@ class permission extends Model
      /**
       * 创建权限属于权限分类模型
       */
-     public function permission_pcate()
+     public function good_cate()
      {
         return $this->belongsTo('App\model\pcate','pcate_id');
      }

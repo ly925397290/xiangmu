@@ -27,7 +27,8 @@ class RoleController extends Controller
         foreach($role as $v){
             $v['permission'] = $v->role_permission;
         }
-        return view('admin.role.list',compact('role','request'));
+        $count = count($role);
+        return view('admin.role.list',compact('role','request','count'));
     }
 
     /**

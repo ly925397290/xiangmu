@@ -65,10 +65,6 @@
                                     </ul>
                                 </div>
                             @endif
-                       
-
-
-
                     <th><i class="require">*</i> 轮播图跳转网址：</th>
                     <td>
                         <input type="text" class="lg" name="surl">
@@ -85,8 +81,8 @@
                     <td>
                         
                         <input id="file_upload" name="file_upload" type="file" multiple="true" >
-                        {{--<script src="http://www.myblog.com/resources/org/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>--}}
-                        {{--<link rel="stylesheet" type="text/css" href="http://www.myblog.com/resources/org/uploadify/uploadify.css">--}}
+                        <img src="" id="art_thumb_img" width="150">
+                        <input id="art_thumb" name="simg" type="hidden" >
                         <script type="text/javascript">
                             $(function () {
                                 $("#file_upload").change(function () {
@@ -112,21 +108,17 @@
                                 // var myform = document.getElementById('art_from');
 
                                //将整个表单打包进formData
-                        var formData = new FormData($('#art_form')[0]);
+                        // var formData = new FormData($('#art_form')[0]);
 
                         //只将上传文件打包进formData
-                        // var formData = new FormData();
-                        // formData.append('fileupload',$('#file_upload')[0].files[0]);
-
-
-
+                        var formData = new FormData();
+                        formData.append('file_upload',$('#file_upload')[0].files[0]);    
                                  $.ajax({
                                     type: "POST",
-                                    url: '{{url('/admin/article/upload')}}',
+                                    url: '{{url('/admin/slide/upload')}}',
                                      headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     },
-
                                     data: formData,
                                     async: true,
                                     cache: false,
@@ -134,8 +126,7 @@
                                     processData: false,
                                     success: function(data) {
                                        console.log(data);
-                                        $('#art_thumb_img').attr('src','{{asset('+data+')}}');
-                                         $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
+                                        $('#art_thumb_img').attr('src',data);
                                          $('#art_thumb').val(data);
                                     },
                                     error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -151,13 +142,8 @@
                         </style>
                     </td>
                 </tr>
-                <tr>
-                    
-                    <img src="">
-                </tr>
-               
-
-                
+                <tr>         
+                </tr>        
                 <th>排序：</th>
                     <td>
                         <input type="text" class="lg" name="order">

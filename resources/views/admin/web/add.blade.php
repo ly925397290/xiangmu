@@ -37,7 +37,7 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="L_cate_name" name="web_title" required=""
-                  autocomplete="off" class="layui-input">
+                  autocomplete="off" class="layui-input" placeholder="网站标题">
                   
               </div>
           </div>
@@ -47,7 +47,7 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="L_cate_name" name="web_name" required=""
-                           autocomplete="off" class="layui-input">
+                           autocomplete="off" class="layui-input" placeholder="web_title">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -56,7 +56,7 @@
                 </label>
                 <div class="layui-input-block">
                     <input type="text" id="L_cate_title" name="web_content" required=""
-                           autocomplete="off" class="layui-input">
+                           autocomplete="off" class="layui-input" placeholder="后台首页">
                 </div>
             </div>
           <div class="layui-form-item">
@@ -67,6 +67,7 @@
                       <input type="radio" name="field_type" value="input" title="文本框" checked="">
                       <input type="radio" name="field_type" value="textarea" title="文本域">
                       <input type="radio" name="field_type" value="radio" title="单选按钮" >
+                      <input type="radio" name="field_type" value="file" title="文件上传" >
                   </div>
 
           </div>

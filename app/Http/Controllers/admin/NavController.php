@@ -19,9 +19,8 @@ class NavController extends Controller
         //
 
         $Nav = Nav::get();
-
-
-        return view('Admin.Nav.list',['Nav'=>$Nav]);
+        $count = count($Nav);
+        return view('Admin.Nav.list',['Nav'=>$Nav,'count'=>$count]);
     }
 
     /**

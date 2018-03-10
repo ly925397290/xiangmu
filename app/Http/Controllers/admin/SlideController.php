@@ -47,9 +47,8 @@ class SlideController extends Controller
 
        
         $slideSlide = Slide::orderBy('order','asc')->get();
-
-      
-        return view('Admin.Slide.list',['slideSlide'=>$slideSlide]);
+        $count = count($slideSlide);
+        return view('Admin.Slide.list',['slideSlide'=>$slideSlide,'count'=>$count]);
     }
 
     /**
@@ -70,37 +69,8 @@ class SlideController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->except('_token','file_upload');
-
-
-
-        
-      //   //表单验证规则
-      //   $rule = [
-      //       'sliname'=>'required|regex:/^[\x{4e00}-\x{9fa5}_]+$/u',
-      //       "order"=>'required|numeric',
-
-      //   ];
-      //   $mess = [
-      //      // 'sliname.required'=>'标题必须输入',
-      //      // 'sliname.regex'=>'标题必须是汉字',
-      //       //'order.required'=>'排序必须输入',
-      //       //'order.numeric'=>'排序必须是数字',
-
-      //   ];
-
-      // //  $validator =  Validator::make($input,$rule,$mess);
-      //   // if ($validator->fails()) {
-      //   //     return redirect('admin/slide/create')
-      //   //        ->withErrors($validator)
-      //   //         ->withInput();
-      //   // }
-
-      //  // $slidiesname = new SlideShow();
-      //   $res = $slidiesname->create($input);
-
+        $input = $request->except('_token');
         $res = Slide::create($input);
-
         //判断
         if($res)
         {
@@ -122,8 +92,7 @@ class SlideController extends Controller
     }
 
     /**
-     * 展示要编辑轮播图的页面带历史数据
-     
+     * 展示要编辑轮播图的页面带历史数据    
      * @param  要修改的数据id  $id
      * @return \Illuminate\Http\Response 视图页面
      */
@@ -136,37 +105,14 @@ class SlideController extends Controller
     }
 
     /**
-     * 储存修改的数据到数据库
-     
+     * 储存修改的数据到数据库    
      * @param  提交的修改数据  $request
      * @param  要修改id  $id
      * @return 返回操作执行结果
      */
     public function update(Request $request, $id)
     {
-        $input = $request->except('_token','file_upload','_method');
-        
-
-        //表单验证规则
-        // $rule = [
-        //     'slidiesname'=>'required|regex:/^[\x{4e00}-\x{9fa5}_]+$/u',
-        //     "order"=>'required|numeric',
-        // ];
-        // //提示信息
-        // $mess = [
-        //     'slidiesname.required'=>'标题必须输入',
-        //     'slidiesname.regex'=>'标题必须是汉字',
-        //     'order.required'=>'排序必须输入',
-        //     'order.numeric'=>'排序必须是数字',
-
-        // ];
-
-        // $validator =  Validator::make($input,$rule,$mess);
-        // if ($validator->fails()) {
-        //     return redirect("admin/slide/{$id}/edit")
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        $input = $request->except('_token','_method');
         $res = Slide::find($id)->update($input);
         //判断
         if($res)
@@ -176,10 +122,8 @@ class SlideController extends Controller
             return back()->with('msg','修改失败');;
         }
     }
-
     /**
-     * 删除一条轮播图数据
-     
+     * 删除一条轮播图数据  
      * @param  要删除的id  $id
      * @return 返回删除结果
      */
@@ -196,5 +140,23 @@ class SlideController extends Controller
         //return  json_encode($data);
 
         return $data;
+    }
+
+
+    public function upload(Request $request)
+    {
+        //1.获取上传文件
+        $file = $request->file('file_upload');
+        //  2.判断上传文件的有效性
+         if($file->isValid()){
+            //获取文件后缀名
+             $ext = $file->getClientOriginalExtension();    //文件拓展名
+            //生成新文件名
+            $newfilename = md5(date('YmdHis').rand(1000,9999).uniqid()).'.'.$ext;
+             // 将图片上传到本地服务器
+            $res = $file->move(public_path().'/upload/silde',$newfilename);
+            //将上传文件的位置返回给客户端
+           return '/upload/silde/'.$newfilename;
+       }
     }
 }

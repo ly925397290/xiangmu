@@ -56,7 +56,6 @@ class ArticleController extends Controller
     {
         //
        $aa = $request->all();
-        $count = DB::table('data_article')->count();
        // dd($aa);
        $query = Article::query()->orderBy('aid','desc');
        if( isset($aa['username']) ){
@@ -86,7 +85,7 @@ class ArticleController extends Controller
                 }
             
             }
-            // dd($articles);
+            $count = count($articles);
         return view('admin.article.list',['articles'=>$articles,'request'=>$request,'count'=>$count]);
     }
 
@@ -119,14 +118,7 @@ class ArticleController extends Controller
         $input = $request->except('_token');
        //dd($input) ;
         //2.添加到数据库
-        $res = Article::create($input);
-        
-        //3.判断是否成功并将结果返回到客户端
-
-
-
-
-
+        $res = Article::create($input);      
 //        3. 判断添加是否成功，给客户端返回提示信息
         if($res)
         {

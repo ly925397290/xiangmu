@@ -40,18 +40,13 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-
-
-
         <form  id="art_form" action="{{ url('admin/slide/')}}/{{$slideshow->sid}}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="" value="">
             <table class="add_tab">
                 {{csrf_field()}}
                 {{method_field('PUT')}}
-                <tbody>
-                 
-            <tr>
-
+                <tbody>                 
+                 <tr>
                     <div class="am-form-group">
                             @if (count($errors) > 0)
                                 <div style="margin-left: 300px;">
@@ -66,10 +61,6 @@
                                     </ul>
                                 </div>
                             @endif
-                       
-
-        
-
                     <th><i class="require">*</i> 轮播图跳转网址：</th>
                     <td>
                         <input type="text" class="lg" name="surl" value="{{$slideshow->surl}}">
@@ -86,8 +77,8 @@
                     <td>
                         
                         <input id="file_upload" name="file_upload" type="file" multiple="true" >
-                        {{--<script src="http://www.myblog.com/resources/org/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>--}}
-                        {{--<link rel="stylesheet" type="text/css" href="http://www.myblog.com/resources/org/uploadify/uploadify.css">--}}
+                        <img src="" id="art_thumb_img" width="150">
+                        <input id="art_thumb" name="simg" type="hidden" >
                         <script type="text/javascript">
                             $(function () {
                                 $("#file_upload").change(function () {
@@ -113,17 +104,14 @@
                                 // var myform = document.getElementById('art_from');
 
                                //将整个表单打包进formData
-                        var formData = new FormData($('#art_form')[0]);
+                        // var formData = new FormData($('#art_form')[0]);
 
                         //只将上传文件打包进formData
-                        // var formData = new FormData();
-                        // formData.append('fileupload',$('#file_upload')[0].files[0]);
-
-
-
+                        var formData = new FormData();
+                        formData.append('file_upload',$('#file_upload')[0].files[0]);
                                  $.ajax({
                                     type: "POST",
-                                    url: '{{url('/admin/article/upload')}}',
+                                    url: '{{url('/admin/slide/upload')}}',
                                      headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     },
@@ -135,8 +123,7 @@
                                     processData: false,
                                     success: function(data) {
                                        console.log(data);
-                                        $('#art_thumb_img').attr('src','{{asset('+data+')}}');
-                                         $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
+                                        $('#art_thumb_img').attr('src',data);
                                          $('#art_thumb').val(data);
                                     },
                                     error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -152,13 +139,6 @@
                         </style>
                     </td>
                 </tr>
-                <tr>
-                    
-                    <img src="">
-                </tr>
-               
-
-                
                 <th>排序：</th>
                     <td>
                         <input type="text" class="lg" name="order" value="{{$slideshow->order}}">
