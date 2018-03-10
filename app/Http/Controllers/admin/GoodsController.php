@@ -17,21 +17,17 @@ class GoodsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function  gstatus($gid)
+    public function  gstatus(Request $request)
     {
-        $good = good::find($gid);
-        $status = !$good->status;
-        $res = $good->update(['status'=>$status]);
+        //接收数据
+        $input = $request->except('_token');
+        // 修改数据库信息
+        $status = ($input['status'] == 0) ? 1 : 0;
+        $res = good::where('gid',$input['id'])->update(['status'=>$status]);
         if($res){
-            $data =[
-                'gg'=> 0,
-                'msg'=>'修改成功'
-            ];
+            $data = 1;
         }else{
-            $data =[
-                'gg'=> 1,
-                'msg'=>'修改失败'
-            ];
+            $data = 0;
         }
         return $data;
 
@@ -94,8 +90,6 @@ class GoodsController extends Controller
     public function store(Request $request)
     {
         //1.接收数据
-
-        
         $input = $request->except('_token');
         //2.添加到数据库
         $res = good::create($input);

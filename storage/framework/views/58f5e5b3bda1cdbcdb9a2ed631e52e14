@@ -72,10 +72,11 @@
                   <span class="x-red">*</span>推荐位
               </label>
               <div class="layui-input-inline">
-                  <select id="" name="" class="valid">
-                    <option value="">左侧推荐</option>
-                    <option value="">右侧推荐</option>
-                    <option value="">下列活动位置</option>
+                  <select id="" name="tuijian" class="valid">
+                    <option value="1">位置一</option>
+                    <option value="2">位置二</option>
+                    <option value="3">位置三</option>
+                    <option value="4">位置四</option>
                   </select>
               </div>
           </div>

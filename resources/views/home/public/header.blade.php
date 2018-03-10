@@ -132,21 +132,28 @@
                     <img src="picture/logo.png" alt="爱否商城">
                 </a>
                 <ul class="product-bar">
+                    @foreach($nav as $v)
                     <li>
-                        <a href="#" class="pointer" data-cid="1" >手机</a>
+                        <a href="{{$v->nlink}}" class="pointer" data-cid="1" >{{$v->nname}}</a>
                     </li>
-                    <li>
-                        <a href="#" class="pointer" data-cid="2" >加点</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pointer" data-cid="3" >笔记本</a>
-                    </li>
-                    <li>
-                        <a class="n-per" href="#">精选配件</a>
-                    </li>
+                    @endforeach
                 </ul>
            </div>
         </div>
         
     </div>
 </header>
+<section class="m-slide">
+<ul>
+    @foreach($slide as $v)
+    <li style="background-color: ;">
+        <a href="{{$v->surl}}">
+            <img src="{{$v->simg}}"/>
+        </a>
+    </li> 
+    @endforeach   
+</ul>
+<em></em>
+<a class="prev i-icon"></a>
+<a class="next i-icon"></a>
+</section>

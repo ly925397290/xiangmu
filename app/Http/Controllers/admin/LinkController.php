@@ -53,6 +53,7 @@ class LinkController extends Controller
     {
         // 1.接收数据
         $input = $request->except('_token');
+        $input['lurl'] = 'http://'.$input['lurl'];
         // 2.添加到数据库
         $res = link::create($input);
         // 3.判读是否成功返回给客户端

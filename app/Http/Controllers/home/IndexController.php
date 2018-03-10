@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\link;
+use App\model\Nav;
+use App\model\Slide;
+use App\model\good;
 
 class IndexController extends Controller
 {
@@ -20,8 +23,15 @@ class IndexController extends Controller
         /**
          * 前台首页显示
          */
+        // 前台导航显示
+        $nav = Nav::get();
+        //前台轮播图显示
+        $slide = Slide::where('status','1')->get();
+        //前台商品展示
+        $good = good::where('status','1')->get();
+        //前台友情链接
         $link = link::where('status','1')->get();
-        return view('home.index',compact('link'));
+        return view('home.index',compact('link','nav','slide','good'));
     }
 
     /**

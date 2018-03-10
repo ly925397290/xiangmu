@@ -59,6 +59,7 @@
             <th>轮播图</th>
             <th>名称</th>
             <th>跳转页</th>
+            <th>状态</th>
             <th>操作</th>
           </tr>
         </thead>
@@ -71,7 +72,21 @@
               <td><img src="<?php echo e($v->simg); ?>" alt=""></td>
               <td><?php echo e($v->sliname); ?></td>
               <td><?php echo e($v->surl); ?></td>
-                <td>
+               <?php if($v->status): ?>
+              <td class="td-status">
+                <span class="layui-btn layui-btn-normal layui-btn-mini"><?php if($v->status == 1): ?>已显示<?php endif; ?></span></td>
+              <td class="td-manage">
+              <a title="隐藏" onclick="member_stop(this,'<?php echo e($v->sid); ?>')" href="javascript:;" status="<?php echo e($v->status); ?>">
+                <i class="layui-icon">&#xe601;</i>
+              </a>
+              <?php else: ?>
+              <td class="td-status">
+                <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled"><?php if($v->status == 0): ?>已隐藏<?php endif; ?></span></td>
+              <td class="td-manage">
+              <a title="显示" onclick="member_stop(this,'<?php echo e($v->sid); ?>')" href="javascript:;" status="<?php echo e($v->status); ?>">
+                <i class="layui-icon"></i>
+              </a>
+              <?php endif; ?>
                 <a href="<?php echo e(url('admin/slide/'.$v->sid.'/edit')); ?>">
                     <i class="am-icon-pencil"></i> 编辑
                 </a>
@@ -91,6 +106,62 @@
       layui.use(['laydate','layer'], function(){
         var laydate = layui.laydate;
       })
+
+       /*轮播图-显示*/
+        function member_stop(obj,id){
+        // 获取当前用户状态
+        var status = $(obj).attr('status');
+            if($(obj).attr('title')=='显示'){
+              layer.confirm('确认要显示吗？',function(index){
+                //发异步把用户状态进行更改
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type : "POST",
+                    url : '/admin/slide/changestatus',
+                    data : {"id":id,"status":status},
+                    dataType : "Json",
+                    success : function(msg){
+                        // console.log(msg)
+                        if(msg.status){
+                            layer.msg('已显示!',{icon: 6,time:1000});
+                            location.reload(true);
+
+                        }else{
+                            location.reload(true);
+
+                            layer.msg('修改失败!',{icon: 5,time:1000});
+                        }
+                    }
+                });
+              });
+            }else{
+              layer.confirm('确认要隐藏吗？',function(index){
+                //发异步把用户状态进行更改
+                $.ajax({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  type : "POST",
+                  url : '/admin/slide/changestatus',
+                  data : {"id":id,"status":status},
+                  dataType : "Json",
+                  success : function(msg){
+                          // console.log(msg)
+                      if(msg.status){
+                          location.reload(true);
+                          layer.msg('已隐藏!',{icon: 5,time:1000});
+                      }else{
+                          location.reload(true);
+
+                          layer.msg('修改失败!',{icon: 5,time:1000});
+                      }
+                  }
+                });
+              });
+            }
+        }
       /*用户-删除*/
       function member_del(obj,id){
         layer.confirm('确认要删除吗？',function(index){

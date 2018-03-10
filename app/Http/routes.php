@@ -56,7 +56,7 @@ Route::group(['middleware'=>['login']],function(){
 		// 订单批量删除
 		Route::post('admin/order/delAll','Admin\OrderController@delAll');
 		// 商品管理
-		Route::get('/admin/goods/gstatus/{id}','Admin\GoodsController@gstatus');
+		Route::post('/admin/goods/gstatus/','Admin\GoodsController@gstatus');
 		//商品详情
 		Route::get('admin/goods/detail/{id}','Admin\GoodsController@detail');
 	 	Route::resource('admin/goods','Admin\GoodsController');
@@ -73,6 +73,8 @@ Route::group(['middleware'=>['login']],function(){
 		 Route::post('admin/slide/upload','Admin\SlideController@upload');
 		 //调整轮播图顺序路由
 		 Route::post('admin/slide/changeorder', 'SlideController@changeorder');
+		 // 链接状态
+		Route::post('admin/slide/changestatus','Admin\SlideController@changestatus');
 		// 导航管理
 		Route::resource('admin/nav','Admin\NavController');
 		// 分类管理

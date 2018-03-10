@@ -18,7 +18,7 @@
                         <dl>
                             <dt>友情链接</dt>
                             @foreach($link as $v)
-                            <dd><a target="_blank" href="http://{{$v->lurl}}">{{$v->lname}}</a></dd>
+                            <dd><a target="_blank" href="{{$v->lurl}}">{{$v->lname}}</a></dd>
                             @endforeach
                         </dl>
                     </div>

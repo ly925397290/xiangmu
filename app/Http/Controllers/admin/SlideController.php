@@ -159,4 +159,26 @@ class SlideController extends Controller
            return '/upload/silde/'.$newfilename;
        }
     }
+    /**
+     * 轮播图状态修改
+     */
+     public function changestatus(Request $request)
+     {
+        //接收数据
+        $input = $request->except('_token');
+        // 修改数据库信息
+        $status = ($input['status'] == 0) ? 1 : 0;
+        $res = slide::where('sid',$input['id'])->update(['status'=>$status]);
+        // 判断是否成功,将结果返回客户端
+        if($res){
+            $data = [
+                'status'=>1,
+            ];
+        }else{
+            $data = [
+                'status'=>0,
+            ];
+        }
+        return $data;
+     }
 }

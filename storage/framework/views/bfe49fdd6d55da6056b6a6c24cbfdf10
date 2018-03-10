@@ -132,21 +132,28 @@
                     <img src="picture/logo.png" alt="爱否商城">
                 </a>
                 <ul class="product-bar">
+                    <?php foreach($nav as $v): ?>
                     <li>
-                        <a href="#" class="pointer" data-cid="1" >手机</a>
+                        <a href="<?php echo e($v->nlink); ?>" class="pointer" data-cid="1" ><?php echo e($v->nname); ?></a>
                     </li>
-                    <li>
-                        <a href="#" class="pointer" data-cid="2" >加点</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pointer" data-cid="3" >笔记本</a>
-                    </li>
-                    <li>
-                        <a class="n-per" href="#">精选配件</a>
-                    </li>
+                    <?php endforeach; ?>
                 </ul>
            </div>
         </div>
         
     </div>
 </header>
+<section class="m-slide">
+<ul>
+    <?php foreach($slide as $v): ?>
+    <li style="background-color: ;">
+        <a href="<?php echo e($v->surl); ?>">
+            <img src="<?php echo e($v->simg); ?>"/>
+        </a>
+    </li> 
+    <?php endforeach; ?>   
+</ul>
+<em></em>
+<a class="prev i-icon"></a>
+<a class="next i-icon"></a>
+</section>

@@ -148,6 +148,24 @@
                     <td>
                         <input type="text" class="lg" name="order">
                     </td>
+                    <tr>
+                        <th><label for="L_pass" class="layui-form-label">
+                         <i class="require">*</i>状态
+                         </label>
+                </th>
+                        <td>
+                            <div class="layui-form-item">
+              
+              <div class="layui-input-inline">
+                  <select class="layui-input" name="status" lay-verify="status">
+                      <option value="">请选择状态</option>
+                      <option value="1">显示</option>
+                      <option value="0">不显示</option>
+                  </select>
+              </div>
+          </div>
+                        </td>
+                    </tr>
                 <tr>
                     <th></th>
                     <td>
