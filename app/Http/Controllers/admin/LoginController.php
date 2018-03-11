@@ -85,15 +85,15 @@ class LoginController extends Controller
     */ 
     public function ceshi(Request $request)
     {
-       //  // 要生成密码
-        // $str = '123456';
-        // $de = Crypt::encrypt($str);
-        // return $de;
-       //  // 数据库拿到的密码
+       // 要生成密码
+         $str = '123456';
+         $de = Crypt::encrypt($str);
+         return $de;
+       // 数据库拿到的密码
        //  $crypt = 'eyJpdiI6Im84ZmRYK0ZmaTNOdnN6bnB4TUpRd1E9PSIsInZhbHVlIjoiKzJnVWI3aVpsWGIyUFdOT0JBMHZzQT09IiwibWFjIjoiMTcyZTk4YTM3Y2U5ZTI5ZWU2ZjlmYjM2ZjZkNmM1YzhlMjc1NzBjM2YwOGNlNmNmNTEwMzUxZDFhZjVhNjM5YyJ9';
-       // // 解密decrypt
+       // 解密decrypt
        //  $de = Crypt::decrypt($crypt);
-       //  // 是否匹配
+       // 是否匹配
        //  dd($str === $de);
 
         // 存入session 

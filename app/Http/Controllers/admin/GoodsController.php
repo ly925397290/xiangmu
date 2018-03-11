@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\model\good;
+use App\model\cate;
 use App\model\goodsdetail;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -33,8 +34,6 @@ class GoodsController extends Controller
 
     }
 
-
-
     public function index(Request $request)
     {
         
@@ -56,16 +55,24 @@ class GoodsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
+    //商品详情
     public function detail($id )
     {
        // dd($id);
 
         $goods = good::find($id);
-        
-        $goodsdetail = goodsdetail::get();
+        // return $goods;
+        $goods['cid'] = $goods->good_cate->title;
+        $goods['gdesc'] = $goods->data_goodsdetail->gdesc;
+        $goods['gname'] = '<input type="text" name="gname" value="'.$goods['gname'].'">';
+        $goods['price'] = '<input type="text" name="price" value="'.$goods['price'].'">';
+        $goods['status'] = '<input type="text" name="status" value="'.$goods['status'].'">';
+        $goods['inven'] = '<input type="text" name="inven" value="'.$goods['inven'].'">';
+        $goods['gdesc'] = '<input type="text" name="gdesc" value="'.$goods['gdesc'].'">';
 
-        return view('admin.good.det',['goods'=>$goods,'goodsdetail'=>$goodsdetail]);
+        // return $goods;
+        return view('admin.good.det',['goods'=>$goods]);
+
     }
     public function create()
     {
@@ -91,9 +98,18 @@ class GoodsController extends Controller
     {
         //1.接收数据
         $input = $request->except('_token');
+        $addtime = date('Y-m-d H:i:s',time());
+        $input['addtime'] = $addtime;
+        $input['gdesc'] = strip_tags($input['gdesc']);
+         // return  $input;
         //2.添加到数据库
         $res = good::create($input);
+        $input['gid'] = $res['gid'];
+        
+        // $input['gdesc'] =$input['gdesc'];
+       
         $res1 = goodsdetail::create($input);
+
         
         //3.判断是否成功并将结果返回到客户端
            if($res && $res1)
@@ -119,5 +135,42 @@ class GoodsController extends Controller
             //将上传文件的位置返回给客户端
            return '/upload/goods/'.$newfilename;
        }
+    }
+
+
+
+
+    public function editAll(Request $request)
+    {
+
+
+        $input = $request->except('_token');
+        $cid = cate::where('title',$input['cid'])->first();
+        
+        DB::beginTransaction();
+        try{
+            //根据id,遍历所有的记录
+            foreach ($input as $k=>$v){
+
+                //根据当前遍历的id,获取网站配置记录
+//                $conf = Config::find($v);
+                //执行修改操作
+//                $conf->update(['conf_content'=>$input['conf_content'][$k]]);
+                DB::table('data_goods')->where('gid',$v)->update(['gname' => $input['gname'],'price' => $input['price'],'inven' => $input['inven'],'cid' => $cid['id']]);
+           
+
+                DB::table('data_goodsdetail')->where('gid',$v)->update(['gdesc' => $input['gdesc']]);
+            //如果所有的操作成功，提交事务
+             }
+            DB::commit();
+            
+            return redirect('/admin/goods');
+            //如果网站配置项删除成功，调用putContent（）将数据同步到webconfig.php文件
+        $this->putContent();
+        }catch (Exception $e){
+            DB::rollBack();
+            return redirect()->back()
+                ->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }
