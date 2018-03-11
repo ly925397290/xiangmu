@@ -128,9 +128,47 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
 Route::get('outlogin','LoginController@outlogin');
 });
 
+
 /****************************前台路由************************************/
-// 前台首页
-Route::get('home/index','Home\IndexController@index');
+// 加载前台首页
+Route::get('home/index','home\IndexController@index');
+
+// 加载账户管理页
+Route::get('home/account','home\AccountController@index');
+
+// 加载添加地址页
+Route::get('home/address','Home\AddressController@index');
+
+// 加载地址管理页
+Route::get('home/addrmanag','Home\AddrmanagController@index');
+
+// 加载售后页
+Route::get('home/aftersale','Home\AftersaleController@index');
+
+// 加载评估等待页
+Route::get('home/assess','Home\AssessController@index');
+
+// 加载添加评估信息页
+Route::get('home/infomation','Home\InfomationController@index');
+
+// 加载订单支付页
+Route::get('home/order','Home\OrderController@index');
+
+// 加载回收订单列表页
+Route::get('home/reclaimorder','Home\ReclaimorderController@index');
+
+// 加载回收机制页
+Route::get('home/recovery','Home\RecoveryController@index');
+
+// 加载结算页
+Route::get('home/settlement','Home\SettlementController@index');
+
+// 加载购物清单页
+Route::get('home/shoplist','Home\ShoplistController@index');
+
+// 加载提交订单页
+Route::get('home/submitorder','Home\SubmitorderController@index');
+
 
 
 

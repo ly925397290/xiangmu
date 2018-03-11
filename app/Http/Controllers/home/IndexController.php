@@ -14,7 +14,7 @@ use App\model\good;
 class IndexController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 加载首页
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,7 +31,7 @@ class IndexController extends Controller
         $good = good::where('status','1')->get();
         //前台友情链接
         $link = link::where('status','1')->get();
-        return view('home.index',compact('link','nav','slide','good'));
+        return view('home/index',compact('link','nav','slide','good'));
     }
 
     /**
