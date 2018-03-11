@@ -174,8 +174,8 @@
         });
       }
         /*商品-删除*/
-      function member_del(obj,id){
-            $(obj).parents("tr").remove();
+      function member_del(obj){
+            $(obj).parents("ul").remove();
       }
       /*商品-收藏*/
       function member_sc(obj,id){
