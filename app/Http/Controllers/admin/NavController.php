@@ -9,6 +9,16 @@ use App\Http\Controllers\Controller;
 
 class NavController extends Controller
 {
+
+    public function putContent()
+    {
+        // 1.从数据库中读取相关内容数据
+            $data = Nav::lists('nname','nlink')->all();
+        // 2.创建webconfig.php文件并将数据写入webconfig.php文件
+            // 将数组转化为字符串
+            $str = "<?php \n return ".var_export($data,true).';';
+            file_put_contents(config_path().'\navconfig.php', $str);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -45,10 +55,11 @@ class NavController extends Controller
     {
         // 1.接收请求数据
         $input = $request->except('_token');
-        $input['name'] = 'https://'+$input['name'];
+        $input['nlink'] = 'https://'.$input['nlink']; 
         // 2.将数据入库
         $res = Nav::create($input);
         if($res){
+            $this->putContent();
             $data = 1;
         }else{
             $data =0;
@@ -92,6 +103,7 @@ class NavController extends Controller
         $input = $request->except('_token');
         $res = Nav::where('nid',$id)->update(['nname'=>$input['nname'],'nlink'=>$input['nlink']]);
         if($res){
+            $this->putContent();
             $status = 1;
         }else{
             $status = 0;
@@ -111,13 +123,10 @@ class NavController extends Controller
         $res = Nav::find($id)->delete();
         // 判断是否成功,将结果返回客户端
         if($res){
-            $data = [
-                'status'=>1,
-            ];
+            $this->putContent();
+            $data = 1;
         }else{
-            $data = [
-                'status'=>0,
-            ];
+            $data = 0;
         }
         return $data;
     }

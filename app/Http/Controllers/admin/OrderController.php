@@ -76,7 +76,39 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        // 获取订单信息
+        $show = order::find($id);
+        //4.处理支付方式
+            switch ($show['payment']) {
+                case 1:
+                    $show['payment'] = '支付宝';
+                    break;
+                case 2:
+                    $show['payment'] = '微信';
+                    break;
+                case 3:
+                    $show['payment'] = '货到付款';
+                    break;
+            }
+            //4.处理配送方式
+            switch ($show['delivery_method']) {
+                case 1:
+                    $show['delivery_method'] = '中通';
+                    break;
+                case 2:
+                    $show['delivery_method'] = '申通';
+                    break;
+                case 3:
+                    $show['delivery_method'] = '圆通';
+                    break;
+            }
+        // return $show;
+        // 获取用户昵称
+        $user = $show->order_user;
+        // return $user;
+        // 获取用户信息
+        $userShow = $user->userShow;
+        return view('admin.order.show',compact('show','user','userShow'));
     }
 
     /**

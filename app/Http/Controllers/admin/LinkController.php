@@ -14,7 +14,7 @@ class LinkController extends Controller
     public function putContent()
     {
         // 1.从数据库中读取相关内容数据
-            $data = link::lists('lname','lurl')->all();
+            $data = link::where('status',1)->lists('lname','lurl')->all();
         // 2.创建webconfig.php文件并将数据写入webconfig.php文件
             // 将数组转化为字符串
             $str = "<?php \n return ".var_export($data,true).';';
@@ -146,10 +146,10 @@ class LinkController extends Controller
         $res = link::where('id',$input['id'])->update(['status'=>$status]);
         // 判断是否成功,将结果返回客户端
         if($res){
+            $this->putContent();
             $data = [
                 'status'=>1,
             ];
-            $this->putContent();
         }else{
             $data = [
                 'status'=>0,

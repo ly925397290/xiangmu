@@ -119,7 +119,7 @@
             <td>{{$v->delivery_method}}</td>
             <td>2017-08-17 18:22</td>
             <td class="td-manage">
-              <a title="查看"  onclick="x_admin_show('编辑','order-view.html')" href="javascript:;">
+              <a title="查看"  onclick="x_admin_show('查看','{{url('admin/order')}}/{{$v->id}}')" href="javascript:;">
                 <i class="layui-icon">&#xe63c;</i>
               </a>
               <a title="删除" onclick="member_del(this,'{{$v->id}}')" href="javascript:;">

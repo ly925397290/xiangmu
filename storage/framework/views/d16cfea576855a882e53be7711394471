@@ -17,8 +17,8 @@
                         </dl>
                         <dl>
                             <dt>友情链接</dt>
-                            <?php foreach($link as $v): ?>
-                            <dd><a target="_blank" href="<?php echo e($v->lurl); ?>"><?php echo e($v->lname); ?></a></dd>
+                            <?php foreach(config('linkconfig') as $k=>$v): ?>
+                            <dd><a target="_blank" href="<?php echo e($k); ?>"><?php echo e($v); ?></a></dd>
                             <?php endforeach; ?>
                         </dl>
                     </div>

@@ -12,4 +12,12 @@ class User extends Model
     public $primaryKey = 'uid';
     // 是否自动维护created_at/updated_at字段
     public $timestamps = false;
+
+    /**
+     * 创建用户详情一对一模型
+     */
+    public function userShow()
+    {
+    	return $this->hasOne('App\model\user_details','user_id');
+    }
 }

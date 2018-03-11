@@ -17,7 +17,7 @@ class Order extends Model
     /**
      * 设置批量赋值
      */
-    protected $guarded = [];
+    protected $fillable = ['oid','oprice','money','uid'];
 
     //返回格式化的分类数据
     public function getTree(Request $request)
@@ -105,8 +105,30 @@ class Order extends Model
                     $value['payment'] = '货到付款';
                     break;
             }
+            //5.处理配送方式
+            switch ($value['delivery_method']) {
+                case 1:
+                    $value['delivery_method'] = '中通';
+                    break;
+                case 2:
+                    $value['delivery_method'] = '申通';
+                    break;
+                case 3:
+                    $value['delivery_method'] = '圆通';
+                    break;
+            }
         }
         //3. 返回格式化后的数据
         return $data;
+    }
+
+
+    /**
+     * 关联订单属于用户模型
+     */
+
+    public function order_user()
+    {
+        return $this->belongsTo('App\Model\User','user_id');
     }
 }

@@ -155,12 +155,9 @@
         }
       /*用户-删除*/
       function member_del(obj,id){
-        console.log(id)
         layer.confirm('您确认要删除吗?',{btn:['确认','取消']},
           function () {
-            $.post("{{url('admin/nav')}}/"+id,{"_method":"delete","_token":"{{csrf_token()}}"},function(data){
-                // console.log(data)
-                // 删除成功
+            $.post("{{url('admin/nav')}}/"+id,{"_method":"delete","_token":"{{csrf_token()}}"},function(msg){
                 if(msg){
                     location.reload(true);
                     $(obj).parents("tr").remove();
