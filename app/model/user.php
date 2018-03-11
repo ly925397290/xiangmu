@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     // 关联的表名
-    public $table = 'data_users';
+    protected $table = 'data_users';
     // 表的主键
     public $primaryKey = 'uid';
-    // 是否自动维护created_at/updated_at字段
+    // 是否自动维护
     public $timestamps = false;
-}
