@@ -36,17 +36,28 @@
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so" method="get" action="{{ url('admin/nav') }}">
           <div class="layui-inline">
+            <select name="num">
+              <option value="2"
+                      @if($request['num'] == 2)  selected  @endif
+              >2
+              </option>
+              <option value="5"
+                      @if($request['num'] == 5)  selected  @endif
+              >5
+              </option>
+              <option value="10"
+                      @if($request['num'] == 10)  selected  @endif
+              >10
+              </option>
+            </select>
           </div>
-          <input class="layui-input" placeholder="开始日" name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">
-          <input type="text" name="keywords1"  placeholder="请输入导航名" value="" autocomplete="off" class="layui-input">
+          <input type="text" name="keywords1"  placeholder="请输入导航名" value="{{$request->keywords1}}" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" ><i class=""></i>导航列表</button>
-        <a class="layui-btn" href="{{url('admin/nav/create')}}",600,400)><i class="layui-icon"></i>添加</a>
-      
+        <button class="layui-btn" onclick="x_admin_show('添加用户','{{url('admin/nav/create')}}',600,400)"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：{{$count}} 条</span>
       </xblock>
       <table class="layui-table">
@@ -65,36 +76,26 @@
               <td>{{$v->nid}}</td>
               <td>{{$v->nname}}</td>
               <td>{{$v->nlink}}</td>
-              
                 <td>
-                <a href="{{url('admin/nav/'.$v->nid.'/edit')}}">
-                <i class="am-icon-pencil"></i> 编辑
-                                                    </a>
-              <a href="javascript:;" onclick="member_del(this,{{$v->nid}})" class="tpl-table-black-operation-del"><i class="am-icon-trash"></i> 删除
-              </a>
+                <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/nav/')}}/{{$v->nid}}/edit',600,400)" href="javascript:;">
+                  <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" onclick="member_del(this,'{{$v->nid}}')" href="javascript:;">
+                  <i class="layui-icon">&#xe640;</i>
+                </a>
               </td>
           </tr>
            @endforeach
         </tbody>
       </table>
       <div class="page">
-        
+          {!! $Nav->appends($request->all())->render() !!}
       </div>
 
     </div>
     <script>
       layui.use(['laydate','layer'], function(){
         var laydate = layui.laydate;
-
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#start' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#end' //指定元素
-        });
       });
 
        /*用户-停用*/
@@ -152,89 +153,25 @@
 
             });
         }
-
-
-        var str = "{{session('msg')}}";
-        if(str!=''){
-            layer.msg(str,{icon: 6});
-        }
-
-        function changeOrder(obj,sid){
-            var order = $(obj).val();
-            $.post("{{url('admin/slide/changeorder')}}",{'_token':"{{csrf_token()}}","sid":sid,"order":order},function(data){
-
-                if(data.status == 0){
-
-                    layer.msg(data.msg,{icon: 6});
-                    location.href = location.href;
-                }else{
-                    layer.msg(data.msg,{icon: 5});
-                    location.href = location.href;
-                }
-            })
-        }
-
       /*用户-删除*/
       function member_del(obj,id){
         console.log(id)
         layer.confirm('您确认要删除吗?',{btn:['确认','取消']},
           function () {
-                $.post("{{url('admin/nav')}}/"+id,{"_method":"delete","_token":"{{csrf_token()}}"},function(data){
-                    // console.log(data)
-//                    删除成功
-                    if(data.error == 0){
-                        layer.msg(data.msg, {icon: 6});
-                        var t=setTimeout("location.href = location.href;",2000);
-                    }else if(data.error == 1){
-                        layer.msg(data.msg, {icon: 5});
-
-                        var t=setTimeout("location.href = location.href;",2000);
-                    }else{
-                        layer.msg(data.msg, {icon: 2});
-                        var t=setTimeout("location.href = location.href;",2000);
-                    }
-
-
-                });
-
-            })
-      }
-
-
-
-      function delAll (argument) {
-
-        // var data = tableCheck.getData();
-        var ids =   [];
-        $('.layui-form-checked').not('.header').each(function(i,v){
-             ids.push($(v).attr('data-id'));
-        })
-        layer.confirm('确认要删除吗？',function(index){
-            //捉到所有被选中的，发异步进行删除
-            $.ajax({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              },
-              type : "POST",
-              url : '/admin/slide/delAll',
-              data : {"ids":ids},
-              dataType : "Json",
-              success : function(msg){
-                // console.log(msg)
-                if(msg.status){
-                    layer.msg('删除成功', {icon: 1});
-                    $(".layui-form-checked").not('.header').parents('tr').remove();
+            $.post("{{url('admin/nav')}}/"+id,{"_method":"delete","_token":"{{csrf_token()}}"},function(data){
+                // console.log(data)
+                // 删除成功
+                if(msg){
                     location.reload(true);
-
+                    $(obj).parents("tr").remove();
+                    layer.msg('删除成功!',{icon:1,time:1000});
                 }else{
                     location.reload(true);
-                    layer.msg('删除失败', {icon: 1});
+                    layer.msg('删除失败!',{icon:1,time:1000});
                 }
-              }
             });
-        });
-      }
-
+          })
+        }
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");

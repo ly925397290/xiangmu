@@ -3,178 +3,108 @@
 
   <head>
     <meta charset="UTF-8">
-    <title>轮播图添加页</title>
+    <title>欢迎页面-X-admin2.0</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{asset('admin/favicon.ico')}}" type="image/x-icon" />
-    
-
-    <link rel="stylesheet" href="{{ asset('admin/style/css/ch-ui.admin.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/style/font/css/font-awesome.min.css') }}">
-    <script type="text/javascript" src="{{ asset('admin/style/js/jquery.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/style/js/ch-ui.admin.js') }}"></script>
-    <!-- <script type="text/javascript" src="{{ asset('layer/layer.js') }}"></script> -->
+    <link rel="stylesheet" href="{{asset('admin/css/font.css')}}">
+	<link rel="stylesheet" href="{{asset('admin/css/xadmin.css')}}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{{asset('admin/lib/layui/layui.js')}}" charset="utf-8"></script>
+    <script type="text/javascript" src="{{asset('admin/js/xadmin.js')}}"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-    <!--面包屑导航 开始-->
-   
-    <!--面包屑导航 结束-->
 
-  <!--结果集标题与导航组件 开始-->
-  <div class="result_wrap">
-        
-        <div class="result_content">
-            <div class="short_wrap">
-                <a href="#"><i class="fa fa-plus"></i>新增文章</a>
-                <a href="#"><i class="fa fa-recycle"></i>批量删除</a>
-                <a href="#"><i class="fa fa-refresh"></i>更新排序</a>
-            </div>
-        </div>
+  <body>
+    <div class="x-body">
+        <form class="layui-form" method="post">
+            {{csrf_field()}}
+          <div class="layui-form-item">
+              <label for="L_username" class="layui-form-label">
+                  <span class="x-red">*</span>导航名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_username" name="nname" required="" lay-verify="nikename"
+                  autocomplete="off" class="layui-input" value="{{$data->nname}}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>导航链接
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_pass" name="nlink" required="" lay-verify="pass"
+                  autocomplete="off" class="layui-input" value="{{$data->nlink}}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  修改
+              </button>
+          </div>
+      </form>
     </div>
-    <!--结果集标题与导航组件 结束-->
-    
-    <div class="result_wrap">
+    <script>
+
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+
+          //监听提交
+          form.on('submit(add)', function(data){
+            //发异步，把数据提交给php
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "PUT",
+                url : '/admin/nav/'+{{$data->nid}},
+                data : data.field,
+                dataType : "Json",
+                success : function(msg){
+                    // console.log(msg)
+                    if(msg){
+                        layer.alert("修改成功", {icon: 6},function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            parent.location.reload(true);
+                        });
+                    }else{
+                        layer.alert("修改失败", {icon: 6},function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            parent.location.reload(true);
+                        });
+                    }
+                }
+            });
 
 
-
-        <form  id="art_form" action="{{ url('admin/slide/')}}/{{$slideshow->sid}}" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="" value="">
-            <table class="add_tab">
-                {{csrf_field()}}
-                {{method_field('PUT')}}
-                <tbody>
-                 
-            <tr>
-
-                    <div class="am-form-group">
-                            @if (count($errors) > 0)
-                                <div style="margin-left: 300px;">
-                                    <ul>
-                                        @if(is_object($errors))
-                                            @foreach ($errors->all() as $error)
-                                                <li style="color:red">{{ $error }}</li>
-                                            @endforeach
-                                        @else
-                                            <li style="color:red">{{ $errors }}</li>
-                                        @endif
-                                    </ul>
-                                </div>
-                            @endif
-                       
-
-        
-
-                    <th><i class="require">*</i> 轮播图跳转网址：</th>
-                    <td>
-                        <input type="text" class="lg" name="surl" value="{{$slideshow->surl}}">
-                    </td>
-                </tr>
-                <tr>
-                     <th><i class="require">*</i> 轮播图名称：</th>
-                    <td>
-                        <input type="text" class="lg" name="sliname" value="{{$slideshow->sliname}}">
-                    </td>
-                </tr>
-                <tr>
-                    <th>缩略图：</th>
-                    <td>
-                        
-                        <input id="file_upload" name="file_upload" type="file" multiple="true" >
-                        {{--<script src="http://www.myblog.com/resources/org/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>--}}
-                        {{--<link rel="stylesheet" type="text/css" href="http://www.myblog.com/resources/org/uploadify/uploadify.css">--}}
-                        <script type="text/javascript">
-                            $(function () {
-                                $("#file_upload").change(function () {
-                                    uploadImage();
-                                });
-                            });
-                            function uploadImage() {
-//                            判断是否有选择上传文件
-                                var imgPath = $("#file_upload").val();
-                                if (imgPath == "") {
-                                    alert("请选择上传图片！");
-                                    return;
-                                }
-                                //判断上传文件的后缀名
-                                var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
-
-                                if (strExtension != 'jpg' && strExtension != 'gif'
-                                    && strExtension != 'png' && strExtension != 'bmp') {
-                                    alert("请选择图片文件");
-                                    return;
-                                }
-                           
-                                // var myform = document.getElementById('art_from');
-
-                               //将整个表单打包进formData
-                        var formData = new FormData($('#art_form')[0]);
-
-                        //只将上传文件打包进formData
-                        // var formData = new FormData();
-                        // formData.append('fileupload',$('#file_upload')[0].files[0]);
+            return false;
+          });
 
 
+        });
+    </script>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();</script>
+  </body>
 
-                                 $.ajax({
-                                    type: "POST",
-                                    url: '{{url('/admin/article/upload')}}',
-                                     headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-
-                                    data: formData,
-                                    async: true,
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false,
-                                    success: function(data) {
-                                       console.log(data);
-                                        $('#art_thumb_img').attr('src','{{asset('+data+')}}');
-                                         $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
-                                         $('#art_thumb').val(data);
-                                    },
-                                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                        alert("上传失败，请检查网络后重试");
-                                    }
-                                });
-                            }
-                        </script>
-                        <style>
-                            .uploadify{display:inline-block;}
-                            .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
-                            table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
-                        </style>
-                    </td>
-                </tr>
-                <tr>
-                    
-                    <img src="">
-                </tr>
-               
-
-                
-                <th>排序：</th>
-                    <td>
-                        <input type="text" class="lg" name="order" value="{{$slideshow->order}}">
-                    </td>
-                <tr>
-                    <th></th>
-
-                 
-                    <td>
-                        <input type="submit" value="提交">
-                        <input type="button" class="back" onclick="history.go(-1)" value="返回">
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-
-    </div>
-
+</html>

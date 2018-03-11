@@ -124,7 +124,7 @@
                     dataType : "Json",
                     success : function(msg){
                         // console.log(msg)
-                        if(msg.status){
+                        if(msg){
                             layer.msg('已显示!',{icon: 6,time:1000});
                             location.reload(true);
 

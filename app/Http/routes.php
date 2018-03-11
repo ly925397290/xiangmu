@@ -63,10 +63,6 @@ Route::group(['middleware'=>['login']],function(){
 	 	Route::post('admin/goods/upload','Admin\GoodsController@upload');
 		// 商铺管理
 		Route::resource('admin/shop','Admin\ShopController');
-		// 活动管理
-		// Route::resource('user','Admin\ActivityController');
-		// 广告管理
-		// Route::resource('user','Admin\AdverController');
 		// 轮播图管理
 		 Route::resource('admin/slide','Admin\SlideController');
 		 //轮播图
@@ -130,7 +126,7 @@ Route::get('outlogin','LoginController@outlogin');
 
 /****************************前台路由************************************/
 // 前台首页
-Route::get('home/index','Home\IndexController@index');
+Route::get('/','Home\IndexController@index');
 
 
 

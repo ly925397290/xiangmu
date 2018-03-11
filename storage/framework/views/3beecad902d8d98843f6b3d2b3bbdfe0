@@ -43,7 +43,7 @@
 
 
 
-        <form  id="art_form" action="<?php echo e(url('admin/slide')); ?>" method="post" enctype="multipart/form-data">
+        <form  id="art_form" action="<?php echo e(url('admin/nav')); ?>" method="post" enctype="multipart/form-data">
             <input type="hidden" name="" value="">
             <table class="add_tab">
                 <?php echo e(csrf_field()); ?>
@@ -71,32 +71,13 @@
                 <tr>
                      <th><i class="require">*</i> 导航名称：</th>
                     <td>
-                        <input type="text" class="lg" name="sliname">
+                        <input type="text" class="lg" name="nname">
                     </td>
                 </tr>
                 <th><i class="require">*</i> 导航网址：</th>
                     <td>
-                        <input type="text" class="lg" name="surl">
+                        <input type="text" class="lg" name="nlink">
                     </td>
-
-         
-                <tr>
-                    
-                    <img src="">
-                </tr>
-            
-                
-                <th>排序：</th>
-                    <td>
-                        <input type="text" class="lg" name="order">
-                    </td>
-                <tr>
-                    <th></th>
-                    <td>
-                        <input type="submit" value="提交">
-                        <input type="button" class="back" onclick="history.go(-1)" value="返回">
-                    </td>
-                </tr>
                 </tbody>
             </table>
         </form>

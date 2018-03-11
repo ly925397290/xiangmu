@@ -96,7 +96,7 @@
                </li >
            </ul>
        </li>
-       <li>
+<!--        <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe723;</i>
                <cite>商铺管理</cite>
@@ -110,7 +110,7 @@
                    </a>
                </li >
            </ul>
-       </li>
+       </li> -->
         <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe6b8;</i>

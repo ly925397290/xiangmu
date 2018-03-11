@@ -14,13 +14,13 @@ class NavController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-
-        $Nav = Nav::get();
+        $keywords1 = $request->input('keywords1','');
+        $Nav = Nav::where('nname','like','%'.$keywords1.'%')->paginate($request->input('num', 2));
         $count = count($Nav);
-        return view('Admin.Nav.list',['Nav'=>$Nav,'count'=>$count]);
+        return view('Admin.Nav.list',['Nav'=>$Nav,'count'=>$count,'request'=>$request]);
     }
 
     /**
@@ -32,7 +32,7 @@ class NavController extends Controller
     {
         //
 
-        return view('Admin.Nav.add');
+        return view('Admin.nav.add');
     }
 
     /**
@@ -43,7 +43,17 @@ class NavController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 1.接收请求数据
+        $input = $request->except('_token');
+        $input['name'] = 'https://'+$input['name'];
+        // 2.将数据入库
+        $res = Nav::create($input);
+        if($res){
+            $data = 1;
+        }else{
+            $data =0;
+        }
+        return $data;
     }
 
     /**
@@ -65,7 +75,8 @@ class NavController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Nav::find($id);
+        return view('Admin.nav.edit',compact('data'));
     }
 
     /**
@@ -77,7 +88,15 @@ class NavController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // 1.接收请求数据
+        $input = $request->except('_token');
+        $res = Nav::where('nid',$id)->update(['nname'=>$input['nname'],'nlink'=>$input['nlink']]);
+        if($res){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+        return $status;
     }
 
     /**
@@ -88,6 +107,18 @@ class NavController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // 查询要删除的导航
+        $res = Nav::find($id)->delete();
+        // 判断是否成功,将结果返回客户端
+        if($res){
+            $data = [
+                'status'=>1,
+            ];
+        }else{
+            $data = [
+                'status'=>0,
+            ];
+        }
+        return $data;
     }
 }
