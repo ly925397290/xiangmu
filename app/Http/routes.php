@@ -57,6 +57,8 @@ Route::group(['middleware'=>['login']],function(){
 		Route::post('admin/order/delAll','Admin\OrderController@delAll');
 		// 商品管理
 		Route::post('/admin/goods/gstatus/','Admin\GoodsController@gstatus');
+		//商品批量修改
+		Route::post('admin/goods/editAll','Admin\GoodsController@editAll');
 		//商品详情
 		Route::get('admin/goods/detail/{id}','Admin\GoodsController@detail');
 	 	Route::resource('admin/goods','Admin\GoodsController');

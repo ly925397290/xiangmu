@@ -17,5 +17,5 @@ class goodsdetail extends Model
     // 不允许批量修改的字段
     public $guarded = [];
 
-    protected $fillable  = ['gdesc'];
+    protected $fillable  = ['gdesc','gid'];
 }

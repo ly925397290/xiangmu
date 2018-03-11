@@ -54,7 +54,7 @@
             <th width="15px">所属类别</ssth>
             <th width="15px">商品名称</th>
             <th width="20px">商品图片</th>
-            <th width="15px">商品来源（前台店铺名）或本后台发布</th>
+           
             <th width="15px">推荐位置</th>
             <th width="15px">商品库存</th>
             <th width="15px">商品价格</th>
@@ -70,7 +70,7 @@
             <th>{{$v->cid}}</th>
             <th>{{ $v->gname }}</th>
             <th><img src="{{$v->urls}}" alt=""></th>
-            <th> ?由lid关联出的店铺名:字段值默认为0时是本后台发布</th>
+            
             <th>{{ $v->tuijian }}</th> 
             <th>{{ $v->inven }}</th>
             <th>{{ $v->price }}</th>          
@@ -121,7 +121,7 @@
                     dataType : "Json",
                     success : function(msg){
                         // console.log(msg)
-                        if(msg.status){
+                        if(msg){
                             layer.msg('已显示!',{icon: 6,time:1000});
                             location.reload(true);
 
@@ -146,7 +146,7 @@
                   dataType : "Json",
                   success : function(msg){
                           // console.log(msg)
-                      if(msg.status){
+                      if(msg){
                           location.reload(true);
                           layer.msg('已隐藏!',{icon: 5,time:1000});
                       }else{

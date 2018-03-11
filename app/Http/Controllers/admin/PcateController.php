@@ -30,7 +30,7 @@ class PcateController extends Controller
      */
     public function create()
     {
- 
+    
     }
 
     /**
