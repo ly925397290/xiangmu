@@ -281,7 +281,7 @@ class WebsController extends Controller
     public function editAll(Request $request)
     {
         $input = $request->except('_token');
-        return $input;
+        
         DB::beginTransaction();
         try{
             //根据id,遍历所有的记录

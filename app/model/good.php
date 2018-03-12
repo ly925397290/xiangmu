@@ -20,7 +20,7 @@ class good extends Model
     public $guarded = [];
 
     //
-     protected $fillable  = ['gname','tid','status','price','inven','urls','cid','tuijian'];
+     protected $fillable  = ['gname','tid','status','price','inven','urls','cid','tuijian','addtime'];
 
         
 //返回格式化的分类数据
@@ -50,6 +50,11 @@ class good extends Model
     public function good_cate()
      {
         return $this->belongsTo('App\model\cate','cid');
+     }
+
+       public function data_goodsdetail()
+     {
+        return $this->hasOne('App\model\goodsdetail','gid');
      }
 
 }

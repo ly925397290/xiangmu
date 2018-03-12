@@ -60,6 +60,7 @@
         <tbody>
          @foreach($articles as $v)
           <tr>
+            <th>{{$v['number']}}</th>
            <th>{{$v['aid']}}</th>     
             <th>{{$v['apath']}}</th>
             <th>{{$v['title']}}</th>
