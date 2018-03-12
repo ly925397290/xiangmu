@@ -137,12 +137,23 @@ Route::get('/','Home\IndexController@index');
 
 // 加载账户管理页
 Route::get('home/account','home\AccountController@index');
-
+// 修改个人信息
+Route::post('home/account/update/{id}','home\AccountController@update');
+//用户头像处理
+Route::post('home/account/upload','home\AccountController@upload');
 // 加载添加地址页
 Route::get('home/address','Home\AddressController@index');
-
+// 添加地址页处理
+Route::post('home/address/create','Home\AddressController@create');
 // 加载地址管理页
 Route::get('home/addrmanag','Home\AddrmanagController@index');
+// 删除地址
+Route::post('home/addrmanag/destroy/{id}','Home\AddrmanagController@destroy');
+// 修改地址
+Route::post('home/addrmanag/update/{id}','Home\AddrmanagController@update');
+// 加载订单页
+Route::get('home/order','Home\OrderController@index');
+
 
 // 加载售后页
 Route::get('home/aftersale','Home\AftersaleController@index');
@@ -153,8 +164,7 @@ Route::get('home/assess','Home\AssessController@index');
 // 加载添加评估信息页
 Route::get('home/infomation','Home\InfomationController@index');
 
-// 加载订单支付页
-Route::get('home/order','Home\OrderController@index');
+
 
 // 加载回收订单列表页
 Route::get('home/reclaimorder','Home\ReclaimorderController@index');
@@ -162,12 +172,16 @@ Route::get('home/reclaimorder','Home\ReclaimorderController@index');
 // 加载回收机制页
 Route::get('home/recovery','Home\RecoveryController@index');
 
-// 加载结算页
+// 加载购物车
 Route::get('home/settlement/{id}','Home\SettlementController@index');
-//商品收藏处理
+//加入购物车处理
 Route::post('home/sc/{id}','Home\SettlementController@shoucang');
+//购物车删除处理
+Route::post('home/delete/{id}','Home\SettlementController@delete');
 //支付页面
-Route::post('home/pay','Home\SettlementController@pay');
+Route::post('home/pay/{id}','Home\PayController@index');
+//支付处理
+Route::post('home/pay/store/{id}','Home\PayController@store');
 // 加载购物清单页
 Route::get('home/shoplist','Home\ShoplistController@index');
 

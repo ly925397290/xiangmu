@@ -4,9 +4,9 @@
      <section class="m-uc-user">
     <div class="w">
         <div class="user">
-            <a class="avatar"><img src="picture/a40db3cc250a40049320ae74bd800426.gif"/></a>
-            <span>Mr.feng</span>
-            <p class="phone">绑定手机号：13520249366<span>修改</span></p>
+            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
+            <span>{{$user->uname or '你好'}}</span>
+            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
         </div>
     </div>
 </section>
@@ -27,60 +27,50 @@
     <nav>
         <div class="list">
             <h3>我的订单</h3>
-            <a class="item " href="/order/list.html"><i></i>购买订单</a>
-            <a class="item " href="/saleorder/list.html"><i></i>回收服务</a>
-            <a class="item n-active" href="/wxorder/list.html"><i></i>维修服务</a>
-            <a class="item " href="/asorder/list.html"><i></i>售后服务</a>
+            <a class="item n-active" href="{{url('home/order')}}"><i></i>我的订单</a>
         </div>
         <div class="list">
             <h3>信息管理</h3>
-            <a class="item " href="/address/index.html"><i></i>地址管理</a>
-            <a class="item " href="/account/index.html"><i></i>账户管理</a>
-        </div>
-<!--        <div class="list">
-            <h3>售后服务</h3>
-            <a class="item " href="/Address/index.html"><i></i>进度查询</a>
-            <a class="item " href="/Account/index.html"><i></i>申请售后</a>
-        </div>-->
-        <div class="list">
-            <h3><a href="/help/help.html#sale"><i></i>常见问题</a></h3>
+            <a class="item " href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
+            <a class="item " href="{{url('home/account')}}"><i></i>账户管理</a>
         </div>
     </nav>
 </aside> 
     <div class="main">
         <div class="m-uc-hd other">
-            <div class="title">维修订单</div>
             <div class="list">
-                <a class="n-active" href="/wxorder/list.html">全部订单</a>
-                <a class="" href="/wxorder/list/set/1.html">待取货</a>
-                <a class="" href="/wxorder/list/set/2.html">待检测</a>
-                <a class="" href="/wxorder/list/set/3.html">待确认</a>
-                <a class="" href="/wxorder/list/set/4.html">已完成</a>
-                <a class="other-item " href="/wxorder/list/set/6.html">已取消</a>
+                <a class="n-active" href="javascript:;">全部订单</a>
+
             </div>
         </div>
-        <div class="m-order-list">
-            <ul>
-                            </ul>
-        </div>
+        <table class="layui-table">
+        
+            @if($user->order)
+                 
+                    <thead>
+                        <tr>
+                            <th>订单编号</th>
+                            <th>商品价格</th>
+                            <th>订单时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>  
+                    @foreach($user->order as $v) 
+                        <tr>
+                            <td>{{$v->oid}}</td>
+                            <td>{{$v->oprice}}</td>
+                            <td>{{$v->created_at}}</td>
+                            <td>评论</td>
+                      </tr>
+                @endforeach 
+
+                    </tbody>  
+            @else if
+                你还没有订单
+            @endif
+      </table>
     </div>
-<!--    <div class="main">
-        <div class="m-uc-title">
-            <nav>
-                <a  href="/wxorder/list/set/1.html">待取货</a>
-                <a  href="/wxorder/list/set/2.html">待检测</a>
-                <a  href="/wxorder/list/set/3.html">待确认</a>
-                <a  href="/wxorder/list/set/4.html">已完成</a>
-                <a  href="/wxorder/list/set/6.html">已取消</a>
-            </nav>
-        </div>
-        <div class="m-order-list">
-            <div class="m-none c">
-                    <img src="picture/list.png"/>
-                    <p>没有相关订单</p>
-                </div>
-                    </div>
-    </div>-->
 </section>
 <script>
 $(function(){

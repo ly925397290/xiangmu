@@ -2,4 +2,5 @@
  return array (
   'https://dasa' => 'dsad',
   'https://dgdfgdf' => 'gdgdfg',
+  'https://sfdsd' => 'fsdf',
 );

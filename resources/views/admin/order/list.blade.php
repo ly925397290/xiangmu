@@ -109,7 +109,7 @@
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$v->id}}'><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td>{{$v->oid}}</td>
-            <td>{{$v->uid}}</td>
+            <td>{{$v->user_id}}</td>
             <td>{{$v->oprice}}</td>
             <td>{{$v->money}}</td>
             <td>{{$v->order_status}}</td>

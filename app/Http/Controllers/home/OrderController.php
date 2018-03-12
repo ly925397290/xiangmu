@@ -6,11 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\model\link;
-use App\model\Nav;
-use App\model\Slide;
+use App\model\Order;
+use App\model\User;
 use App\model\good;
-
+use DB;
 class OrderController extends Controller
 {
     /**
@@ -20,18 +19,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        /**
-         * 前台首页显示
-         */
-        // 前台导航显示
-        $nav = Nav::get();
-        //前台轮播图显示
-        $slide = Slide::where('status','1')->get();
-        //前台商品展示
-        $good = good::where('status','1')->get();
-        //前台友情链接
-        $link = link::where('status','1')->get();
-        return view('home/order',compact('link','nav','slide','good'));
+        // 获取用户的订单信息
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
+        $user['order'] = $user->user_order;
+        $good = $user->user_good;
+//计算购物车中商品总和
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        return view('home/order',compact('user','count','good'));
     }
 
     /**

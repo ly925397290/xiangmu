@@ -5,11 +5,10 @@
     <div class="w">
         <div class="user">
             <!-- 头像 -->
-            <a class="avatar"><img src="picture/a40db3cc250a40049320ae74bd800426.gif"/></a>
+            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
             <!-- 昵称 -->
-            <span>Mr.feng</span>
-            <!-- 信息 -->
-            <p class="phone">绑定手机号：13520249366<span>修改</span></p>
+            <span>{{$user->uname or '你好'}}</span>
+            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
         </div>
     </div>
 </section>
@@ -18,147 +17,116 @@
     <nav>
         <div class="list">
             <h3>我的订单</h3>
-            <a class="item " href="/order/list.html"><i></i>购买订单</a>
-            <a class="item " href="/saleorder/list.html"><i></i>回收服务</a>
-            <a class="item " href="/wxorder/list.html"><i></i>维修服务</a>
-            <a class="item " href="/asorder/list.html"><i></i>售后服务</a>
+            <a class="item" href="{{url('home/order')}}"><i></i>我的订单</a>
         </div>
         <div class="list">
             <h3>信息管理</h3>
-            <a class="item " href="/address/index.html"><i></i>地址管理</a>
-            <a class="item n-active" href="/account/index.html"><i></i>账户管理</a>
-        </div>
-<!--        <div class="list">
-            <h3>售后服务</h3>
-            <a class="item " href="/Address/index.html"><i></i>进度查询</a>
-            <a class="item " href="/Account/index.html"><i></i>申请售后</a>
-        </div>-->
-        <div class="list">
-            <h3><a href="/help/help.html#sale"><i></i>常见问题</a></h3>
+            <a class="item " href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
+            <a class="item n-active" href="{{url('home/account')}}"><i></i>账户管理</a>
         </div>
     </nav>
 </aside> 
     <div class="main">
-        <section class="m-select-account">
-            <div class="title">
-                <strong>确认收款账户</strong>
-                <a class="u-btnl">管理收款账户</a>
-                <a class="u-btn">退出管理</a>
+        <div class="m-uc-hd other">
+            <div class="list">
+                <a class="n-active" href="javascript:;">个人信息</a>
+
             </div>
-            <ul class="c ls010 x012 m06 l04 xs30">
-                                <li class="g new">
-                    <a class="wrap add">
-                        <i class="i-icon"></i>
-                        <p>添加新账户</p>
-                    </a>
-                </li>
-            </ul>
-        </section>
+        </div>
+        <form class="layui-form" method="post" action="/home/account/update/{{$user->uid}}" enctype="multipart/form-data">
+            {{csrf_field()}}
+            <div class="layui-form-item">
+              <label for="L_username" class="layui-form-label">
+                  <span class="x-red">*</span>头像
+              </label>
+              <div class="layui-input-inline">
+                  <input id="file_upload" name="file_upload" type="file" multiple="true" >
+              </div>
+              <input type="hidden" name="header" id="art_thumb" value="">
+            {{--上传成功后显示上传图片--}}
+            <img src="{{$user->show->header or ''}}" id="art_thumb_img" alt="" style="width:100px;">
+          </div>
+          <div class="layui-form-item">
+              <label for="L_username" class="layui-form-label">
+                  <span class="x-red">*</span>昵称
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_username" name="uname" required="" lay-verify="nikename"
+                  autocomplete="off" class="layui-input" value="{{$user->uname or ''}}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">*</span>手机号
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_repass" name="phone" required="" lay-verify="repass"
+                  autocomplete="off" class="layui-input" value="{{$user->show->phone or ''}}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  修改
+              </button>
+          </div>
+      </form>
     </div>
 </section>
-<script>
-$(function () {
-$(document).on('click','.m-uc-user .phone',function(){
-    $.ajax({
-        url:'/bindphone/change.html',
-        type:'get',
-        dataType:'json',
-        success:function(data){
-            if($('#onlyone'))$('#onlyone').remove();
-            $('body').append(data.html);
-        }
-    });
-})
-//管理账号
-$('.m-select-account .title .u-btnl').on('click',function(){
-    $(this).parents('.m-select-account').addClass('selected');
-})
-//退出账户管理
-$('.m-select-account .title .u-btn').on('click',function(){
-    $(this).parents('.m-select-account').removeClass('selected');
-})
-//添加账号
-$('.add').on('click',function(){
-    action('');
-})
-//编辑账号
-$(document).on('click','.editor',function(){
-    var parent = $(this).parent('.handle');
-    action(parent.data('id'));
-})
-//删除账号
-$(document).on('click','.delete',function(){
-    var id = $(this).parent('.handle').data('id');
-    var account = $(this).parent('.handle').siblings('.user').children('.account').text();
-    $.amsg.c('确定删除以下账号？',account,function(){
-        $.ajax({
-            url:'/account/deleteajax.html',
-            type:'post',
-            data:{id:id},
-            dataType:'json',
-            success:function(data){
-                if(data.status != 0){
-                    $.amsg.c('提示',data.msg,function(){});
-                    return false;
-                }
-                refresh();
-            }
+<script type="text/javascript">
+    $(function () {
+        $("#file_upload").change(function () {
+            uploadImage();
         });
-    })
-})
-//获取内容
-function action(id){
-    $.ajax({
-        url:'/account/add.html',
-        type:'post',
-        data:{id:id},
-        dataType:'json',
-        success:function(data){
-            if($('#onlyone'))$('#onlyone').remove();
-            $('body').append(data.html);
-        }
     });
-}
-//刷新内容
-function refresh(){
-    $.ajax({
-        url:'/account/refresh.html',
-        type:'post',
-        dataType:'json',
-        success:function(data){
-            if(data.status != 0){
-                return false;
-            }
-            $('.m-select-account li.new').siblings().remove();
-            $('.m-select-account li.new').before(data.data);
+    function uploadImage() {
+//                            判断是否有选择上传文件
+        var imgPath = $("#file_upload").val();
+        if (imgPath == "") {
+            alert("请选择上传图片！");
+            return;
         }
-    });
-}
-//加载更多
-var page = 2;
-var lock = false;
-$(window).scroll(function(){
-    if(lock)return;
-    var top = $(document).scrollTop();
-    var windowHeight = $(window).height();
-    var footerTop = $('.m-footer').offset().top;
-    if(top+windowHeight+60 >footerTop){
-        //alert('加载更多')
-        //如果没有了 lock = true
-        lock = true;
-        $.getJSON("/account/more.html",{p:page},function(data){
-            if(data.html){
-                $('.m-select-account>ul li.new').before(data.html);
-                page = data.next;
-                lock = false;
-            }else{
-                lock = true;
+        //判断上传文件的后缀名
+        var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+
+        if (strExtension != 'jpg' && strExtension != 'gif'
+            && strExtension != 'png' && strExtension != 'bmp') {
+            alert("请选择图片文件");
+            return;
+        }
+   
+        // var myform = document.getElementById('art_from');
+
+       //将整个表单打包进formData
+        // var formData = new FormData($('#art_form')[0]);
+
+    // 只将上传文件打包进formData
+    var formData = new FormData();
+    formData.append('file_upload',$('#file_upload')[0].files[0]);
+         $.ajax({
+            type: "POST",
+            url: '{{url('home/account/upload')}}',
+             headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            data: formData,
+            async: true,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $('#art_thumb_img').attr('src',data);
+                 // $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
+                 $('#art_thumb').val(data);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("上传失败，请检查网络后重试");
             }
         });
     }
-});
-});
-</script> 
+</script>
 @endsection
 <!-- 主体结束 -->
              

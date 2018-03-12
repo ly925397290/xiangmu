@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\Order;
+use App\model\user_details;
 
 class OrderController extends Controller
 {

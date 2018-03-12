@@ -4,9 +4,9 @@
     <section class="m-uc-user">
     <div class="w">
         <div class="user">
-            <a class="avatar"><img src="picture/a40db3cc250a40049320ae74bd800426.gif"/></a>
-            <span>Mr.feng</span>
-            <p class="phone">绑定手机号：13520249366<span>修改</span></p>
+            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
+            <span>{{$user->uname or '你好'}}</span>
+            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
         </div>
     </div>
 </section>
@@ -27,23 +27,12 @@
     <nav>
         <div class="list">
             <h3>我的订单</h3>
-            <a class="item " href="/order/list.html"><i></i>购买订单</a>
-            <a class="item " href="/saleorder/list.html"><i></i>回收服务</a>
-            <a class="item " href="/wxorder/list.html"><i></i>维修服务</a>
-            <a class="item " href="/asorder/list.html"><i></i>售后服务</a>
+            <a class="item" href="{{url('home/order')}}"><i></i>我的订单</a>
         </div>
         <div class="list">
             <h3>信息管理</h3>
-            <a class="item n-active" href="/address/index.html"><i></i>地址管理</a>
-            <a class="item " href="/account/index.html"><i></i>账户管理</a>
-        </div>
-<!--        <div class="list">
-            <h3>售后服务</h3>
-            <a class="item " href="/Address/index.html"><i></i>进度查询</a>
-            <a class="item " href="/Account/index.html"><i></i>申请售后</a>
-        </div>-->
-        <div class="list">
-            <h3><a href="/help/help.html#sale"><i></i>常见问题</a></h3>
+            <a class="item n-active" href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
+            <a class="item " href="{{url('home/account')}}"><i></i>账户管理</a>
         </div>
     </nav>
 </aside> 
@@ -52,122 +41,120 @@
             <input id="address" type="hidden"/>
             <div class="title">
                 <strong>确认收货地址</strong>
-                <a class="u-btnl">管理地址</a>
-                <a class="u-btn">退出管理</a>
             </div>
-            <ul class="c ls010 x012 m06 l04 xs30">
-                                <li class="g new">
-                    <a class="wrap add">
-                        <i class="i-icon"></i>
-                        <p>添加新地址</p>
-                    </a>
-                </li>
-            </ul>
+            <div>
+                <div style="float:left;width:70%">
+                    <table class="layui-table">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>收货人</th>
+                            <th>手机号</th>
+                            <th>收货地址</th>
+                            <th>操作</th>
+                        </thead>
+                        <tbody>
+                                @foreach($addr as $v)
+                                <tr>
+                                  <td>{{$v->id}}</td>
+                                  <td><input type="text" value="{{$v->people}}" name="people"></td>
+                                  <td><input type="text" value="{{$v->phone}}" name="phone"></td>
+                                  <td><input type="text" value="{{$v->addr}}" name="addr"></td>
+                                    <td>
+                                    <a title="编辑"  onclick="member_edit('this','{{$v->id}}')" href="javascript:;">
+                                      <i class="layui-icon">&#xe642;</i>
+                                    </a>
+                                    <a title="删除" onclick="member_del(this,'{{$v->id}}')" href="javascript:;">
+                                      <i class="layui-icon">&#xe640;</i>
+                                    </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                        </tbody>
+                      </table>
+                </div>
+                <div style="float:right;width:15%">
+                     <ul class="c ls010 x012 m06 l04 xs30">
+                        <li class="g new">
+                            <a onclick="x_admin_show('添加地址','{{url('home/address')}}',600,400)">
+                            <i class="i-icon"></i>
+                            <p >添加新地址</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </div>
 </section>
 <script>
-$(function () {
-$(document).on('click','.m-uc-user .phone',function(){
-    $.ajax({
-        url:'/bindphone/change.html',
-        type:'get',
-        dataType:'json',
-        success:function(data){
-            if($('#onlyone'))$('#onlyone').remove();
-            $('body').append(data.html);
-        }
-    });
-})
-//管理地址
-$('.m-select-address .title .u-btnl').on('click',function(){
-   $(this).parents('.m-select-address').addClass('selected');
-})
-//退出管理
-$('.m-select-address .title .u-btn').on('click',function(){
-   $(this).parents('.m-select-address').removeClass('selected');
-})
-//添加地址
-$(document).on('click','.add',function(){
-    action('');
-})
-//编辑地址
-$(document).on('click','.editor',function(){
-    var parent = $(this).parent('.handle');
-    action(parent.data('id'));
-})
-//删除地址
-$(document).on('click','.delete',function(){
-    var id = $(this).parent('.handle').data('id');
-    var address = $(this).parent('.handle').siblings('.address').text();
-    $.amsg.c('确定删除以下地址？',address,function(){
-        $.ajax({
-            url:'/address/deleteajax.html',
-            type:'post',
-            data:{id:id},
-            dataType:'json',
-            success:function(data){
-                if(data.status != 0){
-                    $.amsg.c('提示',data.msg,function(){});
-                    return false;
+layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#end' //指定元素
+        });
+      });
+/*用户-删除*/
+      function member_del(obj,id){
+          layer.confirm('确认要删除吗？',function(index){
+              //发异步删除数据
+              $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "post",
+                url : '/home/addrmanag/destroy/'+id,
+                data : {"uid":id},
+                dataType : "Json",
+                success : function(msg){
+                        // console.log(msg)
+                    if(msg.status){
+                        location.reload(true);
+                        $(obj).parents("tr").remove();
+                        layer.msg('删除成功!',{icon:1,time:500});
+                    }else{
+                        location.reload(true);
+                        layer.msg('删除失败!',{icon:1,time:500});
+                    }
                 }
-                refresh();
-            }
-        });
-    })
-})
-//获取内容
-function action(id){
-    $.ajax({
-        url:'/addaddress/index.html',
-        type:'post',
-        data:{id:id},
-        dataType:'json',
-        success:function(data){
-            if($('#onlyone'))$('#onlyone').remove();
-            $('body').append(data.html);
-        }
-    });
-}
-//刷新内容
-function refresh(){
-    $.ajax({
-        url:'/address/refresh.html',
-        type:'post',
-        dataType:'json',
-        success:function(data){
-            if(data.status != 0){
-                return false;
-            }
-            $('.m-select-address li.new').siblings().remove();
-            $('.m-select-address li.new').before(data.data);
-        }
-    });
-}
-//加载更多
-var page = 2;
-var lock = false;
-$(window).scroll(function(){
-    if(lock)return;
-    var top = $(document).scrollTop();
-    var windowHeight = $(window).height();
-    var footerTop = $('.m-footer').offset().top;
-    if(top+windowHeight+60 >footerTop){
-        //alert('加载更多')
-        //如果没有了 lock = true
-        lock = true;
-        $.getJSON("/address/more.html",{p:page},function(data){
-            if(data.html){
-                $('.m-select-address>ul li.new').before(data.html);
-                page = data.next;
-                lock = false;
-            }else{
-                lock = true;
-            }
-        });
-    }
-});
-});
+              });
+              
+          });
+      }
+       /*地址-修改*/
+      function member_edit(obj,id){
+            // 获取数据
+            var people = $(obj).val();
+            var phone = $(obj).val();
+            var addr = $(obj).val();
+              //发异步删除数据
+              $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "post",
+                url : '/home/addrmanag/update/'+id,
+                data : {"people":people,"phone":phone,"addr":addr},
+                dataType : "Json",
+                success : function(msg){
+                        console.log(msg)
+                    if(msg){
+                        location.reload(true);
+                        layer.msg('修改成功!',{icon:1,time:1000});
+                    }else{
+                        location.reload(true);
+                        layer.msg('修改失败!',{icon:1,time:1000});
+                    }
+                }
+              });      
+      }
 </script>
 
 @endsection

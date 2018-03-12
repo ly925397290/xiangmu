@@ -6,11 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\model\link;
-use App\model\Nav;
-use App\model\Slide;
-use App\model\good;
-
+use App\model\user_details;
+use App\model\user;
+use DB;
 class AddrmanagController extends Controller
 {
     /**
@@ -20,18 +18,15 @@ class AddrmanagController extends Controller
      */
     public function index()
     {
-        /**
-         * 前台首页显示
-         */
-        // 前台导航显示
-        $nav = Nav::get();
-        //前台轮播图显示
-        $slide = Slide::where('status','1')->get();
-        //前台商品展示
-        $good = good::where('status','1')->get();
-        //前台友情链接
-        $link = link::where('status','1')->get();
-        return view('home/addrmanag',compact('link','nav','slide','good'));
+        //获取用户的地址信息
+        $addr = user_details::where('user_id','1')->get();
+        // 获取用户的订单信息
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
+        $good = $user->user_good;
+//计算购物车中商品总和
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        return view('home/addrmanag',compact('addr','user','count','good'));
     }
 
     /**
@@ -86,8 +81,15 @@ class AddrmanagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        $input = $request->except('_token');
+        $res = user_details::where('id',$id)->update(['people'=>$input['people'],'phone'=>$input['phone'],'addr'=>$input['addr']]);
+        if($res){
+            $data = 1;
+        }else{
+            $data = 0;
+        }
+        return $data;
+    }   
 
     /**
      * Remove the specified resource from storage.
@@ -97,6 +99,18 @@ class AddrmanagController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // 查询要删除的地址
+        $res = user_details::find($id)->delete();
+        // 判断是否成功,将结果返回客户端
+        if($res){
+            $data = [
+                'status'=>1,
+            ];
+        }else{
+            $data = [
+                'status'=>0,
+            ];
+        }
+        return $data;
     }
 }
