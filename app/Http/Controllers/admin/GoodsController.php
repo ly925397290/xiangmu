@@ -112,7 +112,7 @@ class GoodsController extends Controller
 
         
         //3.判断是否成功并将结果返回到客户端
-           if($res && $res1)
+        if($res && $res1)
         {
             return  redirect('/admin/goods')->with('msg','添加成功');
         }else{
@@ -127,7 +127,7 @@ class GoodsController extends Controller
         //  2.判断上传文件的有效性
          if($file->isValid()){
             //获取文件后缀名
-             $ext = $file->getClientOriginalExtension();    //文件拓展名
+            $ext = $file->getClientOriginalExtension();    //文件拓展名
             //生成新文件名
             $newfilename = md5(date('YmdHis').rand(1000,9999).uniqid()).'.'.$ext;
              // 将图片上传到本地服务器
@@ -137,12 +137,8 @@ class GoodsController extends Controller
        }
     }
 
-
-
-
     public function editAll(Request $request)
     {
-
 
         $input = $request->except('_token');
         $cid = cate::where('title',$input['cid'])->first();
@@ -155,7 +151,7 @@ class GoodsController extends Controller
                 //根据当前遍历的id,获取网站配置记录
 //                $conf = Config::find($v);
                 //执行修改操作
-//                $conf->update(['conf_content'=>$input['conf_content'][$k]]);
+                //$conf->update(['conf_content'=>$input['conf_content'][$k]]);
                 DB::table('data_goods')->where('gid',$v)->update(['gname' => $input['gname'],'price' => $input['price'],'inven' => $input['inven'],'cid' => $cid['id']]);
            
 

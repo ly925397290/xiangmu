@@ -65,6 +65,7 @@ Route::group(['middleware'=>['login']],function(){
 	 	Route::post('admin/goods/upload','Admin\GoodsController@upload');
 		// 商铺管理
 		Route::resource('admin/shop','Admin\ShopController');
+		Route::post('admin/shop/editAll','Admin\ShopController@editAll');
 		// 轮播图管理
 		 Route::resource('admin/slide','Admin\SlideController');
 		 //轮播图
@@ -121,7 +122,7 @@ Route::get('/code/captcha/{tmp}', 'Admin\LoginController@captcha');
 
 // 设置路由组 统一命名空间下的控制器 有需要的再提出来
 Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
-
+                                                                    
 // 退出登录
 Route::get('outlogin','LoginController@outlogin');
 });
@@ -130,8 +131,11 @@ Route::get('outlogin','LoginController@outlogin');
 // 前台首页
 Route::get('/','Home\IndexController@index');
 
-
-
-
-
-
+//创建商铺
+Route::resource('home/shop','Home\ShopController');
+Route::post('/home/shop/shenhe/{id}','Hone\ShopController@shenhe');
+//前台发布闲置商品
+Route::resource('home/goods','Home\goodsController');
+// 文章图片上传处理
+Route::post('home/goods/upload','Home\goodsController@upload');
+Route::post('/home/shop/write/{id}','Hone\ShopController@write');

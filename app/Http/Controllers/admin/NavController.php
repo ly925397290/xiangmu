@@ -43,11 +43,14 @@ class NavController extends Controller
      */
     public function store(Request $request)
     {
+
         // 1.接收请求数据
         $input = $request->except('_token');
-        $input['name'] = 'https://'+$input['name'];
+        // return   $input;
+        $input['nname'] = 'https://'.$input['nname'];
         // 2.将数据入库
         $res = Nav::create($input);
+
         if($res){
             $data = 1;
         }else{
