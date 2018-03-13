@@ -53,11 +53,18 @@ class NavController extends Controller
      */
     public function store(Request $request)
     {
+
         // 1.接收请求数据
         $input = $request->except('_token');
+<<<<<<< HEAD
         $input['nlink'] = 'https://'.$input['nlink']; 
+=======
+        // return   $input;
+        $input['nname'] = 'https://'.$input['nname'];
+>>>>>>> origin/lidandan
         // 2.将数据入库
         $res = Nav::create($input);
+
         if($res){
             $this->putContent();
             $data = 1;

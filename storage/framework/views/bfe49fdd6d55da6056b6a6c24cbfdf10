@@ -25,6 +25,7 @@
 <script src="<?php echo e(asset('home/js/aform.js')); ?>"></script>
 <!-- <link type="text/css" rel="stylesheet" href="<?php echo e(asset('home/css/common.css')); ?>"> -->
 <!-- <link type="text/css" rel="stylesheet" href="<?php echo e(asset('home/css/public.css')); ?>"> -->
+
 </head>
 <body  data-tpage="首页" data-tproduct="" data-tuserid="148240">
 <header class="m-header">
