@@ -44,64 +44,45 @@
         <li class="cell name">产品名称</li>
         <li class="cell price">单价</li>
         <li class="cell num">数量</li>
-        <li class="cell count">小计</li>
+        <li class="cell count">总计</li>
     </ul>
     
     <ul class="list c">
-        @if($goods['status'] == 1)
-        @foreach($goods as $v)
+        @foreach($good as $k=>$v)
         <li>
             <div class="cell name">
                 <a class="info">
-                    <img src="{{$v->urls}}"/>
+                    <img src="{{$v['urls']}}"/>
                     <div class="details" data-format='{"1":"117"}'>
-                        <strong>{{$v->gname}}</strong>
+                        <strong>{{$v['gname']}}</strong>
                     </div>
                 </a>
             </div>
             <div class="cell price">
-                <span class="vlc">&#165;{{$request->price}}</span>
+                <span class="vlc">&#165;{{$v['price']}}</span>
             </div>
             <div class="cell num">
-                <span class="vlc">{{$request->number}}</span>
+                <span class="vlc">{{$v['number']}}</span>
             </div>
             <div class="cell count">
-                <span class="vlc">&#165;{{($request->price)*$request->number}}</span>
+                <span class="vlc">&#165;{{($v['price'])*$v['number']}}</span>
             </div>
         </li>    
         @endforeach
-        @endif
-        <li>
-            <div class="cell name">
-                <a class="info">
-                    <img src="{{$goods->urls}}"/>
-                    <div class="details" data-format='{"1":"117"}'>
-                        <strong>{{$goods->gname}}</strong>
-                    </div>
-                </a>
-            </div>
-            <div class="cell price">
-                <span class="vlc">&#165;{{$request->price}}</span>
-            </div>
-            <div class="cell num">
-                <span class="vlc">{{$request->number}}</span>
-            </div>
-            <div class="cell count">
-                <span class="vlc">&#165;{{($request->price)}}</span>
-            </div>
-        </li>
     </ul>
     <div class="use-coupon">
         <a class="u-btnl f-fr use-btn">使用</a>
         <input type="text" class="u-ipt f-fr use-code" placeholder="通关密码" value="">
     </div>    <div class="handle">
         <div class="pay-info c">
-            <p class="f-fl"><span>商品总计：</span><em>&#165;{{($request->price)}}</em></p>
-            <p class="f-fr"><span>应付金额：</span><strong>&#165;{{($request->price)}}</strong></p>
+            <p class="f-fl"><span>商品总计：</span><em>&#165;{{$input['price']}}</em></p>
+            <p class="f-fr"><span>应付金额：</span><strong>&#165;{{$input['price']}}</strong></p>
         </div>
         <div class="pay c">
-            <input type="hidden" class="layui-input" name="price" value="{{($request->price)*$request->number}}">
-            <input type="hidden" class="layui-input" name="number" value="{{$request->number}}">
+            <input type="hidden" class="layui-input" name="price" value="{{$input['price']}}">
+            @foreach($good as $k=>$v)
+            <input type="hidden" class="layui-input" name="ids[{{$k}}]" value="{{($v['gid'])}}">
+            @endforeach
             <button class="u-btn n-middle n-blue f-fr" lay-filter="add" lay-submit=""><i class="layui-icon"></i>支付宝付款</button>
                   <i class="layui-icon"></i>支付宝付款
             </button>
@@ -136,7 +117,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type : "POST",
-            url:'/home/pay/store/'+{{$goods->gid}},
+            url : '/home/pay/store/0',
             data : data.field,
             dataType : "Json",
             success : function(msg){

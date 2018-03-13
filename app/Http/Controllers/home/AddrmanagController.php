@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\user_details;
 use App\model\user;
+use App\model\good;
+use App\model\user_good;
 use DB;
 class AddrmanagController extends Controller
 {
@@ -23,10 +25,16 @@ class AddrmanagController extends Controller
         // 获取用户的订单信息
         $user = user::find(1);
         $user['show'] = $user->userShow;
-        $good = $user->user_good;
+       $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
 //计算购物车中商品总和
         $count = DB::table('user_good')->where('user_id',1)->count();
-        return view('home/addrmanag',compact('addr','user','count','good'));
+        return view('home/addrmanag',compact('addr','user','count','user_good'));
     }
 
     /**

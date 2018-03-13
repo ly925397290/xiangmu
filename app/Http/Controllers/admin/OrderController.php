@@ -21,15 +21,10 @@ class OrderController extends Controller
         //获取数据
         $data = Order::orderBy('id','desc')
         ->where(function($query) use($request){
-            $start = $request->input('start',''); //获取开始时间
-            $end = $request->input('end','');     //获取结束时间
             $pay_status = $request->input('pay_status',''); //获取支付状态
             $payment = $request->input('payment',''); //获取支付方式
             $order_status = $request->input('order_status',''); //获取订单状态
             $oid = $request->input('oid',''); //获取订单号
-            if(!empty($start) || !empty($end)){
-            // $query->whereBetween('start',[$start,$end])->get(); //查询订单区间
-            }
             if(!empty($pay_status)){
                 $query->where('pay_status','like','%'.$pay_status.'%'); //查询支付状态
             }

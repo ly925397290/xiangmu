@@ -41,10 +41,7 @@
                             ID
                         </th>
                         <th>
-                            商铺名
-                        </th>
-                        <th>
-                            商品名
+                            订单号
                         </th>
                         <th>
                             回复者
@@ -74,15 +71,11 @@
 
                         </td>
                         <td>
-                            <?php echo e($v->sid); ?>
-
-                        </td>
-                        <td>
-                           <?php echo e($v->gid); ?>
+                           <?php echo e($v->oid); ?>
 
                         </td>
                         <td >
-                           <?php echo e($v->uid); ?>
+                           <?php echo e($v->uid->uname); ?>
 
                         </td>
                         <td >

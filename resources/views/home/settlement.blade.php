@@ -1,6 +1,8 @@
 ﻿@extends('home.public.layout')
 <!-- 主体开始 -->
 @section('content')
+<link type="text/css" rel="stylesheet" href="{{asset('home/css/common.css')}}">
+<link type="text/css" rel="stylesheet" href="{{asset('home/css/public.css')}}">
 <input type="hidden" name="cart" id="cart" value="">
 <section class="m-buy-step w">
     <i class="line left-line"></i>
@@ -22,7 +24,9 @@
 <section class="m-cat-list w">
     <div class="container">
     <!-- 购物车开始 -->
-    <div class="cart-panel">
+        <form action="{{url('home/pay')}}/{{$data['gid']}}" method="post">
+        {{csrf_field()}}
+        <div class="cart-panel">
         <div class="hd">
             <ul class="order-title">
                 <li class="selecter"></li>
@@ -34,74 +38,35 @@
             </ul>
         </div>
         <div class="bd">
-            <ul class="order-list" id="goods">
-                <li class="selecter">
-                    <i class="icon-select"></i>
-                    <input type="hidden" name="productCode" value="9012149">
-                    <input type="hidden" name="class1" value="鲜花">
-                    <input type="hidden" name="class2" value="">
-                </li>
-                <li class="img-box"><img src="{{$data['urls']}}" height="56" width="50"></li>
-                    <li class="product">
-                        <a href="/product/9012149.html" target="_blank">
-                            <span class="product-title">{{$data['gname']}}</span>
-                            <span class="feature"></span>
-                        </a>
+            @foreach($user_good as $v)
+                <ul class="order-list" id="goods">
+                    <li class="img-box"><img src="{{$v['urls']}}" height="56" width="50"></li>
+                        <li class="product">
+                            <a href="/product/9012149.html" target="_blank">
+                                <span class="product-title">{{$v['gname']}}</span>
+                                <span class="feature"></span>
+                            </a>
+                        </li>
+                    <li class="market-price">
+                        <span class="price-sign">¥</span>
+                        <span class="price-num">829</span>
                     </li>
-                <li class="market-price">
-                    <span class="price-sign">¥</span>
-                    <span class="price-num">829</span>
-                </li>
-                <li class="order-price">
-                    <span class="price-sign">¥</span>
-                    <span class="price-num price_price">{{$data['price']}}</span>
-                    <input type="hidden" name="jrPrice" value="897">
-                </li>
-                <li class="num">
-                    <div class="input-num">
-                        <a href="javascript:void(0);" class="btn btn-default no" onclick="fun_del(this)"><i class="ico ico-minus"></i></a>
-                        <input type="text" class="form-control input-sm" name="cpsl" value="1" maxlength="3" id="num[]">
-                        <a href="javascript:void(0)" class="btn btn-default" onClick="fun_add(this)"><i class="ico ico-add"></i></a>
-                    </div>
-                </li>
-                <li class="operate"><a href="javascript:void(0)" class="delBtn" onclick="member_del(this,'{{$data['gid']}}')">删除</a><br><a href="javascript:void(0)" class="collectBtn" onclick="member_sc(this,{{$data->gid}})">加入购物车</a></li>
-            </ul> 
-            @if($good)
-                @foreach($good as $v)
-                    <ul class="order-list" id="goods">
-                        <li class="selecter">
-                            <i class="icon-select"></i>
-                            <input type="hidden" name="productCode" value="9012149">
-                            <input type="hidden" name="class1" value="鲜花">
-                            <input type="hidden" name="class2" value="">
-                        </li>
-                        <li class="img-box"><img src="{{$v['urls']}}" height="56" width="50"></li>
-                            <li class="product">
-                                <a href="/product/9012149.html" target="_blank">
-                                    <span class="product-title">{{$v['gname']}}</span>
-                                    <span class="feature"></span>
-                                </a>
-                            </li>
-                        <li class="market-price">
-                            <span class="price-sign">¥</span>
-                            <span class="price-num">829</span>
-                        </li>
-                        <li class="order-price">
-                            <span class="price-sign">¥</span>
-                            <span class="price-num price_price">{{$v['price']}}</span>
-                            <input type="hidden" name="jrPrice" value="897">
-                        </li>
-                        <li class="num">
-                            <div class="input-num">
-                                <a href="javascript:void(0);" class="btn btn-default no" onclick="fun_del(this)"><i class="ico ico-minus"></i></a>
-                                <input type="text" class="form-control input-sm" name="cpsl" value="1" maxlength="3" id="num">
-                                <a href="javascript:void(0)" class="btn btn-default" onClick="fun_add(this)"><i class="ico ico-add"></i></a>
-                            </div>
-                        </li>
-                        <li class="operate"><a href="javascript:void(0)" class="delBtn" onclick="member_del(this,'{{$v['gid']}}')">删除</a><br><a href="javascript:void(0)" class="collectBtn" onclick="member_sc(this,{{$v->gid}})">加入购物车</a></li>
-                    </ul>
-                @endforeach
-            @endif
+                    <li class="order-price">
+                        <span class="price-sign">¥</span>
+                        <span class="price-num price_price">{{$v['price']}}</span>
+                        <input type="hidden" name="jrPrice" value="897">
+                    </li>
+                    <li class="num">
+                        <div class="input-num">
+                            <input type="hidden" class="form-control input-sm" name="number[]" value="{{$v['num']}}" maxlength="3" id="number">
+                            <a href="javascript:void(0);" class="btn btn-default no" onclick="fun_del(this)"><i class="ico ico-minus"></i></a>
+                            <input type="text" class="form-control input-sm" name="cpsl" value="{{$v['num']}}" maxlength="3" id="num">
+                            <a href="javascript:void(0)" class="btn btn-default" onclick="fun_add(this)"><i class="ico ico-add"></i></a>
+                        </div>
+                    </li>
+                    <li class="operate"><a href="javascript:void(0)" class="delBtn" onclick="member_del(this,'{{$v['good_id']}}')">删除</a><br><a href="javascript:void(0)" class="collectBtn" onclick="member_sc(this,{{$v->good_id}})">加入购物车</a></li>
+                </ul>
+            @endforeach
         </div>
     </div>
     <!-- 购物车结束 -->
@@ -114,19 +79,14 @@
                 应付金额:
                 <div class="price">
                     <span class="price-sign">¥</span>
-                    <span class="price-num" id="totalMoney">0</span>
+                    <span class="price-num" id="totalMoney">{{$price}}</span>
                 </div>
             </div>
         </div>
-        <form action="{{url('home/pay')}}/{{$data['gid']}}" method="post">
-                {{csrf_field()}}
-            <input type="hidden" class="form-control input-sm" name="price" value="{{$data['price']}}" maxlength="3" id="price">
-            <input type="hidden" class="form-control input-sm" name="number" value="1" maxlength="3" id="number">
-            @if(isset($ids))
-            @foreach($ids as $v)
-            <input type="hidden" class="form-control input-sm" name="ids[]" value="{{$v}}" maxlength="3" id="number">
+            @foreach($user_good as $v)
+            <input type="hidden" class="form-control input-sm" name="ids[]" value="{{$v->good_id}}" maxlength="3">
             @endforeach
-            @endif
+            <input type="hidden" class="form-control input-sm" name="price" value="{{$price}}" maxlength="3" id="price">
             <button class="layui-btn"><i class="layui-icon"></i>立即支付</button>
         </form>
         
@@ -138,15 +98,6 @@
         var form = layui.form;
         var layer = layui.layer;
       });
-        /*
-            childNodes  获取所有的子节点
-            firstChild  获取第一个子节点
-            lastChild   获取最后一个子节点
-            parentNode  获取父节点
-            nextSibling 获取下一个兄弟节点
-            previousSibling 获取上一个兄弟节点
-         */
-          // 计算
         var totalMoney = document.getElementById('totalMoney');
         var price_price = document.getElementsByClassName('price_price');
         //减少商品
@@ -191,38 +142,14 @@
 
 
         // 触发总价格
-        function prices(){
-            var s = 0;
-            for(var i = 0;i<price_price.length;i++){
-               s += parseFloat(price_price[i].innerHTML);
-            }
-            totalMoney.innerHTML = s;
-        }
-        prices();
-        // 支付
-      function pay(obj,id){
-        var many = totalMoney.innerHTML
-        $.ajax({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          type : "POST",
-          url : '/home/pay',
-          data:{'many':many,'gid':id},
-          dataType : "Json",
-          success : function(msg){
-            // console.log(msg)
-            if(msg){
-                layer.msg('支付成功!',{icon: 6,time:1000});
-                location.reload(true);
-
-            }else{
-                location.reload(true);
-                layer.msg('支付失败!',{icon: 5,time:1000});
-            }
-          }
-        });
-      }
+        // function prices(){
+        //     var s = 0;
+        //     for(var i = 0;i<price_price.length;i++){
+        //        s += parseFloat(price_price[i].innerHTML);
+        //     }
+        //     totalMoney.innerHTML = s;
+        // }
+        // prices();
         /*商品-删除*/
       function member_del(obj,id){
         $.ajax({

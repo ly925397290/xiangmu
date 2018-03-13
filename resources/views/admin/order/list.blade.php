@@ -47,8 +47,6 @@
               </option>
             </select>
           </div>
-          <input class="layui-input" placeholder="开始日" name="start" id="start" value="{{$request->start}}">
-          <input class="layui-input" placeholder="截止日" name="end" id="end" value="{{$request->end}}">
           <div class="layui-input-inline">
             <select name=" pay_status">
               <option value="">支付状态</option>

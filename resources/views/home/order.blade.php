@@ -33,6 +33,7 @@
             <h3>信息管理</h3>
             <a class="item " href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
             <a class="item " href="{{url('home/account')}}"><i></i>账户管理</a>
+            <a class="item " href="{{url('home/account/password')}}"><i></i>密码管理</a>
         </div>
     </nav>
 </aside> 
@@ -61,7 +62,9 @@
                             <td>{{$v->oid}}</td>
                             <td>{{$v->oprice}}</td>
                             <td>{{$v->created_at}}</td>
-                            <td>评论</td>
+                            <td>
+                                <button class="layui-btn" onclick="x_admin_show('评论','{{url('home/pinglun/')}}/{{$v->oid}}',600,400)"><i class="layui-icon"></i>评论</button>
+                            </td>
                       </tr>
                 @endforeach 
 

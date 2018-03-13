@@ -141,6 +141,10 @@ Route::get('home/account','home\AccountController@index');
 Route::post('home/account/update/{id}','home\AccountController@update');
 //用户头像处理
 Route::post('home/account/upload','home\AccountController@upload');
+//用户密码页加载
+Route::get('home/account/password','Home\AccountController@password');
+//用户密码处理
+Route::post('home/password','Home\AccountController@edit');
 // 加载添加地址页
 Route::get('home/address','Home\AddressController@index');
 // 添加地址页处理
@@ -153,6 +157,25 @@ Route::post('home/addrmanag/destroy/{id}','Home\AddrmanagController@destroy');
 Route::post('home/addrmanag/update/{id}','Home\AddrmanagController@update');
 // 加载订单页
 Route::get('home/order','Home\OrderController@index');
+// 加载评论页
+Route::get('home/pinglun/{id}','Home\OrderController@pinglun');
+// 加载评论处理
+Route::post('home/pinglun/{id}','Home\OrderController@store');
+
+
+//加载商品详情页
+Route::get('home/shoplist/{id}','Home\ShoplistController@index');
+// 加载购物车
+Route::get('home/settlement/{id}','Home\SettlementController@index');
+//加入购物车处理
+Route::post('home/sc/{id}','Home\SettlementController@shoucang');
+//购物车删除处理
+Route::post('home/delete/{id}','Home\SettlementController@delete');
+//支付页面
+Route::post('home/pay/{id}','Home\PayController@index');
+//支付处理
+Route::post('home/pay/store/{id}','Home\PayController@store');
+
 
 
 // 加载售后页
@@ -165,30 +188,14 @@ Route::get('home/assess','Home\AssessController@index');
 Route::get('home/infomation','Home\InfomationController@index');
 
 
-
 // 加载回收订单列表页
 Route::get('home/reclaimorder','Home\ReclaimorderController@index');
 
 // 加载回收机制页
 Route::get('home/recovery','Home\RecoveryController@index');
 
-// 加载购物车
-Route::get('home/settlement/{id}','Home\SettlementController@index');
-//加入购物车处理
-Route::post('home/sc/{id}','Home\SettlementController@shoucang');
-//购物车删除处理
-Route::post('home/delete/{id}','Home\SettlementController@delete');
-//支付页面
-Route::post('home/pay/{id}','Home\PayController@index');
-//支付处理
-Route::post('home/pay/store/{id}','Home\PayController@store');
-// 加载购物清单页
-Route::get('home/shoplist','Home\ShoplistController@index');
 
-// 加载提交订单页
-Route::get('home/submitorder','Home\SubmitorderController@index');
 
-//
 
 
 

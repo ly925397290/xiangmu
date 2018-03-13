@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\message;
+use App\model\user;
 
 class messageController extends Controller
 {
@@ -18,6 +19,9 @@ class messageController extends Controller
     public function index()
     {
         $message = message::paginate(10);
+        foreach ($message as $key => $value) {
+            $value['uid'] = user::find($value['uid']);
+        }
         $count = count($message);
         return view('admin.message.list',compact('message','count'));
     }

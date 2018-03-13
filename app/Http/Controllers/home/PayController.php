@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\model\good;
 use App\model\Order;
 use App\model\user;
+use App\model\user_good;
 use App\model\orderdetail;
 use App\model\user_details;
 use App\Http\Requests;
@@ -23,24 +24,31 @@ class PayController extends Controller
     {
         //接收数据
         $input = $request->except('_token');
-        //获取商品信息
-        if(isset($input['ids'])){
-            foreach ($input['ids'] as  $value) {
-            $goods[] = good::find($value);
-            }
-            $goods['status'] = 1;
-        }else{
-            $goods = good::find($id);
-            $goods['status'] = 0;
-        }
-        
+        // return $input;
         //获取用户的收货地址
         $addr = user_details::where('user_id',1)->get();
-        $user = user::find(1);
-        $good = $user->user_good;
+        
+        //获取所有购物车信息
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $goods = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $goods['price'];
+            $value['gname'] = $goods['gname'];
+            $value['urls'] = $goods['urls'];
+        }
+        // 获取请求中的商品
+        foreach ($input['ids'] as $key => $value) {
+            $good[] = good::find($value);
+        }
+        foreach ($good as  $key=>$value) {
+            $value['number'] = $input['number'][$key];
+            // $gid[$key] = $value['gid'];
+            // $good['price'] = $input['price'];
+        }
+        // return $good;
         //计算购物车中商品总和
         $count = DB::table('user_good')->where('user_id',1)->count();
-        return view('home.pay',compact('goods','request','addr','count','good'));
+        return view('home.pay',compact('addr','count','gid','user_good','good','input'));
     }
 
     /**
@@ -61,30 +69,54 @@ class PayController extends Controller
      */
     public function store(Request $request,$id)
     {
+        
         // 1.接收数据
         //放入订单表中
             $input = $request->except('_token');
+            // 开启事务处理
+        DB::beginTransaction();
+        try{
+            // return $input;
             // 2.生成订单号
-            $order['oid'] = time()+$id+1;//session
+            $order['oid'] = date('YmdHis',time())+time()+$id+1;//session
             // 3.金额
             $order['oprice'] = $input['price'];
             $order['money'] = $input['price'];
             // 4.收货人信息
             $order['user_id'] = 1;//session
             $order['order_id'] = DB::table('data_order')->insertGetId(['oid'=>$order['oid'],'oprice'=>$order['oprice'],'money'=>$order['money'],'user_id'=>$order['user_id']]);
-        // 放入订单详情表中    
+            //订单生成时间
+
+            // 放入订单详情表中    
             // 5.收货地址
-            $order['addr_id'] = $input['addr'];
-            //6.商品id
-            $order['good_id'] = $id;
-            //7.订单表id
-            $orderdetail = orderdetail::create($order);
+            $addr = user_details::where('user_id',1)->first();
+            $order['addr_id'] = isset($input['addr']) ? $input['addr'] : $addr['id'];
+            if($id == 0){
+                foreach ($input['ids'] as $key => $value) {
+                    //6.商品id
+                    $order['good_id'] = $value;
+                    //7.订单表id
+                    $orderdetail = orderdetail::create($order);
+                    //8购物车中的商品购买够删除(购物车中的商品信息)
+                    user_good::where('user_id',1)->where('good_id',$value)->delete();
+                }
+            }else{ 
+                //6.商品id
+                $order['good_id'] = $id;
+                //7.订单表id
+                $orderdetail = orderdetail::create($order);
+            }
+            DB::commit();
             if($orderdetail){
                 $data = 1;
             }else{
                 $data = 0;
             }
             return $data;
+        }catch (Exception $e){
+            DB::rollBack();
+            return redirect()->back();
+        }
 
     }
  /**

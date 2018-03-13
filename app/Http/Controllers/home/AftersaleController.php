@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\model\link;
-use App\model\Nav;
-use App\model\Slide;
 use App\model\good;
-
+use App\model\user;
+use App\model\user_good;
+use App\model\Article;
+use DB;
 class AftersaleController extends Controller
 {
     /**
@@ -20,18 +20,18 @@ class AftersaleController extends Controller
      */
     public function index()
     {
-        /**
-         * 前台首页显示
-         */
-        // 前台导航显示
-        $nav = Nav::get();
-        //前台轮播图显示
-        $slide = Slide::where('status','1')->get();
-        //前台商品展示
-        $good = good::where('status','1')->get();
-        //前台友情链接
-        $link = link::where('status','1')->get();
-        return view('home/aftersale',compact('link','nav','slide','good'));
+        //获取用户加入购物车商品
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        //获取所有的文章
+        $Article = Article::get();
+        return view('home.shouhou',compact('user_good','count','Article'));
     }
 
     /**

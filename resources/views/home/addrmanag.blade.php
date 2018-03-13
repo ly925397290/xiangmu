@@ -33,6 +33,7 @@
             <h3>信息管理</h3>
             <a class="item n-active" href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
             <a class="item " href="{{url('home/account')}}"><i></i>账户管理</a>
+            <a class="item " href="{{url('home/account/password')}}"><i></i>密码管理</a>
         </div>
     </nav>
 </aside> 
@@ -43,7 +44,7 @@
                 <strong>确认收货地址</strong>
             </div>
             <div>
-                <div style="float:left;width:70%">
+                <div style="float:left;width:85%">
                     <table class="layui-table">
                         <thead>
                           <tr>
@@ -74,14 +75,12 @@
                       </table>
                 </div>
                 <div style="float:right;width:15%">
-                     <ul class="c ls010 x012 m06 l04 xs30">
                         <li class="g new">
                             <a onclick="x_admin_show('添加地址','{{url('home/address')}}',600,400)">
                             <i class="i-icon"></i>
                             <p >添加新地址</p>
                             </a>
                         </li>
-                    </ul>
                 </div>
             </div>
         </section>

@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\model\Order;
 use App\model\User;
 use App\model\good;
+use App\model\user_good;
+use App\model\message;
 use DB;
 class OrderController extends Controller
 {
@@ -23,10 +25,17 @@ class OrderController extends Controller
         $user = user::find(1);
         $user['show'] = $user->userShow;
         $user['order'] = $user->user_order;
-        $good = $user->user_good;
-//计算购物车中商品总和
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
+
         $count = DB::table('user_good')->where('user_id',1)->count();
-        return view('home/order',compact('user','count','good'));
+        return view('home/order',compact('user','count','user_good'));
     }
 
     /**
@@ -34,9 +43,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function pinglun($id)
     {
-        //
+        return view('home.pinglun',compact('id'));
     }
 
     /**
@@ -45,9 +54,17 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        $input = $request->except('_token');
+        $res = message::create(['oid'=>$id,'content'=>$input['content'],'uid'=>1]);
+        if($res){
+            $data = 1;
+        }else{
+            $data = 0;
+        }
+        return $data;
+
     }
 
     /**

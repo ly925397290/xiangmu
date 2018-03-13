@@ -15,12 +15,18 @@ class AddressController extends Controller
     public function index()
     {
         // 获取用户的订单信息
-        $user = user::find(1);
+        
         $user['show'] = $user->userShow;
-        $good = $user->user_good;
-//计算购物车中商品总和
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
         $count = DB::table('user_good')->where('user_id',1)->count();
-        return view('home/addr_add',compact('user','count','good'));
+        return view('home/addr_add',compact('user','count','user_good'));
     }
     // public function index()
     // {

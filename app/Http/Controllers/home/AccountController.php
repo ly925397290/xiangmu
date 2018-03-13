@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\user;
+use App\model\good;
 use App\model\user_details;
+use App\model\user_good;
 use DB;
 class AccountController extends Controller
 {
@@ -21,11 +23,16 @@ class AccountController extends Controller
         // 获取用户的信息
         $user = user::find(1);
         $user['show'] = $user->userShow;
-        $user = user::find(1);
-        $good = $user->user_good;
-//计算购物车中商品总和
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
         $count = DB::table('user_good')->where('user_id',1)->count();
-        return view('home/account',compact('user','good','count'));
+        return view('home/account',compact('user','user_good','count'));
     }
 
      public function upload(Request $request)
@@ -53,9 +60,21 @@ class AccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function password(Request $request)
     {
-        //
+        // 获取用户的信息
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        return view('home.password',compact('user','user_good','count'));
     }
 
     /**
@@ -75,9 +94,19 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        //接收数据
+        $input = $request->except('_tokne');
+        //更新用户密码
+        $res = user::where('uid',1)->update(['password'=>$input['password']]);
+        if($res){
+            $data = 1;
+        }else{
+            $data = 0;
+        }
+        return $data;
+
     }
 
     /**

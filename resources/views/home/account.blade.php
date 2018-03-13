@@ -23,6 +23,7 @@
             <h3>信息管理</h3>
             <a class="item " href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
             <a class="item n-active" href="{{url('home/account')}}"><i></i>账户管理</a>
+            <a class="item " href="{{url('home/account/password')}}"><i></i>密码管理</a>
         </div>
     </nav>
 </aside> 

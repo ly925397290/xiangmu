@@ -65,7 +65,6 @@
             </th>
             <th>ID</th>
             <th>用户名</th>
-            <th>类型</th>
             <th>状态</th>
             <th>操作</th></tr>
         </thead>
@@ -77,7 +76,6 @@
               </td>
               <td>{{$v->uid}}</td>
               <td>{{$v->uname}}</td>
-              <td>{{$v->identity}}</td>
               @if($v->status)
               <td class="td-status">
                 <span class="layui-btn layui-btn-normal layui-btn-mini">@if($v->status == 1)已启用@endif</span></td>
@@ -93,10 +91,10 @@
                 <i class="layui-icon"></i>
               </a>
               @endif
-                <a title="详情"  onclick="x_admin_show('详情','{{url('user/1')}}',600,400)" href="javascript:;">
+                <a title="详情"  onclick="x_admin_show('详情','{{url('admin/user/')}}/{{$v->uid}}',600,400)" href="javascript:;">
                   <i class="layui-icon">&#xe612;</i>
                 </a>
-                <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/')}}/{{$v->uid}}/edit',600,400)" href="javascript:;">
+                <a title="密码修改"  onclick="x_admin_show('编辑','{{url('admin/user/')}}/{{$v->uid}}/edit',600,400)" href="javascript:;">
                   <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a title="删除" onclick="member_del(this,'{{$v->uid}}')" href="javascript:;">

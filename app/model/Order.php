@@ -13,7 +13,7 @@ class Order extends Model
      *
      * @var bool
      */
-
+    
     /**
      * 设置批量赋值
      */

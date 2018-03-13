@@ -80,7 +80,7 @@
         <!-- 注: 控制广告商品个数 3*n 否则会改变页面布局 -->
         @foreach($goods as $v)
             @if($v->tuijian == 1) 
-                <a class="g x4" href="{{asset('home/settlement')}}/{{$v->gid}}"><img class="n-active" src="{{$v->urls}}"></a> 
+                <a class="g x4" href="{{asset('home/shoplist')}}/{{$v->gid}}"><img class="n-active" src="{{$v->urls}}"></a> 
                 <input type="hidden" name="price" value="{{$v->price}}"> 
             @endif                
         @endforeach
@@ -101,7 +101,7 @@
                 @foreach($goods as $v)
                     @if($v->tuijian == 2)
                         <li>
-                            <a href="{{asset('home/settlement')}}/{{$v->gid}}">
+                            <a href="{{asset('home/shoplist')}}/{{$v->gid}}">
                                 <p class="thumb"><img src="{{$v->urls}}"/></p>
                                 <span class="brand" data-brand="8"></span>
                                 <span class="title">{{$v->gname}}</span>
@@ -128,7 +128,7 @@
             @foreach($goods as $v)
                 @if($v->tuijian == 3)
                     <div class="g pro-item">
-                         <a class="pro-item-a n-active" href="{{asset('home/settlement')}}/{{$v->gid}}">
+                         <a class="pro-item-a n-active" href="{{asset('home/shoplist')}}/{{$v->gid}}">
                              <img src="{{$v->urls}}"/>
                              <p class="title" data-brand="1"></p>
                              <p class="title">{{$v->gname}}</p>
@@ -150,7 +150,7 @@
         <!-- 注: 特别推荐 -->
         @foreach($goods as $v)
             @if($v->tuijian == 4)
-            <a class="g x6" href="{{asset('home/settlement')}}/{{$v->gid}}">
+            <a class="g x6" href="{{asset('home/shoplist')}}/{{$v->gid}}">
                 <img class="n-active" src="{{$v->urls}}">
                  
             </a>

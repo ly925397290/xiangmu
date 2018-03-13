@@ -23,8 +23,9 @@
 <script src="{{asset('home/js/jquery-2.1.1.min.js')}}"></script>
 <script src="{{asset('home/js/common.js')}}"></script>
 <script src="{{asset('home/js/aform.js')}}"></script>
-<link type="text/css" rel="stylesheet" href="{{asset('home/css/common.css')}}">
-<link type="text/css" rel="stylesheet" href="{{asset('home/css/public.css')}}">
+<!-- <link type="text/css" rel="stylesheet" href="{{asset('home/css/common.css')}}"> -->
+<!-- <link type="text/css" rel="stylesheet" href="{{asset('home/css/public.css')}}"> -->
+
 </head>
 <body  data-tpage="首页" data-tproduct="" data-tuserid="148240">
 <header class="m-header">
@@ -37,7 +38,7 @@
             </a>
             <nav class="nav">
                 <a href="/">商城首页</a>
-                <a href="回收.html">回收服务</a>
+                <a href="{{url('home/recovery')}}">回收服务</a>
                 <a href="#">精品推荐</a>
             </nav>
             <!-- 购物车 -->
@@ -57,25 +58,25 @@
                     <!-- 购物车有货状态 -->
                   
                     <div class="wrap">
-                        @foreach($good as $v)
+                        @foreach($user_good as $v)
                         <ul>
                         <li data-id="167805">
                             <a class="thumb">
                                 <img src="{{$v->urls}}">
                             </a>
                             <a class="details">
-                                <p class="desc">{{$v->gname}}；</p><p class="price">{{$v->oprice}}&nbsp;&nbsp;x&nbsp;&nbsp;1</p>
+                                <p class="desc">{{$v->gname}}</p>
+                                <p class="price">￥{{$v->price}}</p>
                             </a>
-                            <i class="i-icon delete"></i>
+                            <i class="i-icon delete" onclick="member_del(this,'{{$v->good_id}}')"></i>
                         </li>
 
                         </ul>
                         <div class="action">
                             <p class="cartinfo">
-                                <span class="cartcount">共有<em>1</em>件商品</span>
-                                <span class="countprice"></span>
+                                <span class="cartcount">共有<em>{{$v->num}}</em>件商品</span>
                             </p>
-                        <a class="u-btn n-middle f-fr" href="{{asset('home/settlement')}}/{{$v->gid}}">前往结算</a>
+                        <a class="u-btn n-middle f-fr" href="{{asset('home/settlement')}}/{{$v->good_id}}">前往结算</a>
                         </div>
                         @endforeach
                     </div>
@@ -96,34 +97,30 @@
                     </div>
                 </div>
                 <script>
-                    $(function(){
-                        var bindphone = 1;
-                        if(bindphone == 0){
+                    /*商品-删除*/
+                          function member_del(obj,id){
+                            // console.log(1)
+                            // $(obj).parents("ul").remove();
                             $.ajax({
-                                url:'/bindphone/index.html',
-                                type:'get',
-                                dataType:'json',
-                                success:function(data){
-                                    if($('#onlyone'))$('#onlyone').remove();
-                                    $('body').append(data.html);
+                              headers: {
+                                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                              },
+                              type : "POST",
+                              url : '/home/delete/'+id,
+                              dataType : "Json",
+                              success : function(msg){
+                                // console.log(msg)
+                                if(msg){
+                                    layer.msg('删除成功', {icon: 1});
+                                    $(obj).parents("ul").remove();
+                                }else{
+                                    layer.msg('删除失败', {icon: 1});
                                 }
+                              }
                             });
-                        }
-                        $(document).on('click','.m-header a.signout',function(){
-                            $.ajax({
-                                url:'/tools/signout.html',
-                                type:'get',
-                                dataType:'json',
-                                success:function(data){
-                                    if(data.status == 0){
-                                        location.reload(true);
-                                    }
-                                }
-                            });
-                        })
-                    })
+                          }
                 </script>
-                        </div>
+            </div>
         </div>
         </div>
         <!--bottombar-->
@@ -150,31 +147,6 @@
                 </ul>
            </div>
         </div>
-        
-<script>var productId_list = "";
-            var keyword = "";
-            var order = [];
-            var orderby = ""
-            var catid = "";</script>
-        <script type="text/javascript">var isHyg = false; //;
-            window.pageName = '三级列表页';</script>
-        <script type="text/javascript">if (!document.getElementsByClassName) {
-                document.getElementsByClassName = function(className, element) {
-                    var children = (element || document).getElementsByTagName('*');
-                    var elements = new Array();
-                    for (var i = 0; i < children.length; i++) {
-                        var child = children[i];
-                        var classNames = child.className.split(' ');
-                        for (var j = 0; j < classNames.length; j++) {
-                            if (classNames[j] == className) {
-                                elements.push(child);
-                                break;
-                            }
-                        }
-                    }
-                    return elements;
-                };
-            }</script>
         <script src="{{asset('home/js/6052ddad28e5436fbee87f5918025856.js')}}"></script>
         <script src="{{asset('home/js/b14e46ee2b1e418298be1f361a4bcaa1.js')}}"></script>
         <script src="{{asset('home/js/category.bundle.js')}}"></script>
