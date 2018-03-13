@@ -39,7 +39,9 @@
             <nav class="nav">
                 <a href="/">商城首页</a>
                 <a href="<?php echo e(url('home/recovery')); ?>">回收服务</a>
-                <a href="#">精品推荐</a>
+                <a href="<?php echo e(url('home/shop')); ?>">创建店铺</a>
+                <a href="<?php echo e(url('home/recovery')); ?>">发布商品</a>
+
             </nav>
             <!-- 购物车 -->
             <div class="cart">

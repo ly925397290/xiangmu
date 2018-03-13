@@ -21,10 +21,8 @@ class ShopController extends Controller
 
 
         $keywords1 = $request->input('keywords1','');
-        $shop = Shop::where('shopname','like','%'.$keywords1.'%')->paginate($request->input('num', 8));
+        $shop = Shop::where('shopname','like','%'.$keywords1.'%')->paginate($request->input('num',4));
         $count = count($shop);
-
-        
         return view('admin.shop.list',['shop'=>$shop,'count'=>$count,'request'=>$request]);
       
     }
@@ -35,7 +33,8 @@ class ShopController extends Controller
     {
 
         $input = $request->except('_token');
-        foreach ($input['status'] as $key => $value) {
+        if($input){
+            foreach ($input['status'] as $key => $value) {
             if($value == '等待审核')
             {
                 $input['status'][$key] = 0;
@@ -46,12 +45,13 @@ class ShopController extends Controller
             }
 
         }
+
         // return ;
         // return $input;
         DB::beginTransaction();
         try{
             //根据id,遍历所有的记录
-            foreach ($input['id'] as $k=>$v){
+            foreach ($input['ids'] as $k=>$v){
                
             DB::table('data_home_shop')->where('id',$v)->update(['status' => $input['status'][$k]]);
                 
@@ -68,6 +68,8 @@ class ShopController extends Controller
             return redirect()->back()
                 ->withErrors(['error' => $e->getMessage()]);
         }
+        }
+        
     }
 
     /**
@@ -121,7 +123,7 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request $id)
+    public function update(Request $request,$id)
     {
         //
     }

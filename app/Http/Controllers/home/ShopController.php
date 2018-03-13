@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\model\link;
-use App\model\Nav;
-use App\model\Slide;
 use App\model\good;
-use App\model\Show;
+use App\model\user;
 use App\model\Shop;
+use App\model\user_good;
+use DB;
 
 class ShopController extends Controller
 {
@@ -22,18 +21,21 @@ class ShopController extends Controller
      */
     public function index()
     {
-       /**
-         * 前台首页显示
-         */
-        // 前台导航显示
-        $nav = Nav::get();
-        //前台轮播图显示
-        $slide = Slide::where('status','1')->get();
-        //前台商品展示
-        $good = good::where('status','1')->get();
-        //前台友情链接
-        $link = link::where('status','1')->get();
-        return view('home.shop.creat',compact('link','nav','slide','good'));
+        // 获取用户的订单信息
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
+        $user['order'] = $user->user_order;
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
+
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        return view('home.shop.creat',compact('user_good','good','count','user'));
 
     }
 
@@ -51,22 +53,25 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-
-        // 前台导航显示
-        $nav = Nav::get();
-        //前台轮播图显示
-        $slide = Slide::where('status','1')->get();
-        //前台商品展示
-        $good = good::where('status','1')->get();
-        //前台友情链接
-        $link = link::where('status','1')->get();
-
-
         // 1.接收请求数据
         $input = $request->except('_token');
-     
+        $input['uid'] = 1;//1改成session用户id
         $res = Shop::create($input);
-        return view('home.shop.deng',compact('link','nav','slide','good','res'));
+        // 获取用户的订单信息
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
+        $user['order'] = $user->user_order;
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        //查询用户的店铺状态
+        $shop_status = Shop::where('uid',1)->first(); //1改成session用户id
+        return view('home.shop.deng',compact('shop_status','user_good','count'));
     }
 
     /**
@@ -77,15 +82,6 @@ class ShopController extends Controller
      */
     public function show($id)
     {
-
-        $nav = Nav::get();
-        //前台轮播图显示
-        $slide = Slide::where('status','1')->get();
-        //前台商品展示
-        $good = good::where('status','1')->get();
-        //前台友情链接
-        $link = link::where('status','1')->get();
-
         // 1.接收请求数据
         $res =Shop::find($id);
 
@@ -95,9 +91,6 @@ class ShopController extends Controller
 
     public function shenhe($id)
     {
-
-        return 111;
-
         // $nav = Nav::get();
         // //前台轮播图显示
         // $slide = Slide::where('status','1')->get();

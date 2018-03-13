@@ -96,21 +96,24 @@
                </li >
            </ul>
        </li>
-<!--        <li>
+
+        <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe723;</i>
-               <cite>商铺管理</cite>
+               <cite>店铺管理</cite>
                <i class="iconfont nav_right">&#xe697;</i>
            </a>
            <ul class="sub-menu">
+                
                <li>
                    <a _href="<?php echo e(url('admin/shop')); ?>">
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>商铺列表</cite>
+                       <cite>店铺列表</cite>
                    </a>
                </li >
+              
            </ul>
-       </li> -->
+       </li>
         <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe6b8;</i>
@@ -200,6 +203,7 @@
                </li >
            </ul>
        </li>
+
        <li>
            <a href="javascript:;">
                <i class="iconfont">&#xe6ce;</i>

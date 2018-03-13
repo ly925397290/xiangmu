@@ -3,6 +3,7 @@
 @section('content')
 <link type="text/css" rel="stylesheet" href="{{asset('home/css/common.css')}}">
 <link type="text/css" rel="stylesheet" href="{{asset('home/css/public.css')}}">
+
 <input type="hidden" name="cart" id="cart" value="">
 <section class="m-buy-step w">
     <i class="line left-line"></i>

@@ -34,7 +34,10 @@
             <a class="item " href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
             <a class="item " href="{{url('home/account')}}"><i></i>账户管理</a>
             <a class="item n-active" href="{{url('home/account/password')}}"><i></i>密码管理</a>
-
+        </div>
+        <div class="list">
+            <h3><a href="{{url('home/shop')}}">创建商铺</a></h3>
+            <a class="item" href="{{url('/home/shop/deng')}}"><i></i>商铺审核进度</a>
         </div>
     </nav>
 </aside> 

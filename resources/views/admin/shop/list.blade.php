@@ -37,8 +37,6 @@
         <form class="layui-form layui-col-md12 x-so" method="get" action="{{ url('admin/shop') }}">
           <div class="layui-inline">
           </div>
-          <input class="layui-input" placeholder="开始日" name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">
           <input type="text" name="keywords1"  placeholder="请输入店铺名" value="" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
@@ -47,7 +45,7 @@
         <button class="layui-btn layui-btn-danger" ><i class=""></i>店铺列表</button>
         
       
-        <span class="x-right" style="line-height:40px">共有数据： 条</span>
+        <span class="x-right" style="line-height:40px">共有数据：{{$count}}条</span>
       </xblock>
       <form action="{{url('admin/shop/editAll')}}" method="post" enctype="multipart/form-data">
       {{csrf_field()}}
@@ -66,7 +64,7 @@
             @foreach($shop as $k=>$v)
   
           <tr>
-          
+            <input type="hidden" name="ids[]" value="{{$v->id}}">
              <td>{{$v->id}}</td>
              
              <td>{{$v->shopname}}</td>
@@ -99,6 +97,9 @@
         </button>
      </tfoot>
   </form>
+  <div class="page">
+        {!! $shop->appends($request->all())->render() !!}
+      </div>
   </div>
     <script>
       layui.use(['laydate','layer'], function(){

@@ -1,7 +1,26 @@
 ﻿@extends('home.public.layout')
 <!-- 主体开始 -->
 @section('content')
+<style>
+    .m{ width: 800px; margin-left: auto; margin-right: auto; margin-top: 100px}
+* { margin: 0; padding: 0; list-style-type: none; text-decoration: none; font: 16px '微软雅黑'; }
+/*外层盒子和里边图片的一点点样式*/
+.jqueryzoom { position: relative; padding: 0; border: solid 1px #eaeaea; width: 300px; height:300px; overflow: hidden; display: inline-block; }
+/*放大镜是基于图片大小自动生成的，每次都要把jqueryzoom中img的大小和jqueryzoom盒子大小设置为一样的，不然放大镜滑块有可能溢出*/
+.jqueryzoom img { width: 300px; }
+ul li { float: left; margin-right: 5px; }
+ul li img { width: 100px; height: 100px; }
+    .cloudzoom-gallery-active{opacity: .5}
+</style>
+<!--引入cloudzoom的css和js，顺序不要错，先css，再jQuery再cloudzoom的js，这个cloudzoom也是需要jQuery支持的，其实很多插件都是基于jQuery开发的-->
+<link href="{{asset('home/css/cloudzoom.css')}}" rel="stylesheet"/>
 
+<script src="{{asset('home/js/jquery.min.js')}}"></script>
+<script src="{{asset('home/js/cloudzoom.js')}}"></script>
+<!--启动CloudZoom就可以了，quickStart()立即启动-->
+<script type="text/javascript">
+    CloudZoom.quickStart();
+</script>
 
 <!-- 主体结束 -->
    <section class="w">
@@ -15,7 +34,8 @@
             <a class="arrow down i-icon"></a>
         </div>-->
         <div class="view">
-            <img src="{{$goods->urls}}" alt="爱否【水滴】坚果Pro2 大弧边钢化膜"/>
+            <img id="img" class="cloudzoom" src="{{$goods->urls}}"
+                 data-cloudzoom="zoomSizeMode:'image',zoomImage: '{{$goods->urls}}',autoInside: 30" alt="呵呵哒" title=""/>
         </div>
         <div class="thumb">
             <a class="backward"></a>

@@ -133,7 +133,7 @@ Route::get('outlogin','LoginController@outlogin');
 // 前台首页
 Route::get('/','Home\IndexController@index');
 
-<<<<<<< HEAD
+
 // // 加载前台首页
 // Route::get('home/index','home\IndexController@index');
 
@@ -205,13 +205,12 @@ Route::get('home/recovery','Home\RecoveryController@index');
 
 
 
-=======
 //创建商铺
 Route::resource('home/shop','Home\ShopController');
-Route::post('/home/shop/shenhe/{id}','Hone\ShopController@shenhe');
+Route::post('/home/shop/shenhe/{id}','Home\ShopController@shenhe');
 //前台发布闲置商品
 Route::resource('home/goods','Home\goodsController');
 // 文章图片上传处理
 Route::post('home/goods/upload','Home\goodsController@upload');
-Route::post('/home/shop/write/{id}','Hone\ShopController@write');
->>>>>>> origin/lidandan
+Route::post('/home/shop/write/{id}','Home\ShopController@write');
+

@@ -6,11 +6,10 @@
     <div class="w">
         <div class="user">
             <!-- 头像 -->
-            <a class="avatar"><img src="picture/a40db3cc250a40049320ae74bd800426.gif"/></a>
+            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
             <!-- 昵称 -->
-            <span>Mr.feng</span>
-            <!-- 信息 -->
-            <p class="phone">绑定手机号：13520249366<span>修改</span></p>
+            <span>{{$user->uname or '你好'}}</span>
+            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
         </div>
     </div>
 </section>
@@ -19,22 +18,18 @@
     <nav>
         <div class="list">
             <h3>我的订单</h3>
-            <a class="item " href="/order/list.html"><i></i>购买订单</a>
-            <a class="item " href="/saleorder/list.html"><i></i>回收服务</a>
-           
+            <a class="item" href="{{url('home/order')}}"><i></i>我的订单</a>
         </div>
         <div class="list">
             <h3>信息管理</h3>
-            <a class="item " href="/address/index.html"><i></i>地址管理</a>
-            <a class="item n-active" href="/account/index.html"><i></i>账户管理</a>
+            <a class="item " href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
+            <a class="item " href="{{url('home/account')}}"><i></i>账户管理</a>
+            <a class="item " href="{{url('home/account/password')}}"><i></i>密码管理</a>
         </div>
         <div class="list">
             <h3><a href="{{url('home/shop')}}">创建商铺</a></h3>
-            <a class="item " href="{{url('/home/shop/deng')}}"><i></i>商铺审核进度</a>
+            <a class="item n-active" href="{{url('/home/shop/deng')}}"><i></i>商铺审核进度</a>
            
-        </div>
-        <div class="list">
-            <h3><a href="/help/help.html#sale"><i></i>常见问题</a></h3>
         </div>
     </nav>
 </aside> 
@@ -46,107 +41,13 @@
                 <a class="u-btn">退出创建</a>
             </div>
 
-            <form  id="art_form" action="{{ url('home/shop/editAll') }}" method="post" enctype="multipart/form-data">
+            <form class="layui-form" id="art_form" action="{{ url('/home/shop')}}" method="post" >
                  {{csrf_field()}}
-            
+                商品名称：<input type="text" name="shopname" value="" class="layui-input">
+                商品描述：<input type="text" name="desc" value="" class="layui-input">
             <br>
-                <table border="1">
-                    <tr>
-                        <td width="5px">商品缩列图</td>
-                        <td width="50px">商品名称</td>
-                        <td width="50px">商品价格</td>
-                        <td></td>
-                        <td width="50px">商品状态</td>
-                        <td width="150px">发布时间</td>
-                        <td width="100px">商品描述</td>
-                    </tr>
-                     @foreach($goods as $k=>$v)
-                    <tr>
-                        
-                        <td><img src="{{$v->urls}}" id="art_thumb_img">
-             <input id="file_upload" name="file_upload" type="file" enctype="multipart/form-data" method="post">
-                     
-                        <script type="text/javascript">
-$(function () {
-$("#file_upload").change(function () {
-uploadImage();                                 });
-});                             function uploadImage() { //
-判断是否有选择上传文件                                 var imgPath =
-$("#file_upload").val();                                 if (imgPath == "") {
-alert("请选择上传图片！");                                     return;
-}                                 //判断上传文件的后缀名
-var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
-
-                                if (strExtension != 'jpg' && strExtension != 'gif'
-                                    && strExtension != 'png' && strExtension != 'bmp') {
-                                    alert("请选择图片文件");
-                                    return;
-                                }
-                           
-                                // var myform = document.getElementById('art_from');
-
-                               //将整个表单打包进formData
-                        // var formData = new FormData($('#art_form')[0]);
-
-                        //只将上传文件打包进formData
-                                var formData = new FormData();
-                                formData.append('file_upload',$('#file_upload')[0].files[0]);
-                                // formData.append('_token','{{ csrf_token() }}');
-                                 $.ajax({
-                                    type: "POST",
-                                    url: '{{url('/admin/goods/upload')}}',
-                                     headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-
-                                    data: formData,
-                                    async: true,
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false,
-                                    success: function(data) {
-                                      console.log(data);
-                                        $('#thumb').attr('src',data);
-                                         $('#art_thumb_img').attr('src',data);
-                                         $('#art_thumb').val(data);
-                                    },
-                                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                        alert("上传失败，请检查网络后重试");
-                                    }
-                                });
-                            }
-                        </script>
-                        <style>
-                            .uploadify{display:inline-block;}
-                            .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
-                            table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
-                        </style>
-
-                    </td>
-                    <td><input type="text" name="gname[]" value="{{$v->gname}}"></td>
-                            <td><input type="text" name="price[]" value="{{$v->price}}"></td>
-                            <td> 
-
-                            @if($v->status == 0)
-                            <th>
-                                 <input type="text" name="status[]" value="下架">
-                                     下架 | 已上架
-                            </th>
-                            @else
-                            <th>
-                                <input type="text" name="status[]" value="已上架">
-                                    下架 | 已上架
-                            </th>
-                            @endif</td>
-                                <td>{{$v->addtime}}</td>
-                                <td><a href="{{url('home/shop/write')}}">查看商品描述</a></td>
-                        </tr>
-                    @endforeach
-                </table>
-
-
             <button  class="layui-btn" lay-filter="add" lay-submit="">
-              批量修改
+              申请创建
             </button>
             <br>
           

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\user_good;
+use App\model\good;
 use DB;
 
 class RecoveryController extends Controller
