@@ -16,7 +16,7 @@
 <section class="m-uc w">
 <aside class="m-uc-nav">
     <nav>
-        <<div class="list">
+        <div class="list">
             <h3>我的订单</h3>
             <a class="item" href="{{url('home/order')}}"><i></i>我的订单</a>
         </div>
