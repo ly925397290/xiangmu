@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\model\link;
-use App\model\Nav;
-use App\model\Slide;
+use App\model\user;
 use App\model\good;
-
+use App\model\user_details;
+use App\model\user_good;
+use DB;
 class AccountController extends Controller
 {
     /**
@@ -20,22 +20,38 @@ class AccountController extends Controller
      */
     public function index()
     {
-        /**
-         * 前台首页显示
-         */
-        //前台商品展示
-        $good = good::where('status','1')->get();
-        return view('home/account',compact('link','nav','slide','good'));
+        // 获取用户的信息
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        return view('home/account',compact('user','user_good','count'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+     public function upload(Request $request)
     {
-        //
+        //1.获取上传文件
+        $file = $request->file('file_upload');
+    // return $file;
+        //  2.判断上传文件的有效性
+         if($file->isValid()){
+ //            获取文件后缀名
+             $ext = $file->getClientOriginalExtension();    //文件拓展名
+            //生成新文件名
+
+             $newfilename = md5(date('YmdHis').rand(1000,9999).uniqid()).'.'.$ext;
+             $res = $file->move(public_path().'/upload/user/',$newfilename);
+
+           return '/upload/user/'.$newfilename;
+       }
+        
     }
 
     /**
@@ -44,9 +60,21 @@ class AccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function password(Request $request)
     {
-        //
+        // 获取用户的信息
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        return view('home.password',compact('user','user_good','count'));
     }
 
     /**
@@ -66,9 +94,19 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        //接收数据
+        $input = $request->except('_tokne');
+        //更新用户密码
+        $res = user::where('uid',1)->update(['password'=>$input['password']]);
+        if($res){
+            $data = 1;
+        }else{
+            $data = 0;
+        }
+        return $data;
+
     }
 
     /**
@@ -80,7 +118,15 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->except('_token');
+        // return $input;
+        $res = user_details::where('user_id',$id)->update(['header'=>$input['header'],'phone'=>$input['phone']]);
+        $res = user::where('id',$id)->update(['uanem'=>$input['uanem']]);
+        if($res){
+            return back();
+        }else{
+            return back();
+        }
     }
 
     /**

@@ -23,8 +23,18 @@
 
   <body>
     <div class="x-body">
-        <form class="layui-form" method="post">
+        <form class="layui-form" method="post" action="{{url('admin/user/')}}/{{$user->uid}}">
             {{csrf_field()}}
+            {{method_field('PUT')}}
+            @if (count($errors) > 0)
+              <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+              </div>
+            @endif
           <div class="layui-form-item">
               <label for="L_username" class="layui-form-label">
                   <span class="x-red">*</span>昵称
@@ -33,13 +43,25 @@
                   <input type="text" id="L_username" name="uname" required="" lay-verify="nikename"
                   autocomplete="off" class="layui-input" value="{{$user->uname}}">
               </div>
+          </div><div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>旧密码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="password" id="L_pass" name="oldPass" required="" lay-verify="pass"
+                  autocomplete="off" class="layui-input">
+                  <input type="hidden" name="oldRePass" value="{{$user->password}}">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  6到16个字符
+              </div>
           </div>
           <div class="layui-form-item">
               <label for="L_pass" class="layui-form-label">
-                  <span class="x-red">*</span>密码
+                  <span class="x-red">*</span>新密码
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="password" required="" lay-verify="pass"
+                  <input type="password" id="L_pass" name="newPass" required="" lay-verify="pass"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -51,21 +73,8 @@
                   <span class="x-red">*</span>确认密码
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
+                  <input type="password" id="L_repass" name="password" required="" lay-verify="repass"
                   autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_pass" class="layui-form-label">
-                  <span class="x-red">*</span>用户类型
-              </label>
-              <div class="layui-input-inline">
-                  <select class="layui-input" name="identity">
-                      <option value="1">普通管理员</option>
-                      <option value="2">超级管理员</option>
-                      <option value="3">普通用户</option>
-                      <option value="4">店主</option>
-                  </select>
               </div>
           </div>
           <div class="layui-form-item">

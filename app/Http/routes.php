@@ -65,6 +65,7 @@ Route::group(['middleware'=>['login']],function(){
 	 	Route::post('admin/goods/upload','Admin\GoodsController@upload');
 		// 商铺管理
 		Route::resource('admin/shop','Admin\ShopController');
+		Route::post('admin/shop/editAll','Admin\ShopController@editAll');
 		// 轮播图管理
 		 Route::resource('admin/slide','Admin\SlideController');
 		 //轮播图
@@ -121,7 +122,7 @@ Route::get('/code/captcha/{tmp}', 'Admin\LoginController@captcha');
 
 // 设置路由组 统一命名空间下的控制器 有需要的再提出来
 Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
-
+                                                                    
 // 退出登录
 Route::get('outlogin','LoginController@outlogin');
 });
@@ -132,18 +133,50 @@ Route::get('outlogin','LoginController@outlogin');
 // 前台首页
 Route::get('/','Home\IndexController@index');
 
+
 // // 加载前台首页
 // Route::get('home/index','home\IndexController@index');
 
 // 加载账户管理页
 Route::get('home/account','home\AccountController@index');
-
+// 修改个人信息
+Route::post('home/account/update/{id}','home\AccountController@update');
+//用户头像处理
+Route::post('home/account/upload','home\AccountController@upload');
+//用户密码页加载
+Route::get('home/account/password','Home\AccountController@password');
+//用户密码处理
+Route::post('home/password','Home\AccountController@edit');
 // 加载添加地址页
 Route::get('home/address','Home\AddressController@index');
-
+// 添加地址页处理
+Route::post('home/address/create','Home\AddressController@create');
 // 加载地址管理页
 Route::get('home/addrmanag','Home\AddrmanagController@index');
+// 删除地址
+Route::post('home/addrmanag/destroy/{id}','Home\AddrmanagController@destroy');
+// 修改地址
+Route::post('home/addrmanag/update/{id}','Home\AddrmanagController@update');
+// 加载订单页
+Route::get('home/order','Home\OrderController@index');
+// 加载评论页
+Route::get('home/pinglun/{id}','Home\OrderController@pinglun');
+// 加载评论处理
+Route::post('home/pinglun/{id}','Home\OrderController@store');
 
+
+//加载商品详情页
+Route::get('home/shoplist/{id}','Home\ShoplistController@index');
+// 加载购物车
+Route::get('home/settlement/{id}','Home\SettlementController@index');
+//加入购物车处理
+Route::post('home/sc/{id}','Home\SettlementController@shoucang');
+//购物车删除处理
+Route::post('home/delete/{id}','Home\SettlementController@delete');
+//支付页面
+Route::post('home/pay/{id}','Home\PayController@index');
+//支付处理
+Route::post('home/pay/store/{id}','Home\PayController@store');
 // 加载售后页
 Route::get('home/aftersale','Home\AftersaleController@index');
 
@@ -153,8 +186,6 @@ Route::get('home/assess','Home\AssessController@index');
 // 加载添加评估信息页
 Route::get('home/infomation','Home\InfomationController@index');
 
-// 加载订单支付页
-Route::get('home/order','Home\OrderController@index');
 
 // 加载回收订单列表页
 Route::get('home/reclaimorder','Home\ReclaimorderController@index');
@@ -162,23 +193,15 @@ Route::get('home/reclaimorder','Home\ReclaimorderController@index');
 // 加载回收机制页
 Route::get('home/recovery','Home\RecoveryController@index');
 
-// 加载结算页
-Route::get('home/settlement/{id}','Home\SettlementController@index');
-//商品收藏处理
-Route::post('home/sc/{id}','Home\SettlementController@shoucang');
-//支付页面
-Route::post('home/pay','Home\SettlementController@pay');
-// 加载购物清单页
-Route::get('home/shoplist','Home\ShoplistController@index');
-
-// 加载提交订单页
-Route::get('home/submitorder','Home\SubmitorderController@index');
-
-//
 
 
-
-
-
-
+//创建商铺
+Route::resource('home/shop','Home\ShopController');
+// Route::post('/home/shop/shenhe/{id}','Home\ShopController@shenhe');
+Route::get('home/shop/shenhe/{id}','Home\ShopController@shenhe');
+//前台发布闲置商品
+Route::resource('home/goods','Home\goodsController');
+// 文章图片上传处理
+Route::post('home/goods/upload','Home\goodsController@upload');
+Route::post('/home/shop/write/{id}','Home\ShopController@write');
 

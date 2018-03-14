@@ -13,12 +13,17 @@ class Order extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    
     /**
      * 设置批量赋值
      */
-    protected $fillable = ['oid','oprice','money','uid'];
+    protected $fillable = ['oid','oprice','money','user_id'];
 
+
+    public function order_good()
+        {
+            return $this->hasOne('App\model\good','good_id');
+        }
     //返回格式化的分类数据
     public function getTree(Request $request)
     {
@@ -117,6 +122,7 @@ class Order extends Model
                     $value['delivery_method'] = '圆通';
                     break;
             }
+            $value['user_id'] = user_details::where('user_id',$value['user_id'])->first()->people;
         }
         //3. 返回格式化后的数据
         return $data;

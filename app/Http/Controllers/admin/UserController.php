@@ -20,22 +20,6 @@ class UserController extends Controller
         //接收请求中的参数
         $keywords1 = $request->input('keywords1','');
         $user = user::orderBy('uid','desc')->where('uname','like','%'.$keywords1.'%')->orwhere('status','like','%'.$keywords1.'%')->paginate($request->input('num', 2));
-        foreach($user as $v){
-            switch($v->identity){
-                case 1:
-                    $v->identity = '普通管理员';
-                    break;
-                case 2:
-                    $v->identity = '超级管理员';
-                    break;
-                case 3:
-                    $v->identity = '普通用户';
-                    break;
-                case 4:
-                    $v->identity = '店主';
-                    break;
-            }
-        }
         $count = count($user);
         return view('admin.user.list',['user'=>$user,'request'=> $request,'count'=>$count]);
     }
@@ -84,7 +68,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        echo '用户详情';
+        $user = user::find($id);
+        // 获取用户详细信息
+        $user['show'] = $user->userShow;
+        // return $user->show->people;
+        return view('admin.user.show',compact('user'));
     }
 
     /**
@@ -100,9 +88,11 @@ class UserController extends Controller
     /**
      * 用户修改操作
      */
-    public function update(Request $request, $id)
+    public function update(Requests $request,$id)
     {
-        
+        //获取数据
+        $input = $request->except('_token');
+
     }
 
     /**

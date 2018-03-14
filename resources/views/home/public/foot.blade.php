@@ -26,7 +26,7 @@
                 </div>
                 <div class="about">
                     <div class="servers c">
-                        <div class='wecatimg c'><img src='picture/wecat.jpg'/></div>
+                        <div class='wecatimg c'><img src="{{asset('home/picture/wecat.jpg')}}"/></div>
                         <p class='media'>
                             <a class='weibo' href='http://weibo.com/FViewReLife'><i class='i-icon'></i><span>新浪微博</span></a>
                             <a class='wecat'>关注微信客服</a>

@@ -60,6 +60,7 @@
         <tbody>
          <?php foreach($articles as $v): ?>
           <tr>
+            <th><?php echo e($v['number']); ?></th>
            <th><?php echo e($v['aid']); ?></th>     
             <th><?php echo e($v['apath']); ?></th>
             <th><?php echo e($v['title']); ?></th>

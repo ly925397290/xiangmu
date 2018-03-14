@@ -1,14 +1,86 @@
 ﻿
 <!-- 主体开始 -->
 <?php $__env->startSection('content'); ?>
+<!--gome_head -->
+        <div class="category-box">
+            <div class="category wbox">
+                <div class="sidecategory">
+                    <h2>
+                        <a data-code="1000036957" href="//list.gome.com.cn" target="_blank">全部商品分类</a></h2>
+                    <div id="navBox" class='lisnav'>
+                        <div class="lisbg"></div>
+                        <!-- 一级菜单 -->
+                        <ul class="lisnav-ul" id="lisnav">
+                            <li class="first edit-mode nav-item" data-index="0" modelType="4" modelId="1000037040">
+                                <h3>
+                                    <!-- 一级标题 -->
+                                    <a data-code="1000037040-0" href="#" target="_blank">手机</a>
+                                    <!-- 一级标题end -->
+                                    <a data-code="1000037040-1" href="#" target="_blank">充值</a></h3>
+                            </li>
+                        </ul>
+                        <!-- 一级菜单end -->
 
+                        <div class="subnav" id="subnav" flag="0">
+                            <div class="loading1-sync" id="loading1-sync">
+                                <div class="fullcategory-left">
+                                    <div class="fullcategory-content-box" id="fullcategory-content-box" style="width: 769px;">
+                                        <div class="fullcategory-content" data-code="1000051970_0" style="width: 769px;">
+                                            <ul class="fullcategory-list" style="width: 769px;">
+                                                <!-- 一级标题 -->
+                                                <div class="title" style="margin-top: -8px;_margin: -8px 0;">手机</div>
+                                                <!-- 一级标题end -->
+                                                <div class="list" style="width: 700px;">
+                                                    <!-- 二级分类 -->
+                                                    <a href="#" target="_blank" title="手机" data-code="1000051971-0">手机</a>
+                                                    <!-- 二级分类 -->
+                                                    <a href="#" target="_blank" title="对讲机" data-code="1000051971-1">对讲机</a>
+                                                </div>
+                                            </ul>
+                                            <ul class="fullcategory-list" style="width: 769px;">
+                                                <!-- 一级标题 -->
+                                                <div class="title" style="margin-top: -8px;_margin: -8px 0;">充值</div>
+                                                <!-- 一级标题end -->
+                                                <div class="list" style="width: 700px;">
+                                                    <!-- 二级分类 -->
+                                                    <a href="#" target="_blank" title="手机" data-code="1000051971-0">联通</a>
+                                                    <!-- 二级分类 -->
+                                                    <a href="#" target="_blank" title="对讲机" data-code="1000051971-1">电信</a>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--gome_head end-->
+    </div>
+</header>
+<section class="m-slide">
+<ul>
+    <?php foreach(config('slideconfig') as $k=>$v): ?>
+    <li style="background-color: ;">
+        <a href="<?php echo e($k); ?>">
+            <img src="<?php echo e($v); ?>"/>
+        </a>
+    </li> 
+    <?php endforeach; ?>   
+    </ul>
+<em></em>
+<a class="prev i-icon"></a>
+<a class="next i-icon"></a>
+</section>
 <section class="m-ad">
     <div class="w">
         <div class="c xs020">     
         <!-- 注: 控制广告商品个数 3*n 否则会改变页面布局 -->
-        <?php foreach($good as $v): ?>
+        <?php foreach($goods as $v): ?>
             <?php if($v->tuijian == 1): ?> 
-                <a class="g x4" href="<?php echo e(asset('home/settlement')); ?>/<?php echo e($v->gid); ?>"><img class="n-active" src="<?php echo e($v->urls); ?>"></a> 
+                <a class="g x4" href="<?php echo e(asset('home/shoplist')); ?>/<?php echo e($v->gid); ?>"><img class="n-active" src="<?php echo e($v->urls); ?>"></a> 
                 <input type="hidden" name="price" value="<?php echo e($v->price); ?>"> 
             <?php endif; ?>                
         <?php endforeach; ?>
@@ -26,10 +98,10 @@
         <div class="slide c">
             <ul>
                 <!-- 热度商品遍历最好不低于4个 -->
-                <?php foreach($good as $v): ?>
+                <?php foreach($goods as $v): ?>
                     <?php if($v->tuijian == 2): ?>
                         <li>
-                            <a href="<?php echo e(asset('home/settlement')); ?>/<?php echo e($v->gid); ?>">
+                            <a href="<?php echo e(asset('home/shoplist')); ?>/<?php echo e($v->gid); ?>">
                                 <p class="thumb"><img src="<?php echo e($v->urls); ?>"/></p>
                                 <span class="brand" data-brand="8"></span>
                                 <span class="title"><?php echo e($v->gname); ?></span>
@@ -53,10 +125,10 @@
         </div>
         <div class="c xs020 m03 s04 x04">
             <!-- 推荐位遍历 -->
-            <?php foreach($good as $v): ?>
+            <?php foreach($goods as $v): ?>
                 <?php if($v->tuijian == 3): ?>
                     <div class="g pro-item">
-                         <a class="pro-item-a n-active" href="<?php echo e(asset('home/settlement')); ?>/<?php echo e($v->gid); ?>">
+                         <a class="pro-item-a n-active" href="<?php echo e(asset('home/shoplist')); ?>/<?php echo e($v->gid); ?>">
                              <img src="<?php echo e($v->urls); ?>"/>
                              <p class="title" data-brand="1"></p>
                              <p class="title"><?php echo e($v->gname); ?></p>
@@ -76,9 +148,9 @@
     </div>
     <div class="xs020">
         <!-- 注: 特别推荐 -->
-        <?php foreach($good as $v): ?>
+        <?php foreach($goods as $v): ?>
             <?php if($v->tuijian == 4): ?>
-            <a class="g x6" href="<?php echo e(asset('home/settlement')); ?>/<?php echo e($v->gid); ?>">
+            <a class="g x6" href="<?php echo e(asset('home/shoplist')); ?>/<?php echo e($v->gid); ?>">
                 <img class="n-active" src="<?php echo e($v->urls); ?>">
                  
             </a>

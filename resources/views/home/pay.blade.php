@@ -1,130 +1,148 @@
-<!DOCTYPE html>
-<html>
+﻿@extends('home.public.layout')
+<!-- 主体开始 -->
+@section('content')
+   <section class="m-buy-step w">
+    <i class="line left-line n-active"></i>
+    <i class="line right-line"></i>
+    <p class="left n-active">
+        <i></i>
+        <span>购物车</span>
+    </p>
+    <p class="center n-active n-now">
+        <i></i>
+        <span>确认支付</span>
+    </p>
+    <p class="right">
+        <i></i>
+        <span>购物成功</span>
+    </p>
+</section>
+<form class="layui-form">
 
-  <head>
-    <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.0</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{asset('admin/favicon.ico')}}" type="image/x-icon" />
-    <link rel="stylesheet" href="{{asset('admin/css/font.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/css/xadmin.css')}}">
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script src="{{asset('admin/lib/layui/layui.js')}}" charset="utf-8"></script>
-    <script type="text/javascript" src="{{asset('admin/js/xadmin.js')}}"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
-    <div class="x-body">
-        <form class="layui-form">
-            {{csrf_field()}}
-          <div class="layui-form-item">
-              <label for="L_pass" class="layui-form-label">
-                  <span class="x-red">*</span>收货人
-              </label>
-              <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="password" required="" lay-verify="pass"
-                  autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-                  <span class="x-red">*</span>收货地址
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="L_repass" name="repass" required="" lay-verify="repass"
-                  autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-                  <span class="x-red">*</span>支付金额
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="L_repass" name="repass" required="" lay-verify="repass"
-                  autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_pass" class="layui-form-label">
-                  <span class="x-red">*</span>支付方式
-              </label>
-              <div class="layui-input-inline">
-                  <select class="layui-input" name="pay_status">
-                      <option value="1">支付宝</option>
-                      <option value="2">微信</option>
-                  </select>
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-              </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
-              </button>
-          </div>
-      </form>
+<section class="m-select-address w">
+    <div class="title">
+        <strong>确认收货地址</strong>
     </div>
-    <script>
+    <ul class="c x06 m04 xs30">
+        <li class="g new">
+              <select class="layui-input" name="addr" lay-verify="addr" id="addr">
+                  <option value="0">===请选择收货地址===</option>
+                  @foreach($addr as $v)
+                  <option value="{{$v->id}}">{{$v->addr}}</option>
+                  @endforeach
+              </select>
+        </li>
+    </ul>
+</section>
 
-        layui.use(['form','layer'], function(){
-            $ = layui.jquery;
-          var form = layui.form
-          ,layer = layui.layer;
 
-          //监听提交
-          form.on('submit(add)', function(data){
-            //发异步，把数据提交给php
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type : "POST",
-                url : '/admin/user',
-                data : data.field,
-                dataType : "Json",
-                success : function(msg){
-                    // console.log(msg)
-                    if(msg.status){
-                        layer.alert("增加成功", {icon: 6},function () {
-                            // 获得frame索引
-                            var index = parent.layer.getFrameIndex(window.name);
-                            //关闭当前frame
-                            parent.layer.close(index);
-                            parent.location.reload(true);
-                        });
-                    }else{
-                        layer.alert("增加失败", {icon: 6},function () {
-                            // 获得frame索引
-                            var index = parent.layer.getFrameIndex(window.name);
-                            //关闭当前frame
-                            parent.layer.close(index);
-                            parent.location.reload(true);
-                        });
-                    }
+<section class="m-pay-list w" data-stuats='1' data-order="201803092039075034" data-payable="39.90">
+    <div class="title">
+        <strong>购物清单</strong>
+    </div>
+    <ul class="head c">
+        <li class="cell name">产品名称</li>
+        <li class="cell price">单价</li>
+        <li class="cell num">数量</li>
+        <li class="cell count">总计</li>
+    </ul>
+    
+    <ul class="list c">
+        @foreach($good as $k=>$v)
+        <li>
+            <div class="cell name">
+                <a class="info">
+                    <img src="{{$v['urls']}}"/>
+                    <div class="details" data-format='{"1":"117"}'>
+                        <strong>{{$v['gname']}}</strong>
+                    </div>
+                </a>
+            </div>
+            <div class="cell price">
+                <span class="vlc">&#165;{{$v['price']}}</span>
+            </div>
+            <div class="cell num">
+                <span class="vlc">{{$v['number']}}</span>
+            </div>
+            <div class="cell count">
+                <span class="vlc">&#165;{{($v['price'])*$v['number']}}</span>
+            </div>
+        </li>    
+        @endforeach
+    </ul>
+    <div class="use-coupon">
+        <a class="u-btnl f-fr use-btn">使用</a>
+        <input type="text" class="u-ipt f-fr use-code" placeholder="通关密码" value="">
+    </div>    <div class="handle">
+        <div class="pay-info c">
+            <p class="f-fl"><span>商品总计：</span><em>&#165;{{$input['price']}}</em></p>
+            <p class="f-fr"><span>应付金额：</span><strong>&#165;{{$input['price']}}</strong></p>
+        </div>
+        <div class="pay c">
+            <input type="hidden" class="layui-input" name="price" value="{{$input['price']}}">
+            @foreach($good as $k=>$v)
+            <input type="hidden" class="layui-input" name="ids[{{$k}}]" value="{{($v['gid'])}}">
+            @endforeach
+            <button class="u-btn n-middle n-blue f-fr" lay-filter="add" lay-submit=""><i class="layui-icon"></i>支付宝付款</button>
+                  <i class="layui-icon"></i>支付宝付款
+            </button>
+            <div class="i-icon f-fr hint">
+                <div class="hints">
+                    <p>本站目前仅支持支付宝付款，</br>给您带来的不便还请谅解</p>
+                    <i class="i-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</section> 
+<script>
+    layui.use(['form','layer'], function(){
+        $ = layui.jquery;
+      var form = layui.form
+      ,layer = layui.layer;
+      // 自定义验证规则
+          form.verify({
+            addr: function(value){
+                if($('#addr').val()== 0){
+                    return '请选择收货地址';
                 }
-            });
-
-
-            return false;
+            }
           });
-
-
+      //监听提交
+      form.on('submit(add)', function(data){
+        //发异步，把数据提交给php
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type : "POST",
+            url : '/home/pay/store/0',
+            data : data.field,
+            dataType : "Json",
+            success : function(msg){
+                // console.log(msg)
+                if(msg){
+                    layer.alert("支付成功", {icon: 6},function () {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        parent.location.reload(true);
+                    });
+                }else{
+                    layer.alert("支付失败", {icon: 6},function () {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        parent.location.reload(true);
+                    });
+                }
+            }
         });
-    </script>
-    <script>var _hmt = _hmt || []; (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-      })();</script>
-  </body>
-
-</html>
+        return false;
+      });
+    });
+</script>    
+@endsection

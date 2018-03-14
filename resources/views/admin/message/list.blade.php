@@ -41,10 +41,7 @@
                             ID
                         </th>
                         <th>
-                            商铺名
-                        </th>
-                        <th>
-                            商品名
+                            订单号
                         </th>
                         <th>
                             回复者
@@ -73,13 +70,10 @@
                             {{$v->id}}
                         </td>
                         <td>
-                            {{$v->sid}}
-                        </td>
-                        <td>
-                           {{$v->gid}}
+                           {{$v->oid}}
                         </td>
                         <td >
-                           {{$v->uid}}
+                           {{$v->uid->uname}}
                         </td>
                         <td >
                             {{$v->content}}

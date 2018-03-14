@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\model\link;
-use App\model\Nav;
-use App\model\Slide;
+use App\model\Order;
+use App\model\User;
 use App\model\good;
-
+use App\model\user_good;
+use App\model\message;
+use DB;
 class OrderController extends Controller
 {
     /**
@@ -20,18 +21,21 @@ class OrderController extends Controller
      */
     public function index()
     {
-        /**
-         * 前台首页显示
-         */
-        // 前台导航显示
-        $nav = Nav::get();
-        //前台轮播图显示
-        $slide = Slide::where('status','1')->get();
-        //前台商品展示
-        $good = good::where('status','1')->get();
-        //前台友情链接
-        $link = link::where('status','1')->get();
-        return view('home/order',compact('link','nav','slide','good'));
+        // 获取用户的订单信息
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
+        $user['order'] = $user->user_order;
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
+
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        return view('home/order',compact('user','count','user_good'));
     }
 
     /**
@@ -39,9 +43,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function pinglun($id)
     {
-        //
+        return view('home.pinglun',compact('id'));
     }
 
     /**
@@ -50,9 +54,17 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        $input = $request->except('_token');
+        $res = message::create(['oid'=>$id,'content'=>$input['content'],'uid'=>1]);
+        if($res){
+            $data = 1;
+        }else{
+            $data = 0;
+        }
+        return $data;
+
     }
 
     /**

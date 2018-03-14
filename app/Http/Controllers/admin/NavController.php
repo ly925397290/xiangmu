@@ -28,6 +28,7 @@ class NavController extends Controller
     {
         //
         $keywords1 = $request->input('keywords1','');
+        $this->putContent();
         $Nav = Nav::where('nname','like','%'.$keywords1.'%')->paginate($request->input('num', 2));
         $count = count($Nav);
         return view('Admin.Nav.list',['Nav'=>$Nav,'count'=>$count,'request'=>$request]);
@@ -53,11 +54,15 @@ class NavController extends Controller
      */
     public function store(Request $request)
     {
+
         // 1.接收请求数据
         $input = $request->except('_token');
         $input['nlink'] = 'https://'.$input['nlink']; 
+        // return   $input;
+        $input['nname'] = 'https://'.$input['nname'];
         // 2.将数据入库
         $res = Nav::create($input);
+
         if($res){
             $this->putContent();
             $data = 1;

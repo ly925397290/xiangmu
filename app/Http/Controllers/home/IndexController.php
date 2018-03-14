@@ -9,8 +9,10 @@ use App\Http\Controllers\Controller;
 use App\model\link;
 use App\model\Nav;
 use App\model\Slide;
+use App\model\user;
 use App\model\good;
-
+use App\model\user_good;
+use DB;
 class IndexController extends Controller
 {
     /**
@@ -28,10 +30,21 @@ class IndexController extends Controller
         //前台轮播图显示
         $slide = Slide::where('status','1')->get();
         //前台商品展示
-        $good = good::where('status','1')->get();
+        $goods = good::where('status','1')->get();
         //前台友情链接
         $link = link::where('status','1')->get();
-        return view('home/index',compact('link','nav','slide','good'));
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        // $user = user::find(1);
+        // $good = $user->user_good;
+        $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        // return $user_good;
+        return view('home/index',compact('link','nav','slide','goods','count','user_good'));
     }
 
     /**

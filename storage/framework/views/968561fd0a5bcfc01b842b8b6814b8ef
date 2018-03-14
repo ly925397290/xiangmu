@@ -47,8 +47,6 @@
               </option>
             </select>
           </div>
-          <input class="layui-input" placeholder="开始日" name="start" id="start" value="<?php echo e($request->start); ?>">
-          <input class="layui-input" placeholder="截止日" name="end" id="end" value="<?php echo e($request->end); ?>">
           <div class="layui-input-inline">
             <select name=" pay_status">
               <option value="">支付状态</option>
@@ -109,7 +107,7 @@
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='<?php echo e($v->id); ?>'><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td><?php echo e($v->oid); ?></td>
-            <td><?php echo e($v->uid); ?></td>
+            <td><?php echo e($v->user_id); ?></td>
             <td><?php echo e($v->oprice); ?></td>
             <td><?php echo e($v->money); ?></td>
             <td><?php echo e($v->order_status); ?></td>
