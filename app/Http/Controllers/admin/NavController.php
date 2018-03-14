@@ -17,7 +17,10 @@ class NavController extends Controller
         // 2.创建webconfig.php文件并将数据写入webconfig.php文件
             // 将数组转化为字符串
             $str = "<?php \n return ".var_export($data,true).';';
-            file_put_contents(config_path().'\navconfig.php', $str);
+            // file_put_contents(config_path().'\navconfig.php', $str);
+            $myfile = fopen(config_path().'\navconfig.php', "w");
+            fwrite($myfile, $str);
+            fclose($myfile);
     }
     /**
      * Display a listing of the resource.

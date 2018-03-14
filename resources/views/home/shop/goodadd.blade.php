@@ -30,6 +30,8 @@
             <h3>店铺管理</h3>
             <a class="item " href="{{url('/home/shop')}}"><i>创建店铺</i></a>
             <a class="item n-active" href="{{url('/home/goods')}}"><i>发布商品</i></a>
+            <a class="item " href="{{url('/home/goods/show/')}}"><i>商品列表</i></a>
+
             <a class="item " href="{{url('/home/shop/shenhe/1')}}"><i>商铺审核进度</i></a> 
                                                           <!-- 1改成session -->
                           
@@ -52,7 +54,7 @@
                      <span class="x-red" >*</span>商品名称
                   </label>
                   <div class="layui-input-inline">
-                      <input type="text" class="layui-input" id="shopname" placeholder="店铺名称" name="shopname">
+                      <input type="text" class="layui-input" id="shopname" placeholder="店铺名称" name="gname">
                   </div>
               </div>
               <div class="layui-form-item">
@@ -132,11 +134,10 @@
                           }
                           // var myform = document.getElementById('art_from');
                          //将整个表单打包进formData
-                      var formData = new FormData($('#art_form')[0]);
-                      console.log(formData)
+                      // var formData = new FormData($('#art_form')[0]);
                       //只将上传文件打包进formData
-                      // var formData = new FormData();
-                      // formData.append('fileupload',$('#file_upload')[0].files[0]);
+                      var formData = new FormData();
+                      formData.append('file_upload',$('#file_upload')[0].files[0]);
                                $.ajax({
                                   type: "POST",
                                   url: '{{url('/admin/goods/upload')}}',

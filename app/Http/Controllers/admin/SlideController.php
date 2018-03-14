@@ -15,11 +15,15 @@ class SlideController extends Controller
     public function putContent()
     {
         // 1.从数据库中读取相关内容数据
-            $data = Slide::where('status',1)->lists('simg','surl')->all();
+            $data = Slide::where('status',1)->orderBy('order')->lists('simg','surl')->all();
         // 2.创建webconfig.php文件并将数据写入webconfig.php文件
             // 将数组转化为字符串
             $str = "<?php \n return ".var_export($data,true).';';
-            file_put_contents(config_path().'\slideconfig.php', $str);
+            // file_put_contents(config_path().'\slideconfig.php', $str);
+            $myfile = fopen(config_path().'\slideconfig.php', "w");
+            fwrite($myfile, $str);
+            fclose($myfile);
+
     }
     /**
      * 更改录播图列表的排序
@@ -35,6 +39,7 @@ class SlideController extends Controller
         $slideshow = Slide::find($sid);
         $res = $slideshow->update(['order'=>$order]);
         if($res){
+            $this->putContent();
             $data =[
                 'status'=> 0,
                 'msg'=>'修改成功'
@@ -56,7 +61,7 @@ class SlideController extends Controller
     public function index()
     {
 
-       
+r        $this->putContent();
         $slideSlide = Slide::orderBy('order','asc')->get();
         $count = count($slideSlide);
         return view('Admin.Slide.list',['slideSlide'=>$slideSlide,'count'=>$count]);

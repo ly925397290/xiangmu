@@ -36,7 +36,10 @@ class WebsController extends Controller
         // 2.创建webconfig.php文件并将数据写入webconfig.php文件
             // 将数组转化为字符串
             $str = "<?php \n return ".var_export($data,true).';';
-            file_put_contents(config_path().'\webconfig.php', $str);
+            // file_put_contents(config_path().'\webconfig.php', $str);
+            $myfile = fopen(config_path().'\webconfig.php', "w");
+            fwrite($myfile, $str);
+            fclose($myfile);
     }
     /**
      * Display a listing of the resource.
@@ -45,6 +48,7 @@ class WebsController extends Controller
      */
     public function index()
     {
+        $this->putContent();
         $data = web::orderBy('web_order','asc')->get();
         foreach ($data as $v){
             //不同的记录类型做不同的处理

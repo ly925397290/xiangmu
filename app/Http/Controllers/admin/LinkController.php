@@ -18,7 +18,10 @@ class LinkController extends Controller
         // 2.创建webconfig.php文件并将数据写入webconfig.php文件
             // 将数组转化为字符串
             $str = "<?php \n return ".var_export($data,true).';';
-            file_put_contents(config_path().'\linkconfig.php', $str);
+            // file_put_contents(config_path().'\linkconfig.php', $str);
+            $myfile = fopen(config_path().'\linkconfig.php', "w");
+            fwrite($myfile, $str);
+            fclose($myfile);
     }
     /**
      * Display a listing of the resource.
@@ -27,6 +30,7 @@ class LinkController extends Controller
      */
     public function index(Request $request)
     {
+        $this->putContent();
         $lname = $request->input('lname','');
         $link = link::where('lname','like','%'.$lname.'%')->paginate($request->input('num', 2));
         $count = count($link);

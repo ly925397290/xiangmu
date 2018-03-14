@@ -10,6 +10,7 @@ use App\model\good;
 use App\model\Show;
 use App\model\Shop;
 use App\model\cate;
+use App\model\user;
 use App\model\user_good;
 use App\model\goodsdetail;
 
@@ -67,9 +68,9 @@ class GoodsController extends Controller
 
          //1.接收数据
         $input = $request->except('_token');
-        $addtime = date('Y-m-d H:i:s',time());
-        $input['addtime'] = $addtime;
+        // return $input;
         $input['gdesc'] = strip_tags($input['gdesc']);
+        $input['user_id'] = 1;//1改成seesion
          // return  $input;
         //2.添加到数据库
         $res = good::create($input);
@@ -117,36 +118,19 @@ class GoodsController extends Controller
     {
         
 
-       // return 1111;
-        /**
-         * 前台首页显示
-         */
-        // 前台导航显示
-        $nav = Nav::get();
-        //前台轮播图显示
-        $slide = Slide::where('status','1')->get();
-        //前台商品展示
-        $good = good::where('status','1')->get();
-        //前台友情链接
-        $link = link::where('status','1')->get();
-
+       $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        //查询用户发表的商品
+         $goods = good::where('user_id',1)->get();
        
-        //2.添加到数据库  
-       $goods = good::where('gid','125')->get();
-
-
-        return view('home.shop.goodlist',compact('link','nav','slide','good','goods'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return view('home.shop.goodlist',compact('user_good','count','goods'));
     }
 
     /**
@@ -171,22 +155,12 @@ class GoodsController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function editAll(Request $request)
     {
 
         $input = $request->except('_token');
-        foreach ($input['status'] as $key => $value) {
+        // return $input;
+        foreach($input['status'] as $key => $value) {
             if($value == '下架')
             {
                 $input['status'][$key] = 0;
@@ -202,16 +176,12 @@ class GoodsController extends Controller
         DB::beginTransaction();
         try{
             //根据id,遍历所有的记录
-            foreach ($input['id'] as $k=>$v){
-               
-            DB::table('data_goods')->where('gid',$v)->update(['status' => $input['status'][$k]]);
-                
-           
+            foreach($input['id'] as $k=>$v){
+                DB::table('data_goods')->where('gid',$v)->update(['status' =>$input['status'][$k],'urls'=>$input['urls'][$k],'gname' =>$input['gname'][$k],'price' =>$input['price'][$k]]);
             //如果所有的操作成功，提交事务
              }
             DB::commit();
-            
-            return redirect('/home/shop/show');
+            return redirect('/home/goods/show');
             //如果网站配置项删除成功，调用putContent（）将数据同步到webconfig.php文件
         $this->putContent();
         }catch (Exception $e){
@@ -223,10 +193,29 @@ class GoodsController extends Controller
 
     public function write($id)
     {
-         // return 111;
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
+         $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        //计算购物车中商品总和
+        $count = DB::table('user_good')->where('user_id',1)->count();
         $det = goodsdetail::find($id);
-        return view('home.shop.goodwrite',['det'=>$det]);
+        return view('home.shop.goodwrite',compact('user_good','count','user'));
     }
 
-    
+    public function edit(Request $request){
+        $input = $request->except('_token');
+        $gdesc = strip_tags($input['gdesc']);
+        $res = $good = goodsdetail::create(['gdesc'=>$gdesc]);
+        if($res){
+            return redirect('home/goods/show');
+        }else{
+            return redirect()->back();
+        }
+    }
 }

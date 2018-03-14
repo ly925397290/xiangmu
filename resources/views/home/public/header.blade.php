@@ -70,7 +70,8 @@
                                 <p class="desc">{{$v->gname}}</p>
                                 <p class="price">￥{{$v->price}}</p>
                             </a>
-                            <i class="i-icon delete" onclick="member_del(this,'{{$v->good_id}}')"></i>
+                             <i class="i-icon delete" onclick="member_del(this,'{{$v->good_id}}')"></i>
+                             <!--删除 -->
                         </li>
 
                         </ul>
@@ -113,9 +114,11 @@
                               success : function(msg){
                                 // console.log(msg)
                                 if(msg){
+                                    parent.location.reload(true);
                                     layer.msg('删除成功', {icon: 1});
                                     $(obj).parents("ul").remove();
                                 }else{
+                                    parent.location.reload(true);
                                     layer.msg('删除失败', {icon: 1});
                                 }
                               }

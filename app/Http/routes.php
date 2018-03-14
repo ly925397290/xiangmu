@@ -203,5 +203,11 @@ Route::get('home/shop/shenhe/{id}','Home\ShopController@shenhe');
 Route::resource('home/goods','Home\goodsController');
 // 文章图片上传处理
 Route::post('home/goods/upload','Home\goodsController@upload');
-Route::post('/home/shop/write/{id}','Home\ShopController@write');
+//查看商品详情
+Route::get('/home/shop/write/{id}','Home\goodsController@write');
+//商品批量修改
+Route::post('/home/goods/editAll/','Home\goodsController@editAll');
+//商品描述修改
+Route::post('/home/goods/edit/','Home\goodsController@edit');
+
 

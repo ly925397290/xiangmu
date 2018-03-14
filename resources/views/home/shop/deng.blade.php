@@ -6,11 +6,10 @@
     <div class="w">
         <div class="user">
             <!-- 头像 -->
-            <a class="avatar"><img src="picture/a40db3cc250a40049320ae74bd800426.gif"/></a>
+            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
             <!-- 昵称 -->
-            <span>Mr.feng</span>
-            <!-- 信息 -->
-            <p class="phone">绑定手机号：13520249366<span>修改</span></p>
+            <span>{{$user->uname or '你好'}}</span>
+            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
         </div>
     </div>
 </section>
@@ -31,6 +30,7 @@
             <h3>店铺管理</h3>
             <a class="item " href="{{url('/home/shop')}}"><i>创建店铺</i></a>
             <a class="item " href="{{url('/home/goods')}}"><i>发布商品</i></a>
+            <a class="item " href="{{url('/home/goods/show/')}}"><i>商品列表</i></a>
             <a class="item n-active" href="{{url('/home/shop/shenhe/')}}"><i>商铺审核进度</i></a>
         </div>
     </nav>
