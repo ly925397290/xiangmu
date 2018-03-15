@@ -12,8 +12,7 @@
                <li>
                    <a _href="{{url('user')}}">
                        <i class="iconfont">&#xe6a7;</i>
-                       <cite>会员列表</cite>
-
+                       <cite>用户列表</cite>
                    </a>
                </li >
            </ul>

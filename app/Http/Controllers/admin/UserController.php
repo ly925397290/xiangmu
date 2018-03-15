@@ -5,16 +5,34 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Model\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
     /**
      * 用户列表页
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.user.list');
+       
+                $user = User::orderBy('uid','uname')
+            ->where(function($query) use($request){
+                //检测关键字
+                $username = $request->input('username');
+
+                //如果用户名不为空
+                if(!empty($username)) {
+                    $query->where('uname','like','%'.$username.'%');
+                }
+            })
+            ->paginate($request->input('num', 10));
+        return view('admin.user.list',['user'=>$user, 'request'=> $request]);
+
     }
 
     /**
@@ -30,7 +48,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        echo '添加用户';
+        return '添加用户';
     }
 
     /**

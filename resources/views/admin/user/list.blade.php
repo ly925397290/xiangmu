@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <meta charset="UTF-8">
     <title>欢迎页面-X-admin2.0</title>
@@ -53,61 +52,47 @@
             </th>
             <th>ID</th>
             <th>用户名</th>
-            <th>性别</th>
-            <th>手机</th>
-            <th>邮箱</th>
-            <th>地址</th>
-            <th>加入时间</th>
+
+
+
             <th>状态</th>
             <th>操作</th></tr>
         </thead>
         <tbody>
+        @foreach($user as $v)
           <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{ $v->user_id }}'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>1</td>
-            <td>小明</td>
-            <td>男</td>
-            <td>13000000000</td>
-            <td>admin@mail.com</td>
-            <td>北京市 海淀区</td>
-            <td>2017-01-01 11:11:42</td>
+            <td>{{ $v->uid }}</td>
+            <td>{{ $v->username }}</td>
             <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
             <td class="td-manage">
-              <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+              <a onclick="member_stop(this,'{{ $v->user_id }}')" href="javascript:;" data-id="{{ $v->status }}" title="启用">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="详情"  onclick="x_admin_show('详情','{{url('user/1')}}',600,400)" href="javascript:;">
+              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/'.$v->user_id.'/edit')}}',600,400)" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              <a title="编辑"  onclick="x_admin_show('编辑','{{url('user/1/edit')}}',600,400)" href="javascript:;">
-                <i class="layui-icon">&#xe642;</i>
-              </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+
+              <a title="删除" onclick="member_del(this,'{{ $v->user_id }}')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
           </tr>
+        @endforeach
         </tbody>
       </table>
       <div class="page">
-        <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
-        </div>
-      </div>
 
+        {!! $user->appends($request->all())->render() !!}
+      </div>
     </div>
     <script>
       layui.use('laydate', function(){
         var laydate = layui.laydate;
-
+        
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -139,7 +124,7 @@
                 $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
                 layer.msg('已启用!',{icon: 5,time:1000});
               }
-
+              
           });
       }
 
@@ -170,7 +155,8 @@
         hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
-      })();</script>
+      })();
+    </script>
   </body>
 
 </html>

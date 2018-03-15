@@ -1,50 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>后台登录-X-admin2.0</title>
-	<meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+    <meta name="author" content="GeeksLabs">
+    <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+    <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
 
-    <link rel="shortcut icon" href="{{asset('admin/favicon.ico')}}" type="image/x-icon" />
-    <link rel="stylesheet" href="{{asset('admin/css/font.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/css/xadmin.css')}}">
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script src="{{asset('admin/lib/layui/layui.js')}}" charset="utf-8"></script>
-    <script type="text/javascript" src="{{asset('admin/js/xadmin.js')}}"></script>
+    <title>月光管理登录页</title>
 
+    <!-- Bootstrap CSS -->    
+    <link href="shologin/tip-yellowsimple/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap theme -->
+    <link href="shologin/tip-yellowsimple/bootstrap-theme.css" rel="stylesheet">
+    <!--external css-->
+    <!-- font icon -->
+    <link href="shologin/tip-yellowsimple/elegant-icons-style.css" rel="stylesheet" />
+    <link href="shologin/tip-yellowsimple/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles -->
+    <link href="shologin/tip-yellowsimple/style.css" rel="stylesheet">
+    <link href="shologin/tip-yellowsimple/style-responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="shologin/tip-yellowsimple/tip-yellowsimple.css" />
+    <!-- Custom js -->
+    <script src="http://www.jq22.com/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="shologin/jquery.poshytip.js"></script>
+    <script type='text/javascript' src='shologin/jq.validate.js'></script>
 </head>
-<body class="login-bg">
 
-    <div class="login">
-        <div class="message">x-admin2.0-管理登录</div>
-        <div id="darkbannerwrap"></div>
+  <body class="login-img3-body">
+    @if (count($errors) > 0)
+    <div class="alert alert-danger" id="error">
+        <ul>
+            @if(is_object($errors))
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            @else
+                <li>{{ $errors }}</li>
+            @endif
+        </ul>
+    </div>
+    @endif
 
-        <form method="post" class="layui-form" action="{{url('dologin')}}">
-			{{csrf_field()}}
-            <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
-            <hr class="hr15">
-            <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
-            <hr class="hr15">
-            <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
-            <hr class="hr20" >
-        </form>
+    <div class="container">
+
+      <form method="post" class="login-form" action="{{ url('admin/dologin') }}">    
+      {{ csrf_field() }}    
+        <div class="login-wrap">
+            <p class="login-img"><i class="icon_lock_alt"></i></p>
+
+            <div class="input-group">
+              <span class="input-group-addon"><i class="icon_profile"></i></span>
+              <input type="text" name="username" value="{{ old('username') }}" class="form-control" placeholder="请输入用户名" valType="required" msg="<font color=red>*</font>账号不能为空">
+                
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                <input type="password" name="password" class="form-control" placeholder="请输入密码" valType="required" msg="<font color=red>*</font>密码不能为空">
+
+            </div>
+                
+            <div class="input-group">
+                <img src="{{ url('/admin/yzm') }}" onclick="this.src='{{ URL('/admin/yzm') }}?'+Math.random()" alt="加载错误" style="width:150px; height:50px; float:left;">
+                <input type="text" name="code" class="form-control" placeholder="请输入验证码" style="width:150px; margin:6px 0px 0px 8px;" valType="required" msg="<font color=red>*</font>请输入验证码">
+
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me"> 同意
+                <span class="pull-right"> <a href="#"> 安全协议</a></span>
+            </label>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
+        </div>
+      </form>
+
     </div>
 
-	<script>
-    //百度统计可去掉
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-    </script>
-
-
-    <!-- 底部结束 -->
-</body>
+<script type="text/script">
+    var error = document.getElementById("error");
+    .error onclick function(){
+        style.display="none"
+    }
+</script>
+  </body>
 </html>
