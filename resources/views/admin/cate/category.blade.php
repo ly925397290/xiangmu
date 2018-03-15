@@ -75,15 +75,15 @@
         @foreach($cate as $k=>$v)
           <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$v['id']}}'><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td>{{$v['id']}}</td>
             <td>{{$v['title']}}</td>
             <td class="td-manage">
-              <a title="编辑"  onclick="x_admin_show('编辑','admin-edit.html')" href="javascript:;">
+              <a title="编辑"  onclick="x_admin_show('编辑','{{url('/admin/cate/')}}/{{$v['id']}}/edit')" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+              <a title="删除" onclick="member_del(this,'{{$v['id']}}')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -127,9 +127,29 @@
       /*用户-删除*/
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+             $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "DELETE",
+                url : '/admin/cate/'+id,
+                data : {"uid":id},
+                dataType : "Json",
+                success : function(msg){
+                        // console.log(msg)
+                    if(msg == 0){
+                        location.reload(true);
+                        $(obj).parents("tr").remove();
+                        layer.msg('删除成功!',{icon:1,time:1000});
+                    }else if(msg == 1){
+                        location.reload(true);
+                        layer.msg('此分类下有子类!',{icon:1,time:1000});
+                    }else{
+                        location.reload(true);
+                        layer.msg('删除失败!',{icon:1,time:1000});
+                    }
+                }
+              });
           });
       }
 
@@ -137,12 +157,36 @@
 
       function delAll (argument) {
 
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
+        // var data = tableCheck.getData();
+        var ids =   [];
+        $('.layui-form-checked').not('.header').each(function(i,v){
+             ids.push($(v).attr('data-id'));
+        })
+        console.log(ids)
+        layer.confirm('确认要删除吗？',function(index){
             //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+            $.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              type : "POST",
+              url : '/admin/cate/delAll',
+              data : {"ids":ids},
+              dataType : "Json",
+              success : function(msg){
+                if(msg == 0){
+                    location.reload(true);
+                    $(obj).parents("tr").remove();
+                    layer.msg('删除成功!',{icon:1,time:1000});
+                }else if(msg == 1){
+                    location.reload(true);
+                    layer.msg('要删除的分类有子类!',{icon:1,time:1000});
+                }else{
+                    location.reload(true);
+                    layer.msg('删除失败!',{icon:1,time:1000});
+                }
+              }
+            });
         });
       }
     </script>

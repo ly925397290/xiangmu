@@ -121,7 +121,7 @@
               },
               type : "PUT",
               url : '/admin/user/'+{{$user->id}},
-              data : {data.field},
+              data : data.field,
               dataType : "Json",
               success : function(msg){
                 // console.log(msg)

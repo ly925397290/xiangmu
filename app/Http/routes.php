@@ -82,6 +82,8 @@ Route::group(['middleware'=>['login']],function(){
 		Route::resource('admin/nav','Admin\NavController');
 		// 分类管理
 		Route::resource('admin/cate','Admin\CateController');
+		// 分类批量删除
+		Route::post('admin/cate/delAll','Admin\CateController@delAll');
 		// 文章管理
 		 Route::resource('admin/article','Admin\ArticleController');
 		// 文章图片上传处理
