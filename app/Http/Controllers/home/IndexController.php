@@ -37,10 +37,7 @@ class IndexController extends Controller
         }
         //从数据库中取文章
         $articles = Article::get()->first();
-
-        $articleslast = Article::where('cate_id','5')->first();
-         // dd($articleslast->art_thumb);
-      
+        $articleslast = Article::orderBy('aid','desc')->first();
         return view('home/index',compact('goods','count','user_good','articles','$articleslast'));
      }
     

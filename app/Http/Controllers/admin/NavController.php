@@ -10,9 +10,6 @@ use App\Http\Controllers\Controller;
 class NavController extends Controller
 {
 
-<<<<<<< HEAD
-    ///
-=======
     public function putContent()
     {
         // 1.从数据库中读取相关内容数据
@@ -26,7 +23,6 @@ class NavController extends Controller
             fwrite($myfile, $str);
             fclose($myfile);
     }
->>>>>>> origin/wangqi
     /**
      * Display a listing of the resource.
      *

@@ -50,15 +50,6 @@
                     <span>购物车</span> <em>{{$count}}</em></a>
                 <div class="m-user-cart">
                     <i class="i-icon arrow"></i>
-
-                    <!-- 购物车无货状态 -->
-                    <!-- <div class="wrap">
-                        <div class="n-none">
-                            <img src="picture/index.png"><p>空空如也<br>赶紧去挑选几件中意商品吧</p>
-                        </div>
-                    </div> -->
-                    <!-- 购物车有货状态 -->
-                  
                     <div class="wrap">
                         @foreach($user_good as $v)
                         <ul>

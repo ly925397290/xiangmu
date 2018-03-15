@@ -31,7 +31,7 @@
           </div>
           <div class="layui-form-item">
               <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+                  评论
               </button>
           </div>
         </form>

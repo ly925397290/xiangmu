@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\user_details;
 use App\model\user;
+use App\model\user_good;
+use DB;
 
 class AddressController extends Controller
 {
@@ -15,7 +17,7 @@ class AddressController extends Controller
     public function index()
     {
         // 获取用户的订单信息
-        
+        $user = user::find(1);
         $user['show'] = $user->userShow;
         $user_good = user_good::where('user_id',1)->get();
         foreach ($user_good as  $value) {

@@ -59,6 +59,8 @@
                   <div class="layui-input-inline">
                       <input type="password" id="oldpass" name="oldpass" required="" lay-verify="oldpass"
                       autocomplete="off" class="layui-input" value="">
+                      <input type="hidden" id="repass" value="{{$user['password']}}">
+                      
                   </div>
               </div>
               <div class="layui-form-item">
