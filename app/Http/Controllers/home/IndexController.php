@@ -12,6 +12,7 @@ use App\model\Slide;
 use App\model\user;
 use App\model\good;
 use App\model\user_good;
+use App\model\Article;
 use DB;
 class IndexController extends Controller
 {
@@ -22,29 +23,47 @@ class IndexController extends Controller
      */
     public function index()
     {
-        /**
-         * 前台首页显示
-         */
-        // 前台导航显示
-        $nav = Nav::get();
-        //前台轮播图显示
-        $slide = Slide::where('status','1')->get();
-        //前台商品展示
-        $goods = good::where('status','1')->get();
-        //前台友情链接
-        $link = link::where('status','1')->get();
+      
         $count = DB::table('user_good')->where('user_id',1)->count();
         // $user = user::find(1);
-        // $good = $user->user_good;
+         // $good = $user->user_good;
         $user_good = user_good::where('user_id',1)->get();
+        $goods = good::where('status','1')->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
             $value['gname'] = $good['gname'];
             $value['urls'] = $good['urls'];
         }
-        // return $user_good;
-        return view('home/index',compact('link','nav','slide','goods','count','user_good'));
+        //从数据库中取文章
+        $articles = Article::get()->first();
+
+        $articleslast = Article::where('cate_id','5')->first();
+         // dd($articleslast->art_thumb);
+      
+        return view('home/index',compact('goods','count','user_good','articles','$articleslast'));
+     }
+    
+
+    public function articleslist()
+    {
+
+       $user_good = user_good::where('user_id',1)->get();
+        foreach ($user_good as  $value) {
+            $good = good::where('gid',$value['good_id'])->first();
+            $value['price'] = $good['price'];
+            $value['gname'] = $good['gname'];
+            $value['urls'] = $good['urls'];
+        }
+        $count = DB::table('user_good')->where('user_id',1)->count();
+        // $user = user::find(1);
+        // $good = $user->user_good;
+
+         //从数据库中取文章
+        $articles = Article::get();
+
+         return view('home/articlelist',compact('user_good','count','articles'));
+
     }
 
     /**
@@ -74,10 +93,27 @@ class IndexController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        
+        $navs = Nav::get();
+        $nav = '';
+        $nav .= '<li>';
+        foreach($navs as $v){
+         $nav .= "<a href='{$v['nlink']}' target='_blank'><span>{$v['nname']}</span></a><span class='tag_line'></span>";
+        }
+        $nav .='</li>';
+
+        // // $nav = '111';
+
+        // $nav['name'] = 'zhangsan';
+        return $nav;
+
+
     }
+
+
+
 
     /**
      * Show the form for editing the specified resource.

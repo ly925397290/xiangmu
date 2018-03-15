@@ -10,7 +10,23 @@ use App\Http\Controllers\Controller;
 class NavController extends Controller
 {
 
+<<<<<<< HEAD
     ///
+=======
+    public function putContent()
+    {
+        // 1.从数据库中读取相关内容数据
+            $data = Nav::lists('nname','nlink')->all();
+            // dd($data);
+        // 2.创建webconfig.php文件并将数据写入webconfig.php文件
+            // 将数组转化为字符串
+            $str = "<?php \n return ".var_export($data,true).';';
+            // file_put_contents(config_path().'\navconfig.php', $str);
+            $myfile = fopen(config_path().'\navconfig.php', "w");
+            fwrite($myfile, $str);
+            fclose($myfile);
+    }
+>>>>>>> origin/wangqi
     /**
      * Display a listing of the resource.
      *

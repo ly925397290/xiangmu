@@ -34,7 +34,7 @@
         <div class="upper">
         <div class="headerW">
             <a class="logo" href="#">
-                <img src="{{ config('webconfig.web_logo')}}" alt="爱否商城" width="140" height="45" />
+                <img src="{{ config('webconfig.web_logo')}}" alt="爱否商城" width="98" height="98" />
             </a>
             <nav class="nav">
                 <a href="/">商城首页</a>
@@ -134,24 +134,28 @@
                 <a class="logo" href="#">
                     <img src="picture/logo.png" alt="爱否商城">
                 </a>
-                <ul class="product-bar">
-                    
-                    <li>
-                        <a href="" class="pointer" data-cid="1" ></a>
-
-
-                         @foreach(config('navconfig') as $k=>$v)
-                    <li>
-                        <a class="" data-code="1000000378-2" href="{{$k}}" target="_blank">
-                            <span>{{$v}}</span></a>
-                        <span class="tag_line"></span>
-                    </li>
-                     @endforeach
-                    </li>
-                    
-                </ul>
+                    <ul class="product-bar" id="nav">
+                        
+                    </ul>
            </div>
         </div>
+ 
         <script src="{{asset('home/js/6052ddad28e5436fbee87f5918025856.js')}}"></script>
         <script src="{{asset('home/js/b14e46ee2b1e418298be1f361a4bcaa1.js')}}"></script>
         <script src="{{asset('home/js/category.bundle.js')}}"></script>
+        <script type="">
+            $(function()
+            {
+                $.ajax({
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "GET",
+                url : '/home/index/show',
+                success : function(msg){
+                    console.log(msg);
+                    $('#nav').html(msg)
+                  }
+                });
+            })
+        </script>

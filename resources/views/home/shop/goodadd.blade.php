@@ -4,7 +4,7 @@
 @section('content')
     <section class="m-uc-user">
     <div class="w">
-        <<div class="user">
+        <div class="user">
             <!-- 头像 -->
             <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
             <!-- 昵称 -->
