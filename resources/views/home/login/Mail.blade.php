@@ -94,9 +94,7 @@
     function sendCode(){
         // 获取用户手机号
         var phone = $("input[name='phone']").val();
-
         $.get('sendcode',{'phone':phone},function(data){
-
             var time = 29;
             //创建定时器
             var name = setInterval(
@@ -126,7 +124,6 @@
                 1000
             );
             // var res = JSON.parse(data);
-            
             // var message = (res.message);
             // console.log(message);
         });

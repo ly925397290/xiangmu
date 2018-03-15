@@ -59,11 +59,8 @@
 setTimeout(function(){document.getElementById("test").style.display="none";},2000);
     function sendCode(){
         // 获取用户手机号
-
         var phone = $("input[name='phone']").val();
-
         $.get('sendcode',{'phone':phone},function(data){
-
             var time = 29;
             //创建定时器
             var name = setInterval(

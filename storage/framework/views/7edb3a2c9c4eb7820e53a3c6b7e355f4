@@ -130,20 +130,6 @@
         </div>
         </div>
         <!--bottombar-->
-<!--         <div class="lower">
-            <div class="headerW">
-                <a class="logo" href="#">
-                    <img src="picture/logo.png" alt="爱否商城">
-                </a>
-                <ul class="product-bar">
-                    <?php foreach($nav as $v): ?>
-                    <li>
-                        <a href="<?php echo e($v->nlink); ?>" class="pointer" data-cid="1" ><?php echo e($v->nname); ?></a>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-           </div>
-        </div> -->
         <!--gome_head -->
         <div class="category-box">
             <div class="category wbox">

@@ -130,20 +130,6 @@
         </div>
         </div>
         <!--bottombar-->
-<!--         <div class="lower">
-            <div class="headerW">
-                <a class="logo" href="#">
-                    <img src="picture/logo.png" alt="爱否商城">
-                </a>
-                <ul class="product-bar">
-                    @foreach($nav as $v)
-                    <li>
-                        <a href="{{$v->nlink}}" class="pointer" data-cid="1" >{{$v->nname}}</a>
-                    </li>
-                    @endforeach
-                </ul>
-           </div>
-        </div> -->
         <!--gome_head -->
         <div class="category-box">
             <div class="category wbox">
