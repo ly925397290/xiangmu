@@ -211,6 +211,7 @@ Route::post('/home/goods/editAll/','Home\goodsController@editAll');
 Route::post('/home/goods/edit/','Home\goodsController@edit');
 
 Route::get('/home/index/show','Home\indexController@show');
+Route::get('/home/index/links','Home\indexController@links');
 Route::get('/home/index/slide','Home\indexController@slide');
 
 //前台文章分类列表

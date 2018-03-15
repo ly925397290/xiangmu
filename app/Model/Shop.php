@@ -23,5 +23,5 @@ class Shop extends Model
       // 不允许批量修改的字段
     public $guarded = [];
 
-    protected $fillable = ['status','shopname','id','desc'];
+    protected $fillable = ['status','shopname','uid','desc'];
 }

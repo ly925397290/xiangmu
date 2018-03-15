@@ -58,7 +58,7 @@ class ShopController extends Controller
         $input['uid'] = 1;//1改成session用户id
         $res = Shop::create($input);
         if($res){
-            return redirect('/home/shop/deng');
+            return redirect('/home/shop/shenhe/1');
         }else{
             return back();
         }

@@ -17,9 +17,7 @@
                         </dl>
                         <dl>
                             <dt>友情链接</dt>
-                            @foreach(config('linkconfig') as $k=>$v)
-                            <dd><a target="_blank" href="{{$k}}">{{$v}}</a></dd>
-                            @endforeach
+                            <div id="link"></div>
                         </dl>
                     </div>
                     <p class="copyright"><a href="http://www.miibeian.gov.cn/">京ICP证160992号</a> Copyright© 2016-2021</p>
@@ -60,3 +58,19 @@
     <script src="{{asset('home/js/pc.min.js')}}" id="zhichiload" ></script>
 </body>
 </html>
+
+<script type="">
+            $(function()
+            {
+                $.ajax({
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "GET",
+                url : '/home/index/links',
+                success : function(msg){
+                    $('#link').html(msg)
+                  }
+                });
+            })
+        </script>

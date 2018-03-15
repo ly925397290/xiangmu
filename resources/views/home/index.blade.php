@@ -75,18 +75,17 @@
 <a class="next i-icon"></a>
 </section>
 
-
-
-
 <em></em>
 <a class="prev i-icon"></a>
 <a class="next i-icon"></a>
 </section>
 <section class="m-ad">
     <div class="w">
-        <div class="c xs020">     
+     if()
+        <div class="c xs020 m03 s04 x04">     
         <!-- 注: 控制广告商品个数 3*n 否则会改变页面布局 -->
         @foreach($goods as $v)
+                
             @if($v->tuijian == 1) 
                 <a class="g x4" href="{{asset('home/shoplist')}}/{{$v->gid}}"><img class="n-active" src="{{$v->urls}}"></a> 
                 <input type="hidden" name="price" value="{{$v->price}}"> 
@@ -154,7 +153,7 @@
     <div class="box-hd c">
         <h3 class="g">特别推荐</h3>
     </div>
-    <div class="xs020">
+    <div class="c xs020 m03 s04 x04">
         <!-- 注: 特别推荐 -->
         @foreach($goods as $v)
             @if($v->tuijian == 4)

@@ -54,7 +54,7 @@
                      <span class="x-red" >*</span>商品名称
                   </label>
                   <div class="layui-input-inline">
-                      <input type="text" class="layui-input" id="shopname" placeholder="店铺名称" name="gname">
+                      <input type="text" class="layui-input" id="shopname" placeholder="商品名称" name="gname">
                   </div>
               </div>
               <div class="layui-form-item">
