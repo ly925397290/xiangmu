@@ -210,4 +210,8 @@ Route::post('/home/goods/editAll/','Home\goodsController@editAll');
 //商品描述修改
 Route::post('/home/goods/edit/','Home\goodsController@edit');
 
+Route::get('/home/index/show','Home\indexController@show');
+Route::get('/home/index/slide','Home\indexController@slide');
 
+//前台文章分类列表
+Route::get('/home/articleslist','Home\indexController@articleslist');

@@ -14,6 +14,7 @@ class NavController extends Controller
     {
         // 1.从数据库中读取相关内容数据
             $data = Nav::lists('nname','nlink')->all();
+            // dd($data);
         // 2.创建webconfig.php文件并将数据写入webconfig.php文件
             // 将数组转化为字符串
             $str = "<?php \n return ".var_export($data,true).';';
@@ -62,7 +63,7 @@ class NavController extends Controller
         $input = $request->except('_token');
         $input['nlink'] = 'https://'.$input['nlink']; 
         // return   $input;
-        $input['nname'] = 'https://'.$input['nname'];
+        $input['nname'] = $input['nname'];
         // 2.将数据入库
         $res = Nav::create($input);
 

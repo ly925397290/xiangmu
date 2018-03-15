@@ -61,7 +61,7 @@ class SlideController extends Controller
     public function index()
     {
 
-r        $this->putContent();
+        $this->putContent();
         $slideSlide = Slide::orderBy('order','asc')->get();
         $count = count($slideSlide);
         return view('Admin.Slide.list',['slideSlide'=>$slideSlide,'count'=>$count]);

@@ -114,12 +114,39 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        
         //1.接收数据
-        $input = $request->except('_token');
+        $data = $request->except('_token');
        //dd($input) ;
+        // return $data;
+        // 处理数据
+        if($data['cate_id'] == 0){
+            // 顶级分类
+            $data['apath'] = 0;
+        }else{
+            // 子分类
+            // 查询父级分类的数据
+            $parent_data = cate::where('aid',$data['cate_id'])->first();
+            // 处理数据 
+            $data['apath'] = $parent_data['apath'].','.$parent_data['aid'];
+        }
+        // 2.添加到数据库
+        $cate = new cate;
+        $cate->pid = $data['pid'];
+        $cate->path = $data['path'];
+        $cate->title = $data['cate_name'];
+        $res = $cate->save();
+
+
+
+
+
         //2.添加到数据库
         $res = Article::create($input);      
 //        3. 判断添加是否成功，给客户端返回提示信息
+
+        dd($res);
+
         if($res)
         {
             return  redirect('/admin/article')->with('msg','添加成功');

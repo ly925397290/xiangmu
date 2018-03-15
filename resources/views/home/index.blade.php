@@ -74,6 +74,14 @@
 <a class="prev i-icon"></a>
 <a class="next i-icon"></a>
 </section>
+
+
+
+
+<em></em>
+<a class="prev i-icon"></a>
+<a class="next i-icon"></a>
+</section>
 <section class="m-ad">
     <div class="w">
         <div class="c xs020">     
@@ -159,5 +167,23 @@
         <!-- 遍历结束 -->    
     </div>
 </section>
+<section class="m-ad-other w">
+    <div class="box-hd c">
+        <h3 class="g">网站使用指导</h3>
+    </div>
+    <div class="xs020">
+        <!-- 注: 特别推荐 -->
+
+            <a class="g x6" href="{{asset('home/articleslist')}}">
+                <img class="n-active" src="{{$articles->art_thumb}}">
+            </a>  
+            <a class="g x6" href="{{asset('home/articleslist')}}">
+                <img class="n-active" src="{{$articles->art_thumb}}">
+            </a>             
+      
+        <!-- 遍历结束 -->   
+    </div>
+</section>
+
 @endsection
 <!-- 主体结束 -->

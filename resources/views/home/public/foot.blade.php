@@ -57,6 +57,6 @@
     })();
     </script>
 <!--    <script src="js/count.js"></script>-->
-    <script src="js/pc.min.js" id="zhichiload" ></script>
+    <script src="{{asset('home/js/pc.min.js')}}" id="zhichiload" ></script>
 </body>
 </html>
