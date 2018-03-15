@@ -102,12 +102,28 @@ class IndexController extends Controller
         $nav .='</li>';
 
         // // $nav = '111';
-
         // $nav['name'] = 'zhangsan';
         return $nav;
+    }
 
+    public function links()
+    {
+
+        $links = Link::get();
+        // return $links;
+        $link = '';
+          foreach($links as $v){
+           $link .= "<dd><a target='_blank' href='{$v['lurl']}'>{$v['lname']}</a></dd>";
+          }
+
+
+        // // $nav = '111';
+
+        // $nav['name'] = 'zhangsan';
+        return $link;
 
     }
+
 
 
 

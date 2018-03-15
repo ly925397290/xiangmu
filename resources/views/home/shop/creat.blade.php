@@ -46,8 +46,8 @@
 
             <form class="layui-form" id="art_form" action="{{ url('/home/shop')}}" method="post" >
                  {{csrf_field()}}
-                商品名称：<input type="text" name="shopname" value="" class="layui-input">
-                商品描述：<input type="text" name="desc" value="" class="layui-input">
+                店铺名称：<input type="text" name="shopname" value="" class="layui-input">
+                店铺描述：<input type="text" name="desc" value="" class="layui-input">
             <br>
             <button  class="layui-btn" lay-filter="add" lay-submit="">
               申请创建
