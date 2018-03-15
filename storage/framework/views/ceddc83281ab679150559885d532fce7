@@ -1,0 +1,15 @@
+<!-- 顶部开始 -->
+    <?php echo $__env->make('home.public.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<!-- 顶部结束 -->
+
+<!-- 中部开始 -->
+    <?php $__env->startSection('content'); ?>
+    
+    <?php echo $__env->yieldSection(); ?>
+<!-- 中部结束 -->
+
+<!-- 底部开始 -->
+    <?php echo $__env->make('home.public.foot', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<!-- 底部结束 -->
+
+

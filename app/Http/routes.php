@@ -170,8 +170,61 @@ Route::get('home/shoplist','Home\ShoplistController@index');
 Route::get('home/submitorder','Home\SubmitorderController@index');
 
 
+/*********************************************用户登录组*********************************************/
+/**
+* 注册组
+* RegisterController
+*/ 
+Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+	
+	// 加载手机注册页
+	Route::get('phonereg', 'RegisterController@phoneReg');
 
+	// 加载注册逻辑
+	Route::post('update', 'RegisterController@upDate');
 
+	// 加载手机验证码
+	Route::get('sendcode', 'RegisterController@sendCode');
+	
+	// 加载注册成功页
+	Route::get('success', 'RegisterController@sucCess');
+});
+
+/**
+* 登录组
+* LoginController
+*/
+Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+	
+	// 加载登录页
+	Route::get('login', 'LoginController@login');
+
+	// 加载登录逻辑页
+	Route::post('dologin', 'LoginController@dologin');
+
+	// 输出验证码
+	Route::get('yzm', 'LoginController@yzm');
+});
+
+/**
+* 密码找回组
+* BackpassController
+*/ 
+Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+	
+	// 加载找回密码页
+	Route::get('backpass', 'BackpassController@backpass');
+
+	// 加载找回密码页
+	Route::post('dobackpass', 'BackpassController@dobackpass');
+
+	// 加载密码修改页
+	Route::get('modify', 'BackpassController@modify');
+
+	// 修改密码逻辑页
+	Route::post('domodify', 'BackpassController@domodify');
+
+});
 
 
 

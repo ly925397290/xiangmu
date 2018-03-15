@@ -1,0 +1,19 @@
+<!-- 顶部开始 -->
+    <?php echo $__env->make('admin.public.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<!-- 顶部结束 -->
+
+<!-- 中部开始 -->
+    <!-- 左侧开始 -->
+        <?php echo $__env->make('admin.public.left', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <!-- 左侧结束 -->
+
+    <!-- 右侧开始 -->
+        <?php $__env->startSection('right'); ?>
+        
+        <?php echo $__env->yieldSection(); ?>
+    <!-- 右侧结束 -->
+<!-- 中部结束 -->
+
+<!-- 底部开始 -->
+    <?php echo $__env->make('admin.public.foot', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<!-- 底部结束 -->
