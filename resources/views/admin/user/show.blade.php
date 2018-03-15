@@ -40,7 +40,7 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="L_pass" name="people" required="" lay-verify="pass"
-                  autocomplete="off" class="layui-input" value="{{$user->show->people}}">
+                  autocomplete="off" class="layui-input" value="{{$user->show->people or ''}}">
               </div>
           </div>
           <div class="layui-form-item">
@@ -49,7 +49,7 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="L_repass" name="phone" required="" lay-verify="repass"
-                  autocomplete="off" class="layui-input" value="{{$user->show->phone}}">
+                  autocomplete="off" class="layui-input" value="{{$user->show->phone or ''}}">
               </div>
           </div>
           <div class="layui-form-item">
@@ -58,7 +58,7 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="L_repass" name="phone" required="" lay-verify="repass"
-                  autocomplete="off" class="layui-input" value="{{$user->show->addr}}">
+                  autocomplete="off" class="layui-input" value="{{$user->show->addr or ''}}">
               </div>
           </div>
       </form>

@@ -41,9 +41,10 @@ class GoodsController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-
         $count = DB::table('user_good')->where('user_id',1)->count();
-        return view('home.shop.goodadd',compact('count','user_good','slide','good','cate'));
+         $user = user::find(1);
+        $user['show'] = $user->userShow;
+        return view('home.shop.goodadd',compact('count','user_good','user','good','cate'));
     }
 
     /**
@@ -129,8 +130,9 @@ class GoodsController extends Controller
         $count = DB::table('user_good')->where('user_id',1)->count();
         //查询用户发表的商品
          $goods = good::where('user_id',1)->get();
-       
-        return view('home.shop.goodlist',compact('user_good','count','goods'));
+       $user = user::find(1);
+        $user['show'] = $user->userShow;
+        return view('home.shop.goodlist',compact('user_good','count','goods','user'));
     }
 
     /**

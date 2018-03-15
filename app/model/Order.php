@@ -13,47 +13,19 @@ class Order extends Model
      *
      * @var bool
      */
-    
+    public $timestamps = false;
+
     /**
      * 设置批量赋值
      */
-    protected $fillable = ['oid','oprice','money','user_id'];
+    protected $fillable = ['oid','oprice','money','user_id','time'];
 
 
     public function order_good()
         {
             return $this->hasOne('App\model\good','good_id');
         }
-    //返回格式化的分类数据
-    public function getTree(Request $request)
-    {
-        /*多条件查询*/
-        $data = Order::orderBy('id','desc')
-        ->where(function($query) use($request){
-            $start = $request->input('start',''); //获取开始时间
-            $end = $request->input('end','');     //获取结束时间
-            $pay_status = $request->input('pay_status',''); //获取支付状态
-            $payment = $request->input('payment',''); //获取支付方式
-            $order_status = $request->input('order_status',''); //获取订单状态
-            $oid = $request->input('oid',''); //获取订单号
-            if(!empty($start) || !empty($end)){
-            // $query->whereBetween('start',[$start,$end])->get(); //查询订单区间
-            }
-            if(!empty($pay_status)){
-                $query->where('pay_status','like','%'.$pay_status.'%'); //查询支付状态
-            }
-            if(!empty($payment)){
-                $query->where('payment','like','%'.$payment.'%'); //查询支付方式
-            }
-            if(!empty($order_status)){
-                $query->where('order_status','like','%'.$order_status.'%'); //查询订单状态
-            }
-            if(!empty($oid)){
-                $query->where('oid','like','%'.$oid.'%'); //查询订单号
-            }
-        })->paginate($request->input('num', 2)); //分页
-        return $this->tree($data);
-    }
+
 
     //数据格式化
     public function tree($data)

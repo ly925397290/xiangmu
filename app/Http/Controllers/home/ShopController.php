@@ -89,9 +89,10 @@ class ShopController extends Controller
             $value['urls'] = $good['urls'];
         }
         $count = DB::table('user_good')->where('user_id',1)->count();
-
+        $user = user::find(1);
+        $user['show'] = $user->userShow;
         $shop_status = Shop::where('uid',1)->first(); //1改成session用户id
-        return view('home.shop.deng',compact('shop_status','user_good','count'));
+        return view('home.shop.deng',compact('shop_status','user_good','count','user'));
     }
 
 }

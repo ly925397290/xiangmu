@@ -25,6 +25,7 @@ class OrderController extends Controller
         $user = user::find(1);
         $user['show'] = $user->userShow;
         $user['order'] = $user->user_order;
+
         $user_good = user_good::where('user_id',1)->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
@@ -32,8 +33,12 @@ class OrderController extends Controller
             $value['gname'] = $good['gname'];
             $value['urls'] = $good['urls'];
         }
+        //格式化时间戳
+        foreach ($user['order'] as  $value) {
+            $value['time'] = date('Y-m-d H:i:s');
+        }
+        // return $user;
         //计算购物车中商品总和
-
         $count = DB::table('user_good')->where('user_id',1)->count();
         return view('home/order',compact('user','count','user_good'));
     }

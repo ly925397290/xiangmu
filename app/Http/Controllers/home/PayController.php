@@ -84,9 +84,11 @@ class PayController extends Controller
             $order['money'] = $input['price'];
             // 4.收货人信息
             $order['user_id'] = 1;//session
-            $order['order_id'] = DB::table('data_order')->insertGetId(['oid'=>$order['oid'],'oprice'=>$order['oprice'],'money'=>$order['money'],'user_id'=>$order['user_id']]);
-            //订单生成时间
-
+            $order['time'] = time();
+            // $order['order_id'] = DB::table('data_order')->insertGetId(['oid'=>$order['oid'],'oprice'=>$order['oprice'],'money'=>$order['money'],'user_id'=>$order['user_id']]);
+            $oid = Order::create($order);
+            $order['order_id'] = $oid->id;
+            // return $oid;
             // 放入订单详情表中    
             // 5.收货地址
             $addr = user_details::where('user_id',1)->first();

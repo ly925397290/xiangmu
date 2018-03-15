@@ -4,26 +4,92 @@
     <section class="m-sale-bar w"></section>
 <section class="m-sale-selectv2">
     <hgroup class="w">
-        <h2>选择您要回收的型号</h2>
-        <h3>选择回收的型号后，进入估价步骤</h3>
+        <h2>输入要回收商品的信息</h2>
     </hgroup>
     <aside class="w">
-        <a data-cid="1" class="n-active"><img src="http://img001.fview.cn/Public/upload/category/f33596e7dd49c96f668b19ff5c7a4eec.png"><span>手机</span></a><a data-cid="2" class=""><img src="http://img001.fview.cn/Public/upload/category/c7fd936770c03c4c79726a6a2a3109de.png"><span>平板</span></a><a data-cid="3" class=""><img src="http://img001.fview.cn/Public/upload/category/6dc9274457fc15352a799bcc76f7c36e.png"><span>笔记本</span></a>    </aside>
     <div class="main m-load-rel">
-        <div class="m-load-bg" style="height: 1081px; display: none;"></div>
-        <div class="m-load" style="display: none;">
-            <div class="spinner">
-                <div class="rect1"></div>
-                <div class="rect2"></div>
-                <div class="rect3"></div>
-                <div class="rect4"></div>
-                <div class="rect5"></div>
-            </div>
-        </div>
-        <div class="w"><div class="brand"><a data-bid="1">Apple</a><a data-bid="10">三星</a><a data-bid="11">华为</a><a data-bid="12">小米</a><a data-bid="14">OPPO</a></div><div class="c x06 s04 m02-4 xs010 D-model"><div class="g"><a class="pro-item-a" href="/setattr/index/model/74.html"><img src="http://img002.fview.cn/Public/upload/model/9231359bb4c8827a329db408c081ebfd.png"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone X</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/73.html"><img src="http://img002.fview.cn/Public/upload/model/171e606cd44d9afe5d2c12546c29c330.png"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy Note 8</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/24.html"><img src="http://img001.fview.cn/Public/upload/model/260f712dc7bc066d147e305664ccd209.jpg"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone SE</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/33.html"><img src="http://img001.fview.cn/Public/upload/model/9dbcfd9028b3b96fe1e1fb8e2866f34a.jpg"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy S6 Edge</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/34.html"><img src="http://img001.fview.cn/Public/upload/model/f092ccf365d4105869ed69f82bdff3fc.jpg"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy S6 Edge+</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/35.html"><img src="http://img001.fview.cn/Public/upload/model/423d3554dc29ec50e6e5e5c9326b69cc.jpg"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy S7</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/41.html"><img src="http://img001.fview.cn/Public/upload/model/409597eca0320bcf219fec79e84d54d0.jpg"><p class="pro-item-brand" data-jbrand="12">小米</p><p class="typ">小米手机5</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/61.html"><img src="http://img001.fview.cn/Public/upload/model/ee5db328a38b87a5c1a6d965d052eb12.png"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy S8</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/62.html"><img src="http://img001.fview.cn/Public/upload/model/9ff327cf7e9f36f05ae45176039e29a8.png"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy S8+</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/65.html"><img src="http://img001.fview.cn/Public/upload/model/2c262bcdf293549c9c500161ba1c71af.png"><p class="pro-item-brand" data-jbrand="12">小米</p><p class="typ">小米手机6</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/66.html"><img src="http://img001.fview.cn/Public/upload/model/c3eff175dd65d9b377ef81b631296db6.png"><p class="pro-item-brand" data-jbrand="12">小米</p><p class="typ">小米Note 2</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/67.html"><img src="http://img001.fview.cn/Public/upload/model/858fae291a6710b07aa2396b23adc1a5.png"><p class="pro-item-brand" data-jbrand="14">OPPO</p><p class="typ">OPPO R11</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/71.html"><img src="http://img002.fview.cn/Public/upload/model/55bc53237485fe224e6f158bdb8ea8f2.png"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone 8</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/72.html"><img src="http://img002.fview.cn/Public/upload/model/aaf3517dea7b90e8c6bb73955c74825b.png"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone 8 Plus</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/75.html"><img src="http://img002.fview.cn/Public/upload/model/6ecc11894be750fda514f39a28ad571d.png"><p class="pro-item-brand" data-jbrand="12">小米</p><p class="typ">MIX</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/76.html"><img src="http://img002.fview.cn/Public/upload/model/b503f63ff459388877c8b3c05286d147.png"><p class="pro-item-brand" data-jbrand="12">小米</p><p class="typ">MIX 2</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/77.html"><img src="http://img002.fview.cn/Public/upload/model/1cb46211dadef911f29fd5ef7603e1fa.png"><p class="pro-item-brand" data-jbrand="12">小米</p><p class="typ">Note 3</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/78.html"><img src="http://img002.fview.cn/Public/upload/model/7e3e2971639071f0a667a494f135e8ca.png"><p class="pro-item-brand" data-jbrand="11">华为</p><p class="typ">Mate 10</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/64.html"><img src="http://img001.fview.cn/Public/upload/model/e4ae2a0fec879948112ec21058bf7e13.png"><p class="pro-item-brand" data-jbrand="12">小米</p><p class="typ">小米5s</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/63.html"><img src="http://img001.fview.cn/Public/upload/model/5d86083fc366c73ceaf5648257782176.png"><p class="pro-item-brand" data-jbrand="14">OPPO</p><p class="typ">OPPO R9s</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/37.html"><img src="http://img001.fview.cn/Public/upload/model/b69c1be0a97bf9fb5d7e2a84242466b8.png"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy Note 5</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/36.html"><img src="http://img001.fview.cn/Public/upload/model/43a307471a19a9a0c54fa19a4328bf5e.png"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy Note 4</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/32.html"><img src="http://img001.fview.cn/Public/upload/model/71ae84edd0f59cb0200e094f155f423c.jpg"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy S6</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/31.html"><img src="http://img001.fview.cn/Public/upload/model/68ee9cd407d5f8ce2ef60a388b3f1f81.jpg"><p class="pro-item-brand" data-jbrand="10">三星</p><p class="typ">Galaxy S7 Edge</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/5.html"><img src="http://img001.fview.cn/Public/upload/model/098ae24a3773fca5497ca92bb1515f28.png"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone 5s</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/14.html"><img src="http://img001.fview.cn/Public/upload/model/9beed483ba60c3ba71e72ad1cdb6d653.png"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone 6 Plus</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/48.html"><img src="http://img001.fview.cn/Public/upload/model/d21323a29bc1a285b64f9d5f302f1990.jpg"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone 7 Plus</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/47.html"><img src="http://img001.fview.cn/Public/upload/model/b7c2a835e261d66e8fd48e346721108e.png"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone 7</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/13.html"><img src="http://img001.fview.cn/Public/upload/model/9fb4c3da041a492d3853158c928da7ae.png"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone 6</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/16.html"><img src="http://img001.fview.cn/Public/upload/model/3da006295843ffd4de7e24558d794b55.png"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone 6s Plus</p></a></div><div class="g"><a class="pro-item-a" href="/setattr/index/model/15.html"><img src="http://img001.fview.cn/Public/upload/model/9fb4c3da041a492d3853158c928da7ae.png"><p class="pro-item-brand" data-jbrand="1">Apple</p><p class="typ">iPhone 6s</p></a></div></div></div>
+    <br>                                                              <!--session-->
+        <form class="layui-form" action="{{ url('home/recovery/')}}/{{1}}" method="post" enctype="multipart/form-data">
+            {{csrf_field()}}
+          <div class="layui-form-item">
+             <div class="layui-inline">
+              <select class="layui-form-label" name="cate_name" lay-verify="cate_name" required="" id="cate_name"> 
+                    <option value="0">==请选择商品分类==</option>
+                    @foreach($cate as $k=>$v)
+                    <option value="{{$v['title']}}">{{$v['title']}}</option>
+                    @endforeach
+              </select>
+                    <br>
+                    <input placeholder="请输入商品名称" type="tel" name="good_name" lay-verify="good_name" autocomplete="off" class="layui-input">
+                    <br>
+                     <input id="file_upload" name="file_upload" type="file" multiple="true" lay-verify="file_upload" value="上传"> 
+                     <input type="hidden" name="img" id="img" value="">
+                    <img  id="art_thumb_img" width="300">
+                    <br>
+                    <input placeholder="请输入收货人" type="tel" name="people" lay-verify="people" autocomplete="off" class="layui-input">
+                    <br>
+                    <input placeholder="请输入收货手机号" type="tel" name="phone" lay-verify="phone" autocomplete="off" class="layui-input">
+                    <br>
+                    <input placeholder="请输入收货地址" type="tel" name="addr" lay-verify="addr" autocomplete="off" class="layui-input">
+                    <br>
+              <label for="L_repass" class="">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  增加
+              </button>
+          </div>
+          </div>
+
+      </form>
+    
     </div>
 </section>
+<script>
+    $(function () {
+        $("#file_upload").change(function () {
+            uploadImage();
+        });
+    });
+    function uploadImage() {
+//                            判断是否有选择上传文件
+        var imgPath = $("#file_upload").val();
+        if (imgPath == "") {
+            alert("请选择上传图片！");
+            return;
+        }
+        //判断上传文件的后缀名
+        var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
 
+        if (strExtension != 'jpg' && strExtension != 'gif'
+            && strExtension != 'png' && strExtension != 'bmp') {
+            alert("请选择图片文件");
+            return;
+        }
+//只将上传文件打包进formData
+var formData = new FormData();
+formData.append('file_upload',$('#file_upload')[0].files[0]);
+     $.ajax({
+        type: "POST",
+        url: '{{url('/admin/goods/upload')}}',
+         headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: formData,
+        async: true,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+            $('#art_thumb_img').attr('src',data);
+             // $('#art_thumb_img').attr('src','{{ env('QINIU_YUMING') }}'+data);
+             $('#img').val(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("上传失败，请检查网络后重试");
+        }
+    });
+}
+</script>
 <section class="m-sale-answer w">
     <div class="answer-hd c">
         <h3 class="g">服务解答</h3>
@@ -54,62 +120,7 @@
             <div class="text question"><span>Q：</span>我提交了订单，商品已经邮寄给你们了，可是我发现我的个人中心却什么都没有？</div>
             <div class="text answer"><span>A：</span>您好，首先请您先不用担心。鉴于某些商品价格的特殊性，优雅商城系统会定期调整价格，回收产品的估价应以系统的回收订单为准。订单的有效期为7天，若超过7天，订单将失效。所以建议您在提交订单后，及时将您的商品邮寄给我们，如果您的订单已经失效，也请及时联系我们的在线客服，同时您需要重新提交回收订单。</div>
         </div></section>
-<script>
-    $(function(){
-        $(document).on('click','.m-sale-selectv2 aside a',function(){
-            var _this = $(this);
-            if(_this.hasClass('n-active'))return false;
-            var cid = _this.data('cid');
-            _this.addClass('n-active').siblings('a').removeClass('n-active');
-            load(1);
-            $.ajax({
-                url:"/huishou/getbrand.html",
-                type:'post',
-                data:{cid:cid},
-                dataType:'json',
-                success:function(data){
-                    if(data.status != 0){
-                        $.amsg.p(data.msg,'n-warn');
-                        return false;
-                    }
-                    $('.m-sale-selectv2 .main .w').empty().html(data.data);
-                    load();
-                }
-            });
-        })
-        $(document).on('click','.m-sale-selectv2 .brand a',function(){
-            var _this = $(this);
-            if(_this.hasClass('n-active'))return false;
-            var bid = _this.data('bid');
-            var cid = $('.m-sale-selectv2 aside a.n-active').data('cid');
-            _this.addClass('n-active').siblings().removeClass('n-active');
-            load(1);
-            $.ajax({
-                url:"/huishou/getmodel.html",
-                type:'post',
-                data:{cid:cid,bid:bid},
-                dataType:'json',
-                success:function(data){
-                    if(data.status != 0){
-                        $.amsg.p(data.msg,'n-warn');
-                        return false;
-                    }
-                    $('.m-sale-selectv2 .D-model').empty().html(data.data);
-                    load();
-                }
-            });
-        })
-        function load(o){
-            if(!o){
-                $('.m-load-bg').hide().siblings('.m-load').hide();
-                return false;
-            }
-            var h = $('.m-sale-selectv2 .main').height()+60;
-            $('.m-load-bg').height(h).show().siblings('.m-load').show();
-        }
-        $('.m-sale-selectv2 aside a:eq(0)').click();
-    })
-</script>
+
 @endsection
 <!-- 主体结束 -->
 

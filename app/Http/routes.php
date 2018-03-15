@@ -55,6 +55,10 @@ Route::group(['middleware'=>['login']],function(){
 		Route::resource('admin/order','Admin\OrderController');
 		// 订单批量删除
 		Route::post('admin/order/delAll','Admin\OrderController@delAll');
+		// 回收订单管理
+		Route::resource('admin/huishou','Admin\HuishouController');
+		// 回收订单批量删除
+		Route::post('admin/huishou/delAll','Admin\HuishouController@delAll');
 		// 商品管理
 		Route::post('/admin/goods/gstatus/','Admin\GoodsController@gstatus');
 		//商品批量修改
@@ -192,6 +196,8 @@ Route::get('home/reclaimorder','Home\ReclaimorderController@index');
 
 // 加载回收机制页
 Route::get('home/recovery','Home\RecoveryController@index');
+//处理回收
+Route::post('home/recovery/{id}','Home\RecoveryController@store');
 
 
 

@@ -16,7 +16,7 @@
 <section class="m-uc w">
 <aside class="m-uc-nav">
     <nav>
-        <<div class="list">
+        <div class="list">
             <h3>我的订单</h3>
             <a class="item" href="{{url('home/order')}}"><i></i>我的订单</a>
         </div>
@@ -29,8 +29,8 @@
         <div class="list">
             <h3>店铺管理</h3>
             <a class="item n-active" href="{{url('/home/shop')}}"><i>创建店铺</i></a>
-            <a class="item " href="{{url('/home/goods/show/')}}"><i>发布商品</i></a>
-            <a class="item " href="{{url('/home/goods')}}"><i>商品列表</i></a>
+            <a class="item " href="{{url('/home/goods/')}}"><i>发布商品</i></a>
+            <a class="item " href="{{url('/home/goods/show')}}"><i>商品列表</i></a>
 
             <a class="item " href="{{url('/home/shop/shenhe/1')}}"><i>商铺审核进度</i></a>
         </div>

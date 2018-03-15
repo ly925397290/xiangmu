@@ -1,16 +1,16 @@
 ﻿@extends('home.public.layout')
 <!-- 主体开始 -->
 @section('content')
-    <section class="m-uc-user">
-    <div class="w">
-        <div class="user">
-            <!-- 头像 -->
-            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
-            <!-- 昵称 -->
-            <span>{{$user->uname or '你好'}}</span>
-            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
-        </div>
+<section class="m-uc-user">
+  <div class="w">
+    <div class="user">
+        <!-- 头像 -->
+        <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
+        <!-- 昵称 -->
+        <span>{{$user->uname or '你好'}}</span>
+        <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
     </div>
+  </div>
 </section>
 <section class="m-uc w">
 <aside class="m-uc-nav">

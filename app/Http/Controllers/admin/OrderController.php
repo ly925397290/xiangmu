@@ -39,6 +39,10 @@ class OrderController extends Controller
             }
         })->paginate($request->input('num', 2)); //分页
         $data = (new order())->tree($data);
+        //格式化时间戳
+        foreach ($data as  $value) {
+            $value['time'] = date('Y-m-d H:i:s');
+        }
         $count = count($data);
         return view('admin.order.list',compact('request','data','count'));
     }

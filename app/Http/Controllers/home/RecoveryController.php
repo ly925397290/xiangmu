@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\user_good;
 use App\model\good;
+use App\model\huishou;
 use DB;
 
 class RecoveryController extends Controller
@@ -31,8 +32,15 @@ class RecoveryController extends Controller
             $value['urls'] = $good['urls'];
         }
         $count = DB::table('user_good')->where('user_id',1)->count();
-
-        return view('home/recovery',compact('user_good','count'));
+        $cate = DB::table('data_cate')->select('*',DB::raw('concat(path,",",id) as paths'))->orderBy('paths','asc')->get();
+        // 处理分类名称
+        foreach ($cate as $key => $value) {
+            // 统计字符串出现的次数
+            $n = substr_count($value['path'],',');
+            // 重复使用字符串 拼接分类名称
+            $cate[$key]['title'] = str_repeat('|----',$n).$cate[$key]['title'];
+        }
+        return view('home/recovery',compact('user_good','count','cate'));
     }
 
     /**
@@ -51,9 +59,19 @@ class RecoveryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        // return time();
+        $input = $request->except('_token','file_upload');
+        $input['oid'] = date('YmdHis',time())+time()+$id+1;//session
+        $input['time'] = time();
+        // return $input;
+        $res = huishou::create($input);
+        if ($res) {
+            return redirect('home/order');
+        }else{
+            return back();
+        }
     }
 
     /**

@@ -94,8 +94,10 @@ ul li img { width: 100px; height: 100px; }
           dataType : "Json",
           success : function(msg){
             if(msg){
+                parent.location.reload(true);
                 layer.msg('收藏成功', {icon: 1,time:500});
             }else{
+                parent.location.reload(true);
                 layer.msg('收藏失败', {icon: 1,time:500});
             }
           }

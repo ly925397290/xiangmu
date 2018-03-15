@@ -68,7 +68,7 @@
                         <tr>
                             <td>{{$v->oid}}</td>
                             <td>{{$v->oprice}}</td>
-                            <td>{{$v->created_at}}</td>
+                            <td>{{$v->time}}</td>
                             <td>
                                 <button class="layui-btn" onclick="x_admin_show('评论','{{url('home/pinglun/')}}/{{$v->oid}}',600,400)"><i class="layui-icon"></i>评论</button>
                             </td>

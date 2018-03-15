@@ -64,6 +64,12 @@
                        <cite>订单列表</cite>
                    </a>
                </li >
+               <li>
+                 <a _href="{{url('admin/huishou')}}">
+                     <i class="iconfont">&#xe6a7;</i>
+                     <cite>回收订单列表</cite>
+                 </a>
+               </li >
            </ul>
        </li>
        <li>
