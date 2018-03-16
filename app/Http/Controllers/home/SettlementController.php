@@ -23,7 +23,7 @@ class SettlementController extends Controller
     {   
         $data = good::find($id);
         //获取用户加入购物车商品
-        $user_good = user_good::where('user_id',session('user')['id'])->get();
+        $user_good = user_good::where('user_id',session('user')['uid'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -37,7 +37,7 @@ class SettlementController extends Controller
         }
         $price = array_sum($price);
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         return view('home/settlement',compact('data','user_good','count','price'));
     }
 
@@ -50,7 +50,7 @@ class SettlementController extends Controller
     {
         $input = $request->except('_token');
         //判断收藏的商品是否已存在
-        $res = user_good::create(['user_id'=>session('user')['id'],'good_id'=>$id,'num'=>$input['num']]);
+        $res = user_good::create(['user_id'=>session('user')['uid'],'good_id'=>$id,'num'=>$input['num']]);
         // $res = userGood::create(['user_id'=>session(''),'good_id'=>$id]);
         if($res){
             $data = 1;
@@ -68,7 +68,7 @@ class SettlementController extends Controller
     public function delete($id)
     {
         // 1.查看此权限分类下有没有权限
-        $res = user_good::where('user_id',session('user')['id'])->where('good_id',$id)->delete();
+        $res = user_good::where('user_id',session('user')['uid'])->where('good_id',$id)->delete();
         // 2.有权限不让删除
         if($res){
             $data = 1;

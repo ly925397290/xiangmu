@@ -17,9 +17,9 @@ class AddressController extends Controller
     public function index()
     {
         // 获取用户的订单信息
-        $user = user::find(session('user')['id']);
+        $user = user::find(session('user')['uid']);
         $user['show'] = $user->userShow;
-        $user_good = user_good::where('user_id',session('user')['id'])->get();
+        $user_good = user_good::where('user_id',session('user')['uid'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -27,7 +27,7 @@ class AddressController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         return view('home/addr_add',compact('user','count','user_good'));
     }
     // public function index()
@@ -46,7 +46,7 @@ class AddressController extends Controller
         //1.接收数据
         $input = $request->except('_token');
         // 2.入库
-        $res = user_details::create(['addr'=>$input['addr'],'user_id'=>1,'people'=>$input['people'],'phone'=>$input['phone']]);
+        $res = user_details::create(['addr'=>$input['addr'],'user_id'=>session('user')['uid'],'people'=>$input['people'],'phone'=>$input['phone']]);
         if($res){
             $data = 1;
         }else{

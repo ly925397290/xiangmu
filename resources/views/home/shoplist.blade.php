@@ -33,7 +33,7 @@ ul li img { width: 100px; height: 100px; }
             <a class="arrow up i-icon"></a>
             <a class="arrow down i-icon"></a>
         </div>-->
-        <div class="view">
+        <div class="jqueryzoom">
             <img id="img" class="cloudzoom" src="{{$goods->urls}}"
                  data-cloudzoom="zoomSizeMode:'image',zoomImage: '{{$goods->urls}}',autoInside: 30" alt="呵呵哒" title=""/>
         </div>

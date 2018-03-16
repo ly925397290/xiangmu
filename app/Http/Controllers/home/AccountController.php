@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\home;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Crypt;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\user;
@@ -21,9 +21,9 @@ class AccountController extends Controller
     public function index()
     {
         // 获取用户的信息
-        $user = user::find(session('user')['id']);
+        $user = user::find(session('user')['uid']);
         $user['show'] = $user->userShow;
-        $user_good = user_good::where('user_id',session('user')['id'])->get();
+        $user_good = user_good::where('user_id',session('user')['uid'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -31,7 +31,7 @@ class AccountController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         return view('home/account',compact('user','user_good','count'));
     }
 
@@ -63,9 +63,10 @@ class AccountController extends Controller
     public function password(Request $request)
     {
         // 获取用户的信息
-        $user = user::find(session('user')['id']);
+        $user = user::find(session('user')['uid']);
         $user['show'] = $user->userShow;
-        $user_good = user_good::where('user_id',session('user')['id'])->get();
+        $user['password'] = Crypt::decrypt($user['password']);
+        $user_good = user_good::where('user_id',session('user')['uid'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -73,7 +74,7 @@ class AccountController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         return view('home.password',compact('user','user_good','count'));
     }
 
@@ -82,14 +83,15 @@ class AccountController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return 密码修改
      */
     public function edit(Request $request)
     {
         //接收数据
         $input = $request->except('_tokne');
+        $input['password'] = Crypt::encrypt($input['password']);
         //更新用户密码
-        $res = user::where('uid',session('user')['id'])->update(['password'=>$input['password']]);
+        $res = user::where('uid',session('user')['uid'])->update(['password'=>$input['password']]);
         if($res){
             $data = 1;
         }else{
@@ -110,8 +112,8 @@ class AccountController extends Controller
     {
         $input = $request->except('_token');
         // return $input;
-        $res = user_details::where('user_id',$id)->update(['header'=>$input['header'],'phone'=>$input['phone']]);
-        $res = user::where('id',$id)->update(['uanem'=>$input['uanem']]);
+        $res = user_details::where('user_id',$id)->update(['header'=>$input['header']]);
+        $res = user::where('uid',$id)->update(['uname'=>$input['uname'],'phone'=>$input['phone']]);
         if($res){
             return back();
         }else{

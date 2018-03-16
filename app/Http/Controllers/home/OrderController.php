@@ -22,11 +22,10 @@ class OrderController extends Controller
     public function index()
     {
         // 获取用户的订单信息
-        $user = user::find(session('user')['id']);
+        $user = user::find(session('user')['uid']);
         $user['show'] = $user->userShow;
         $user['order'] = $user->user_order;
-
-        $user_good = user_good::where('user_id',session('user')['id'])->get();
+        $user_good = user_good::where('user_id',session('user')['uid'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -39,7 +38,7 @@ class OrderController extends Controller
         }
         // return $user;
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         return view('home/order',compact('user','count','user_good'));
     }
 
@@ -72,5 +71,15 @@ class OrderController extends Controller
 
     }
 
-
+    public function edit(Request $request){
+        $id = $request->except('_token');
+        //修改订单的状态
+        $status = order::where('id',$id)->update(['order_status'=>2]);
+        if($status){
+            $data = 1;
+        }else{
+            $data = 0;
+        }
+        return $data;
+    }
 }

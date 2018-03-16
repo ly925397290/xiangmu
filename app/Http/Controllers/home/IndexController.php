@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\Slide;
+use App\model\link;
 use App\model\cate;
+use App\model\nav;
 use App\model\good;
 use App\model\user_good;
 use App\model\Article;
@@ -22,10 +24,10 @@ class IndexController extends Controller
     public function index()
     {
       
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         // $user = user::find(1);
          // $good = $user->user_good;
-        $user_good = user_good::where('user_id',session('user')['id'])->get();
+        $user_good = user_good::where('user_id',session('user')['uid'])->get();
         $goods = good::where('status','1')->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
@@ -37,21 +39,23 @@ class IndexController extends Controller
         $cate = cate::get();
         $articles = Article::get()->first();
         $articleslast = Article::orderBy('aid','desc')->first();
-        return view('home/index',compact('goods','count','user_good','articles','$articleslast','cate'));
+        //获取所有轮播图
+        $Slide = Slide::get();
+        return view('home/index',compact('goods','count','user_good','articles','articleslast','cate','Slide'));
      }
     
 
     public function articleslist()
     {
 
-       $user_good = user_good::where('user_id',session('user')['id'])->get();
+       $user_good = user_good::where('user_id',session('user')['uid'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
             $value['gname'] = $good['gname'];
             $value['urls'] = $good['urls'];
         }
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         // $user = user::find(1);
         // $good = $user->user_good;
 
@@ -94,11 +98,6 @@ class IndexController extends Controller
           foreach($links as $v){
            $link .= "<dd><a target='_blank' href='{$v['lurl']}'>{$v['lname']}</a></dd>";
           }
-
-
-        // // $nav = '111';
-
-        // $nav['name'] = 'zhangsan';
         return $link;
 
     }

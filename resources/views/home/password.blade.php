@@ -6,7 +6,7 @@
         <div class="user">
             <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
             <span>{{$user->uname or '你好'}}</span>
-            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
+            <p class="phone">绑定手机号：{{$user->phone or '130********'}}</p>
         </div>
     </div>
 </section>
@@ -50,7 +50,7 @@
                 <a class="n-active" href="javascript:;">密码修改</a>
             </div>
         </div>
-            <form class="layui-form">
+            <form class="layui-form" method="post">
             {{csrf_field()}}
               <div class="layui-form-item">
                   <label for="L_username" class="layui-form-label">
@@ -60,7 +60,6 @@
                       <input type="password" id="oldpass" name="oldpass" required="" lay-verify="oldpass"
                       autocomplete="off" class="layui-input" value="">
                       <input type="hidden" id="repass" value="{{$user['password']}}">
-                      
                   </div>
               </div>
               <div class="layui-form-item">

@@ -26,10 +26,10 @@ class PayController extends Controller
         $input = $request->except('_token');
         // return $input;
         //获取用户的收货地址
-        $addr = user_details::where('user_id',session('user')['id'])->get();
+        $addr = user_details::where('user_id',session('user')['uid'])->get();
         
         //获取所有购物车信息
-        $user_good = user_good::where('user_id',session('user')['id'])->get();
+        $user_good = user_good::where('user_id',session('user')['uid'])->get();
         foreach ($user_good as  $value) {
             $goods = good::where('gid',$value['good_id'])->first();
             $value['price'] = $goods['price'];
@@ -47,7 +47,7 @@ class PayController extends Controller
         }
         // return $good;
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         return view('home.pay',compact('addr','count','gid','user_good','good','input'));
     }
 
@@ -69,12 +69,12 @@ class PayController extends Controller
         try{
             // return $input;
             // 2.生成订单号
-            $order['oid'] = date('YmdHis',time())+time()+$id+session('user')['id'];//session
+            $order['oid'] = date('YmdHis',time())+time()+$id+session('user')['uid'];//session
             // 3.金额
             $order['oprice'] = $input['price'];
             $order['money'] = $input['price'];
             // 4.收货人信息
-            $order['user_id'] = session('user')['id'];//session
+            $order['user_id'] = session('user')['uid'];//session
             $order['time'] = time();
             // $order['order_id'] = DB::table('data_order')->insertGetId(['oid'=>$order['oid'],'oprice'=>$order['oprice'],'money'=>$order['money'],'user_id'=>$order['user_id']]);
             $oid = Order::create($order);
@@ -82,7 +82,7 @@ class PayController extends Controller
             // return $oid;
             // 放入订单详情表中    
             // 5.收货地址
-            $addr = user_details::where('user_id',session('user')['id'])->first();
+            $addr = user_details::where('user_id',session('user')['uid'])->first();
             $order['addr_id'] = isset($input['addr']) ? $input['addr'] : $addr['id'];
             if($id == 0){
                 foreach ($input['ids'] as $key => $value) {
@@ -91,7 +91,7 @@ class PayController extends Controller
                     //7.订单表id
                     $orderdetail = orderdetail::create($order);
                     //8购物车中的商品购买够删除(购物车中的商品信息)
-                    user_good::where('user_id',session('user')['id'])->where('good_id',$value)->delete();
+                    user_good::where('user_id',session('user')['uid'])->where('good_id',$value)->delete();
                 }
             }else{ 
                 //6.商品id

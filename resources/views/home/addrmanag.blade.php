@@ -6,7 +6,7 @@
         <div class="user">
             <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
             <span>{{$user->uname or '你好'}}</span>
-            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
+            <p class="phone">绑定手机号：{{$user->phone or '130********'}}</p>
         </div>
     </div>
 </section>
@@ -65,9 +65,9 @@
                                 @foreach($addr as $v)
                                 <tr>
                                   <td>{{$v->id}}</td>
-                                  <td><input type="text" value="{{$v->people}}" name="people"></td>
-                                  <td><input type="text" value="{{$v->phone}}" name="phone"></td>
-                                  <td><input type="text" value="{{$v->addr}}" name="addr"></td>
+                                  <td><input type="text" value="{{$v->people}}" name="people" id="people"></td>
+                                  <td><input type="text" value="{{$v->phone}}" name="phone" id="phone"></td>
+                                  <td><input type="text" value="{{$v->addr}}" name="addr" id="addr"></td>
                                     <td>
                                     <a title="编辑"  onclick="member_edit('this','{{$v->id}}')" href="javascript:;">
                                       <i class="layui-icon">&#xe642;</i>
@@ -137,9 +137,9 @@ layui.use('laydate', function(){
        /*地址-修改*/
       function member_edit(obj,id){
             // 获取数据
-            var people = $(obj).val();
-            var phone = $(obj).val();
-            var addr = $(obj).val();
+            var people = $('#people').val();
+            var phone = $('#phone').val();
+            var addr = $('#addr').val();
               //发异步删除数据
               $.ajax({
                 headers: {
@@ -150,7 +150,7 @@ layui.use('laydate', function(){
                 data : {"people":people,"phone":phone,"addr":addr},
                 dataType : "Json",
                 success : function(msg){
-                        console.log(msg)
+                        // console.log(msg)
                     if(msg){
                         location.reload(true);
                         layer.msg('修改成功!',{icon:1,time:1000});

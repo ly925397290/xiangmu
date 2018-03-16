@@ -24,14 +24,14 @@ class RecoveryController extends Controller
          * 回收机制
          */
         //获取用户加入购物车商品
-        $user_good = user_good::where('user_id',session('user')['id'])->get();
+        $user_good = user_good::where('user_id',session('user')['uid'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
             $value['gname'] = $good['gname'];
             $value['urls'] = $good['urls'];
         }
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         $cate = DB::table('data_cate')->select('*',DB::raw('concat(path,",",id) as paths'))->orderBy('paths','asc')->get();
         // 处理分类名称
         foreach ($cate as $key => $value) {
@@ -54,7 +54,7 @@ class RecoveryController extends Controller
     {
         // return time();
         $input = $request->except('_token','file_upload');
-        $input['oid'] = date('YmdHis',time())+time()+$id+session('user')['id'];//session
+        $input['oid'] = date('YmdHis',time())+time()+$id+session('user')['uid'];//session
         $input['time'] = time();
         // return $input;
         $res = huishou::create($input);

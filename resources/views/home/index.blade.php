@@ -48,6 +48,7 @@
     </div>
 </header>
 <script type="">
+/**加载分类菜单*/
    function cate(id){
     $.ajax({
         type : "GET",
@@ -60,10 +61,10 @@
 </script>
 <section class="m-slide">
 <ul>
-    @foreach(config('slideconfig') as $k=>$v)
+    @foreach($Slide as $v)
     <li style="background-color: ;">
-        <a href="{{$k}}">
-            <img src="{{$v}}"/>
+        <a href="{{$v['surl']}}">
+            <img src="{{$v['simg']}}"/>
         </a>
     </li> 
     @endforeach   
@@ -79,7 +80,6 @@
 </section>
 <section class="m-ad">
     <div class="w">
-     if()
         <div class="c xs020 m03 s04 x04">     
         <!-- 注: 控制广告商品个数 3*n 否则会改变页面布局 -->
         @foreach($goods as $v)

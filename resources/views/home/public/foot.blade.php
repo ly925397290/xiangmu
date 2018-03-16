@@ -60,17 +60,17 @@
 </html>
 
 <script type="">
-            $(function()
-            {
-                $.ajax({
-                headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type : "GET",
-                url : '/home/index/links',
-                success : function(msg){
-                    $('#link').html(msg)
-                  }
-                });
-            })
-        </script>
+    $(function()
+    {
+        $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type : "GET",
+        url : '/home/index/links',
+        success : function(msg){
+            $('#link').html(msg)
+          }
+        });
+    })
+</script>

@@ -21,11 +21,11 @@ class AddrmanagController extends Controller
     public function index()
     {
         //获取用户的地址信息
-        $addr = user_details::where('user_id','1')->get();
+        $addr = user_details::where('user_id',session('user')['uid'])->get();
         // 获取用户的订单信息
-        $user = user::find(session('user')['id']);
+        $user = user::find(session('user')['uid']);
         $user['show'] = $user->userShow;
-       $user_good = user_good::where('user_id',session('user')['id'])->get();
+       $user_good = user_good::where('user_id',session('user')['uid'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -33,7 +33,7 @@ class AddrmanagController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         return view('home/addrmanag',compact('addr','user','count','user_good'));
     }
 

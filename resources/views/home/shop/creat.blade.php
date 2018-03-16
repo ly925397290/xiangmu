@@ -9,7 +9,7 @@
             <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
             <!-- 昵称 -->
             <span>{{$user->uname or '你好'}}</span>
-            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
+            <p class="phone">绑定手机号：{{$user->phone or '130********'}}</p>
         </div>
     </div>
 </section>

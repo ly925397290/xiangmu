@@ -11,20 +11,6 @@ use Illuminate\Support\Facades\Validator;
 class SlideController extends Controller
 {
 
-
-    public function putContent()
-    {
-        // 1.从数据库中读取相关内容数据
-            $data = Slide::where('status',1)->orderBy('order')->lists('simg','surl')->all();
-        // 2.创建webconfig.php文件并将数据写入webconfig.php文件
-            // 将数组转化为字符串
-            $str = "<?php \n return ".var_export($data,true).';';
-            // file_put_contents(config_path().'\slideconfig.php', $str);
-            $myfile = fopen(config_path().'\slideconfig.php', "w");
-            fwrite($myfile, $str);
-            fclose($myfile);
-
-    }
     /**
      * 更改录播图列表的排序
      * 
@@ -38,8 +24,7 @@ class SlideController extends Controller
         $order = $request->input('order');
         $slideshow = Slide::find($sid);
         $res = $slideshow->update(['order'=>$order]);
-        if($res){
-            $this->putContent();
+        if($res)
             $data =[
                 'status'=> 0,
                 'msg'=>'修改成功'
@@ -60,10 +45,6 @@ class SlideController extends Controller
      */
     public function index()
     {
-
-
-        $this->putContent();
-        $this->putContent();
         $slideSlide = Slide::orderBy('order','asc')->get();
         $count = count($slideSlide);
         return view('Admin.Slide.list',['slideSlide'=>$slideSlide,'count'=>$count]);
@@ -91,8 +72,6 @@ class SlideController extends Controller
         $res = Slide::create($input);
         //判断
         if($res)
-        {
-            $this->putContent();
             return  redirect('/admin/slide')->with('msg','添加成功');
         }else{
             return back()->with('msg','添加失败');
@@ -135,8 +114,7 @@ class SlideController extends Controller
         $res = Slide::find($id)->update($input);
         //判断
         if($res)
-        {
-            $this->putContent();
+        
             return redirect('/admin/slide')->with('msg','修改成功');;
         }else{
             return back()->with('msg','修改失败');;
@@ -151,8 +129,7 @@ class SlideController extends Controller
     {
 
         $res = Slide::find($id)->delete();
-        if($res){
-            $this->putContent();
+        if($res)
             $data = 1;
         }else{
             $data = 0;
@@ -191,8 +168,7 @@ class SlideController extends Controller
         $status = ($input['status'] == 0) ? 1 : 0;
         $res = slide::where('sid',$input['id'])->update(['status'=>$status]);
         // 判断是否成功,将结果返回客户端
-        if($res){
-            $this->putContent();
+        if($res)
             $data = [
                 'status'=>1,
             ];

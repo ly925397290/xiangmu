@@ -165,6 +165,8 @@ Route::post('home/addrmanag/destroy/{id}','Home\AddrmanagController@destroy');
 Route::post('home/addrmanag/update/{id}','Home\AddrmanagController@update');
 // 加载订单页
 Route::get('home/order','Home\OrderController@index');
+// 确认收货处理
+Route::post('home/order/queren','Home\OrderController@edit');
 // 加载评论页
 Route::get('home/pinglun/{id}','Home\OrderController@pinglun');
 // 加载评论处理

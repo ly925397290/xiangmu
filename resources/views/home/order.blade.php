@@ -6,7 +6,7 @@
         <div class="user">
             <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
             <span>{{$user->uname or '你好'}}</span>
-            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
+            <p class="phone">绑定手机号：{{$user->phone or '130********'}}</p>
         </div>
     </div>
 </section>
@@ -52,37 +52,72 @@
             </div>
         </div>
         <table class="layui-table">
-        
-            @if($user->order)
-                 
-                    <thead>
-                        <tr>
-                            <th>订单编号</th>
-                            <th>商品价格</th>
-                            <th>订单时间</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>  
-                    @foreach($user->order as $v) 
-                        <tr>
-                            <td>{{$v->oid}}</td>
-                            <td>{{$v->oprice}}</td>
-                            <td>{{$v->time}}</td>
-                            <td>
-                                <button class="layui-btn" onclick="x_admin_show('评论','{{url('home/pinglun/')}}/{{$v->oid}}',600,400)"><i class="layui-icon"></i>评论</button>
-                            </td>
-                      </tr>
-                @endforeach 
-
-                    </tbody>  
-            @else if
-                你还没有订单
-            @endif
+            <thead>
+                <tr>
+                    <th>订单编号</th>
+                    <th>商品价格</th>
+                    <th>订单时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>  
+            @foreach($user->order as $v) 
+                <tr>
+                    <td>{{$v->oid}}</td>
+                    <td>{{$v->oprice}}</td>
+                    <td>{{$v->time}}</td>
+                    <td>
+                        @if($v['order_status'] == 2)
+                        <button class="layui-btn" onclick="x_admin_show('评论','{{url('home/pinglun/')}}/{{$v->oid}}',600,400)"><i class="layui-icon"></i>评论</button>
+                        @else
+                        <form class="layui-form">
+                             {{csrf_field()}}
+                             <input type="hidden" name="id" value="{{$v->id}}">
+                            <button  class="layui-btn" lay-filter="add" lay-submit="">
+                                <i class="layui-icon"></i>确定收货
+                            </button>
+                        </form>
+                        @endif
+                    </td>
+              </tr>
+             @endforeach 
+            </tbody>  
       </table>
     </div>
-</section>
-
+</section> 
+ <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+          //监听提交
+          form.on('submit(add)', function(data){
+            //发异步，把数据提交给php
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "POST",
+                url : '/home/order/queren',
+                data : data.field,
+                dataType : "Json",
+                success : function(msg){
+                    console.log(msg)
+                    if(msg){
+                            layer.msg("确认收货成功", {icon: 6},function () {
+                            location.reload(true);
+                        });
+                    }else{
+                        layer.msg("确认收货失败", {icon: 6},function () {
+                        location.reload(true);
+                        });
+                    }
+                }
+            });
+            return false;
+          });
+        });
+    </script>
 @endsection
 <!-- 主体结束 -->
   

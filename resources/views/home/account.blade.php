@@ -8,7 +8,7 @@
         <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
         <!-- 昵称 -->
         <span>{{$user->uname or '你好'}}</span>
-        <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
+        <p class="phone">绑定手机号：{{$user->phone or '130********'}}</p>
     </div>
   </div>
 </section>
@@ -41,7 +41,7 @@
 
             </div>
         </div>
-        <form class="layui-form" method="post" action="/home/account/update/{{$user->uid}}" enctype="multipart/form-data">
+        <form class="layui-form" method="post" action="/home/account/update/{{session('user')['uid']}}" enctype="multipart/form-data">
             {{csrf_field()}}
             <div class="layui-form-item">
               <label for="L_username" class="layui-form-label">
@@ -69,7 +69,7 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="L_repass" name="phone" required="" lay-verify="repass"
-                  autocomplete="off" class="layui-input" value="{{$user->show->phone or ''}}">
+                  autocomplete="off" class="layui-input" value="{{$user->phone or ''}}">
               </div>
           </div>
           <div class="layui-form-item">
