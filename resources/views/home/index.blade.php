@@ -11,41 +11,28 @@
                         <div class="lisbg"></div>
                         <!-- 一级菜单 -->
                         <ul class="lisnav-ul" id="lisnav">
-                            <li class="first edit-mode nav-item" data-index="0" modelType="4" modelId="1000037040">
-                                <h3>
-                                    <!-- 一级标题 -->
-                                    <a data-code="1000037040-0" href="#" target="_blank">手机</a>
-                                    <!-- 一级标题end -->
-                                    <a data-code="1000037040-1" href="#" target="_blank">充值</a></h3>
-                            </li>
+                                <!-- 一级标题 -->
+                                @foreach($cate as $k=>$v)
+                                @if($v->pid == 0)
+                                <li class="first edit-mode nav-item" id="one" data-index="0" modelType="4" modelId="1000037040">
+                                    <h3>
+                                        <a data-code="1000037040-0"  target="_blank" onclick="cate({{$v->id}})" style="cursor:pointer;">{{ $v->title }}</a>
+                                    </h3>
+                                </li>
+                                @endif   
+                                @endforeach 
+                                <!-- end -->
                         </ul>
-                        <!-- 一级菜单end -->
+                        <!-- 二级菜单end -->
 
                         <div class="subnav" id="subnav" flag="0">
-                            <div class="loading1-sync" id="loading1-sync">
-                                <div class="fullcategory-left">
-                                    <div class="fullcategory-content-box" id="fullcategory-content-box" style="width: 769px;">
-                                        <div class="fullcategory-content" data-code="1000051970_0" style="width: 769px;">
-                                            <ul class="fullcategory-list" style="width: 769px;">
-                                                <!-- 一级标题 -->
-                                                <div class="title" style="margin-top: -8px;_margin: -8px 0;">手机</div>
-                                                <!-- 一级标题end -->
-                                                <div class="list" style="width: 700px;">
-                                                    <!-- 二级分类 -->
-                                                    <a href="#" target="_blank" title="手机" data-code="1000051971-0">手机</a>
-                                                    <!-- 二级分类 -->
-                                                    <a href="#" target="_blank" title="对讲机" data-code="1000051971-1">对讲机</a>
-                                                </div>
-                                            </ul>
-                                            <ul class="fullcategory-list" style="width: 769px;">
-                                                <!-- 一级标题 -->
-                                                <div class="title" style="margin-top: -8px;_margin: -8px 0;">充值</div>
-                                                <!-- 一级标题end -->
-                                                <div class="list" style="width: 700px;">
-                                                    <!-- 二级分类 -->
-                                                    <a href="#" target="_blank" title="手机" data-code="1000051971-0">联通</a>
-                                                    <!-- 二级分类 -->
-                                                    <a href="#" target="_blank" title="对讲机" data-code="1000051971-1">电信</a>
+                            <div class="loading1-sync" id="loading1-sync" >
+                                <div class="fullcategory-left" style="width: 300px;">
+                                    <div class="fullcategory-content-box" id="fullcategory-content-box" style="width: 300px;">
+                                        <div class="fullcategory-content" data-code="1000051970_0" style="width: 300px;">
+                                            <ul class="fullcategory-list" style="width: 300px;">
+                                                <div id="list" style="width: 300px;">
+                                                   
                                                 </div>
                                             </ul>
                                         </div>
@@ -60,6 +47,17 @@
         <!--gome_head end-->
     </div>
 </header>
+<script type="">
+   function cate(id){
+    $.ajax({
+        type : "GET",
+        url : '/home/cate/'+id,
+        success : function(msg){
+            $('#list').html(msg)
+        }
+    });
+   }   
+</script>
 <section class="m-slide">
 <ul>
     @foreach(config('slideconfig') as $k=>$v)

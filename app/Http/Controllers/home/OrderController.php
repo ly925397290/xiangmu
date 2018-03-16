@@ -22,11 +22,11 @@ class OrderController extends Controller
     public function index()
     {
         // 获取用户的订单信息
-        $user = user::find(1);
+        $user = user::find(session('user')['id']);
         $user['show'] = $user->userShow;
         $user['order'] = $user->user_order;
 
-        $user_good = user_good::where('user_id',1)->get();
+        $user_good = user_good::where('user_id',session('user')['id'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -39,7 +39,7 @@ class OrderController extends Controller
         }
         // return $user;
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',1)->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
         return view('home/order',compact('user','count','user_good'));
     }
 
@@ -72,48 +72,5 @@ class OrderController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

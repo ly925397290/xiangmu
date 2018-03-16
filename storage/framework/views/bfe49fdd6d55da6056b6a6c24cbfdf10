@@ -81,12 +81,12 @@
            
             <div class="user">
                 <div class="uname">
-                    <a class="avatar">Mr.feng</a>
+                    <a class="avatar"><?php echo isset(session('user')['uname']) ? session('user')['uname'] : "<a href='/home/login'>请登录</a>"; ?></a>
                     <div class="menu">
                         <i class="i-icon arrow"></i>
                         <ul>
                             <li class="listItem"><a href="<?php echo e(url('home/order')); ?>">个人中心</a></li>
-                            <li class="listItem"><a href="#">退出登录</a></li>
+                            <li class="listItem"><a href="<?php echo e(url('home/outlogin')); ?>">退出登录</a></li>
                         </ul>
                     </div>
                 </div>

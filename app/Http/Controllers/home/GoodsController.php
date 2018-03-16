@@ -33,7 +33,7 @@ class GoodsController extends Controller
             // 重复使用字符串 拼接分类名称
             $cate[$key]['title'] = str_repeat('|----',$n).$cate[$key]['title'];
         }
-        $user_good = user_good::where('user_id',1)->get();
+        $user_good = user_good::where('user_id',session('user')['id'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -41,22 +41,12 @@ class GoodsController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',1)->count();
-         $user = user::find(1);
+        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
+         $user = user::find(session('user')['id']);
         $user['show'] = $user->userShow;
         return view('home.shop.goodadd',compact('count','user_good','user','good','cate'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-        return 000;
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -71,7 +61,7 @@ class GoodsController extends Controller
         $input = $request->except('_token');
         // return $input;
         $input['gdesc'] = strip_tags($input['gdesc']);
-        $input['user_id'] = 1;//1改成seesion
+        $input['user_id'] = session('user')['id'];//1改成seesion
          // return  $input;
         //2.添加到数据库
         $res = good::create($input);
@@ -119,7 +109,7 @@ class GoodsController extends Controller
     {
         
 
-       $user_good = user_good::where('user_id',1)->get();
+       $user_good = user_good::where('user_id',session('user')['id'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -127,10 +117,10 @@ class GoodsController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',1)->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
         //查询用户发表的商品
-         $goods = good::where('user_id',1)->get();
-       $user = user::find(1);
+         $goods = good::where('user_id',session('user')['id'])->get();
+       $user = user::find(session('user')['id']);
         $user['show'] = $user->userShow;
         return view('home.shop.goodlist',compact('user_good','count','goods','user'));
     }
@@ -195,9 +185,9 @@ class GoodsController extends Controller
 
     public function write($id)
     {
-        $user = user::find(1);
+        $user = user::find(session('user')['id']);
         $user['show'] = $user->userShow;
-         $user_good = user_good::where('user_id',1)->get();
+         $user_good = user_good::where('user_id',session('user')['id'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -205,7 +195,7 @@ class GoodsController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',1)->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
         $det = goodsdetail::find($id);
         return view('home.shop.goodwrite',compact('user_good','count','user'));
     }

@@ -23,62 +23,20 @@ class AddrmanagController extends Controller
         //获取用户的地址信息
         $addr = user_details::where('user_id','1')->get();
         // 获取用户的订单信息
-        $user = user::find(1);
+        $user = user::find(session('user')['id']);
         $user['show'] = $user->userShow;
-       $user_good = user_good::where('user_id',1)->get();
+       $user_good = user_good::where('user_id',session('user')['id'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
             $value['gname'] = $good['gname'];
             $value['urls'] = $good['urls'];
         }
-//计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',1)->count();
+        //计算购物车中商品总和
+        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
         return view('home/addrmanag',compact('addr','user','count','user_good'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

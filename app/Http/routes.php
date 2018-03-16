@@ -136,13 +136,13 @@ Route::get('outlogin','LoginController@outlogin');
 
 /****************************前台路由************************************/
 
-// 前台首页
-Route::get('/','Home\IndexController@index');
 
 
-// // 加载前台首页
-// Route::get('home/index','home\IndexController@index');
-
+/*********前台需要登录的路由**********/
+Route::group(['middleware'=>['homeLogin']],function(){
+/**
+ * 个人中心
+ */
 // 加载账户管理页
 Route::get('home/account','home\AccountController@index');
 // 修改个人信息
@@ -170,9 +170,9 @@ Route::get('home/pinglun/{id}','Home\OrderController@pinglun');
 // 加载评论处理
 Route::post('home/pinglun/{id}','Home\OrderController@store');
 
-
-//加载商品详情页
-Route::get('home/shoplist/{id}','Home\ShoplistController@index');
+/**
+ * 购物车
+ */
 // 加载购物车
 Route::get('home/settlement/{id}','Home\SettlementController@index');
 //加入购物车处理
@@ -186,23 +186,9 @@ Route::post('home/pay/store/{id}','Home\PayController@store');
 // 加载售后页
 Route::get('home/aftersale','Home\AftersaleController@index');
 
-// 加载评估等待页
-Route::get('home/assess','Home\AssessController@index');
-
-// 加载添加评估信息页
-Route::get('home/infomation','Home\InfomationController@index');
-
-
-// 加载回收订单列表页
-Route::get('home/reclaimorder','Home\ReclaimorderController@index');
-
-// 加载回收机制页
-Route::get('home/recovery','Home\RecoveryController@index');
-//处理回收
-Route::post('home/recovery/{id}','Home\RecoveryController@store');
-
-
-
+/**
+ * 商铺管理
+ */
 //创建商铺
 Route::resource('home/shop','Home\ShopController');
 // Route::post('/home/shop/shenhe/{id}','Home\ShopController@shenhe');
@@ -218,9 +204,100 @@ Route::post('/home/goods/editAll/','Home\goodsController@editAll');
 //商品描述修改
 Route::post('/home/goods/edit/','Home\goodsController@edit');
 
+});
+/****************************************/
+
+// 前台首页
+Route::get('/','Home\IndexController@index');
+//加载商品详情页
+Route::get('home/shoplist/{id}','Home\ShoplistController@index');
+
+
+
+
+// 加载评估等待页
+Route::get('home/assess','Home\AssessController@index');
+
+// 加载添加评估信息页
+Route::get('home/infomation','Home\InfomationController@index');
+
+// 加载回收订单列表页
+Route::get('home/reclaimorder','Home\ReclaimorderController@index');
+
+// 加载回收机制页
+Route::get('home/recovery','Home\RecoveryController@index');
+//处理回收
+Route::post('home/recovery/{id}','Home\RecoveryController@store');
+
+
+
+
+
 Route::get('/home/index/show','Home\indexController@show');
 Route::get('/home/index/links','Home\indexController@links');
 Route::get('/home/index/slide','Home\indexController@slide');
 
 //前台文章分类列表
 Route::get('/home/articleslist','Home\indexController@articleslist');
+//菜单分类显示
+Route::get('home/cate/{id}','Home\cateController@index');
+
+
+/*********************************************用户登录组*********************************************/
+/**
+* 注册组
+* RegisterController
+*/ 
+Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+	
+	// 加载手机注册页
+	Route::get('phonereg', 'RegisterController@phoneReg');
+
+	// 加载注册逻辑
+	Route::post('update', 'RegisterController@upDate');
+
+	// 加载手机验证码
+	Route::get('sendcode', 'RegisterController@sendCode');
+	
+	// 加载注册成功页
+	Route::get('success', 'RegisterController@sucCess');
+});
+
+/**
+* 登录组
+* LoginController
+*/
+Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+	
+	// 加载登录页
+	Route::get('login', 'LoginController@login');
+
+	// 加载登录逻辑页
+	Route::post('dologin', 'LoginController@dologin');
+
+	// 输出验证码
+	Route::get('yzm', 'LoginController@yzm');
+
+	//退出登录
+	Route::get('outlogin','LoginController@outlogin');
+});
+
+/**
+* 密码找回组
+* BackpassController
+*/ 
+Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+	
+	// 加载找回密码页
+	Route::get('backpass', 'BackpassController@backpass');
+
+	// 加载找回密码页
+	Route::post('dobackpass', 'BackpassController@dobackpass');
+
+	// 加载密码修改页
+	Route::get('modify', 'BackpassController@modify');
+
+	// 修改密码逻辑页
+	Route::post('domodify', 'BackpassController@domodify');
+
+});

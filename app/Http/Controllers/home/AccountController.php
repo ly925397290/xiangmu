@@ -21,9 +21,9 @@ class AccountController extends Controller
     public function index()
     {
         // 获取用户的信息
-        $user = user::find(1);
+        $user = user::find(session('user')['id']);
         $user['show'] = $user->userShow;
-        $user_good = user_good::where('user_id',1)->get();
+        $user_good = user_good::where('user_id',session('user')['id'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -31,7 +31,7 @@ class AccountController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',1)->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
         return view('home/account',compact('user','user_good','count'));
     }
 
@@ -63,9 +63,9 @@ class AccountController extends Controller
     public function password(Request $request)
     {
         // 获取用户的信息
-        $user = user::find(1);
+        $user = user::find(session('user')['id']);
         $user['show'] = $user->userShow;
-        $user_good = user_good::where('user_id',1)->get();
+        $user_good = user_good::where('user_id',session('user')['id'])->get();
         foreach ($user_good as  $value) {
             $good = good::where('gid',$value['good_id'])->first();
             $value['price'] = $good['price'];
@@ -73,20 +73,10 @@ class AccountController extends Controller
             $value['urls'] = $good['urls'];
         }
         //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',1)->count();
+        $count = DB::table('user_good')->where('user_id',session('user')['id'])->count();
         return view('home.password',compact('user','user_good','count'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -99,7 +89,7 @@ class AccountController extends Controller
         //接收数据
         $input = $request->except('_tokne');
         //更新用户密码
-        $res = user::where('uid',1)->update(['password'=>$input['password']]);
+        $res = user::where('uid',session('user')['id'])->update(['password'=>$input['password']]);
         if($res){
             $data = 1;
         }else{
@@ -129,14 +119,4 @@ class AccountController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

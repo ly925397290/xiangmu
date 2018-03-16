@@ -6,11 +6,10 @@
     <div class="w">
         <div class="user">
             <!-- 头像 -->
-            <a class="avatar"><img src="picture/a40db3cc250a40049320ae74bd800426.gif"/></a>
+            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
             <!-- 昵称 -->
-            <span>Mr.feng</span>
-            <!-- 信息 -->
-            <p class="phone">绑定手机号：13520249366<span>修改</span></p>
+            <span>{{$user->uname or '你好'}}</span>
+            <p class="phone">绑定手机号：{{$user->show->phone or '130********'}}</p>
         </div>
     </div>
 </section>
