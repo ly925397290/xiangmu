@@ -33,9 +33,7 @@ class ArticleController extends Controller
 
              $newfilename = md5(date('YmdHis').rand(1000,9999).uniqid()).'.'.$ext;
              $res = $file->move(public_path().'/upload',$newfilename);
-
-
-            
+       
 //               //上传到七牛云
             // $disk = Storage::disk('qiniu');
             // return $disk;
@@ -54,38 +52,14 @@ class ArticleController extends Controller
 
     public function index(Request $request)
     {
-        //
-       $aa = $request->all();
-       // dd($aa);
-       $query = Article::query()->orderBy('aid','desc');
+        $aa = $request->all();
+       
        if( isset($aa['username']) ){
-            $query->where('auth','like','%'.$aa['username'].'%');
+            $articles = Article::where('auth','like','%'.$aa['username'].'%')->paginate(3);
+       }else{
+            $articles = Article::query()->orderBy('number','desc')->paginate(9);
        }
-       $articles = $query->select('*',DB::raw('concat(apath,",",aid) as paths'))->orderBy('paths','asc')->paginate(2);
-       // dd($articles);
-        // $articles = DB::table('data_article')->select('*',DB::raw('concat(apath,",",aid) as paths'))->orderBy('paths','asc')->paginate(2);
-        // dd($articles);
-            foreach ($articles as $key => $value) {
-                // 统计字符串出现的次数
-                $n = substr_count($value['apath'],',');
-                $str = str_repeat('|----',$n);
-                // 重复使用字符串 拼接分类名称
-                // dd( str_repeat('|----',$n).$articles[$key]['title'] );
-                
-                $value['title'] = str_repeat('|----',$n).$articles[$key]['title'] ;
-                // dd($value);
-                if($articles[$key]['cate_id'] == 0)
-                {
-                    $value['apath'] = '父类';
-                }else{
-                    // 查询父级分类的数据
-                    $parent_data = Article::where('aid',$articles[$key]['cate_id'])->first();
-                    // 处理数据 
-                    $value['apath'] = $parent_data['title'];
-                }
-            
-            }
-            $count = count($articles);
+        $count = count($articles);
         return view('admin.article.list',['articles'=>$articles,'request'=>$request,'count'=>$count]);
     }
 
@@ -96,14 +70,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-            $articles = DB::table('data_article')->select('*',DB::raw('concat(apath,",",aid) as paths'))->orderBy('paths','asc')->get();
-            foreach ($articles as $key => $value) {
-            // 统计字符串出现的次数
-            $n = substr_count($value['apath'],',');
-            // 重复使用字符串 拼接分类名称
-            $articles[$key]['title'] = str_repeat('|----',$n).$articles[$key]['title'];
-        }
-        return view('admin.article.add',['articles'=>$articles]);
+
+        return view('admin.article.add');
     }
 
     /**
@@ -115,37 +83,14 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         
+
         //1.接收数据
         $data = $request->except('_token');
-       //dd($input) ;
-        // return $data;
-        // 处理数据
-        if($data['cate_id'] == 0){
-            // 顶级分类
-            $data['apath'] = 0;
-        }else{
-            // 子分类
-            // 查询父级分类的数据
-            $parent_data = cate::where('aid',$data['cate_id'])->first();
-            // 处理数据 
-            $data['apath'] = $parent_data['apath'].','.$parent_data['aid'];
-        }
-        // 2.添加到数据库
-        $cate = new cate;
-        $cate->pid = $data['pid'];
-        $cate->path = $data['path'];
-        $cate->title = $data['cate_name'];
-        $res = $cate->save();
-
-
-
-
-
+    
         //2.添加到数据库
-        $res = Article::create($input);      
-//        3. 判断添加是否成功，给客户端返回提示信息
+        $res = Article::create($data);      
+        //3. 判断添加是否成功，给客户端返回提示信息
 
-        dd($res);
 
         if($res)
         {

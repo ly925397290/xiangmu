@@ -73,14 +73,69 @@ ul li img { width: 100px; height: 100px; }
             <input type="hidden" class="form-control input-sm" name="price" value="{{$goods['price']}}" maxlength="3" id="price">
             <input type="hidden" class="form-control input-sm" name="number" value="1" maxlength="3" id="number">
             <div class="action">
-            <button class="layui-btn layui-btn-warm" onclick="member_sc(this,{{$goods['gid']}})">加入购物车</button>
-            <button class="layui-btn" lay-filter="add" lay-submit="">立即购买</button>
+                <button class="layui-btn layui-btn-warm" onclick="member_sc(this,{{$goods['gid']}})">加入购物车</button>
+                <button class="layui-btn" lay-filter="add" lay-submit="">立即购买</button>
+
+                <button class="layui-btn layui-btn-normal" lay-filter="add" onclick="guanzhu({{$goods['gid']}})">收藏</button>
             </div>
         </form>
     </div>
 </section>
+
 <script type="text/JavaScript">
+
+    function guanzhu(gid)
+    {
+         $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          type : "POST",
+          url : '/home/shoucang',
+          data:{'gid':gid},
+          dataType : "Json",
+          success : function(msg){
+            alert(msg);
+            if(msg){
+                parent.location.reload(true);
+                layer.msg('收藏成功', {icon: 1,time:500});
+            }else{
+                parent.location.reload(true);
+                layer.msg('收藏失败', {icon: 1,time:500});
+            }
+          },error: function(){
+            alert('asdf');
+          }
+        });
+    }
+
     /*商品-收藏*/
+    function shoucang()
+    {
+
+          $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          type : "POST",
+          url : '/home/sc/'+id,
+          data:{'num':num},
+          dataType : "Json",
+          success : function(msg){
+            if(msg){
+                parent.location.reload(true);
+                layer.msg('收藏成功', {icon: 1,time:500});
+            }else{
+                parent.location.reload(true);
+                layer.msg('收藏失败', {icon: 1,time:500});
+            }
+          }
+        });
+
+
+    }
+
+
       function member_sc(obj,id){
         //获取商品数量
         var num = $('#number').val()

@@ -57,4 +57,11 @@ class good extends Model
         return $this->hasOne('App\model\goodsdetail','gid');
      }
 
+
+    //创建商品评论的一对多关系
+    public function message()
+    {
+        return $this->hasMany('App\model\message','oid');
+    }
+
 }

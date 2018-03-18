@@ -47,6 +47,8 @@
                 <a class="cartStyle">
                     <i class="i-icon"></i>
                     <span>购物车</span> <em>{{$count}}</em></a>
+
+
                 <div class="m-user-cart">
                     <i class="i-icon arrow"></i>
                     <div class="wrap">
@@ -75,9 +77,18 @@
                     </div>
        
                     <!-- 购物车有货状态 -->
+
                 </div>
             </div> 
-           
+
+             <div class="cart">
+                <a class="cartStyle">
+                    <i class="layui-icon" style="font-size:30px">&#xe7a0</i>
+                    <span>我的收藏</span> <em>{{$count}}</em></a>
+
+             </div> 
+
+
             <div class="user">
                 <div class="uname">
                     <a class="avatar">{!!isset(session('user')['uname']) ? session('user')['uname'] : "<a href='/home/login'>请登录</a>" !!}</a>
@@ -89,6 +100,8 @@
                         </ul>
                     </div>
                 </div>
+
+
                 <script>
                     /*商品-删除*/
                           function member_del(obj,id){
@@ -116,6 +129,7 @@
                           }
                 </script>
             </div>
+
         </div>
         </div>
         <!--bottombar-->

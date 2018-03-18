@@ -47,9 +47,8 @@
       <table class="layui-table">
         <thead>
           <tr>        
-            <th>排序</th>
-            <th>ID号</th>            
-            <th>所属类别</th>           
+            <th>排序</th>         
+            <th width="80px">所属类别</th>           
             <th>文章题目</th>
             <th>文章缩列图</th>
             <th>文章作者</th>
@@ -60,9 +59,20 @@
         <tbody>
          @foreach($articles as $v)
           <tr>
-            <th>{{$v['number']}}</th>
-           <th>{{$v['aid']}}</th>     
-            <th>{{$v['apath']}}</th>
+            <th>{{$v['number']}}</th> 
+            <th>
+              @if($v['cate_id']==0)
+                *公告*
+              @elseif($v['cate_id']==1)
+                @指南@
+              @elseif($v['cate_id']==2)
+                #回收#
+              @elseif($v['cate_id']==3)
+              $热销$
+              @else
+              %资讯%
+              @endif
+          </th>
             <th>{{$v['title']}}</th>
             <th><img src="{{$v['art_thumb']}}"></th>
             <!-- <th>{{$v['art_thumb']}}</th> -->

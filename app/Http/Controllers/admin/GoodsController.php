@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\model\good;
 use App\model\cate;
 use App\model\goodsdetail;
+use App\model\message;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
@@ -58,21 +59,24 @@ class GoodsController extends Controller
     //商品详情
     public function detail($id )
     {
-       // dd($id);
-
         $goods = good::find($id);
-        // return $goods;
         $goods['cid'] = $goods->good_cate->title;
         $goods['gdesc'] = $goods->data_goodsdetail->gdesc;
         $goods['gname'] = '<input type="text" name="gname" value="'.$goods['gname'].'">';
         $goods['price'] = '<input type="text" name="price" value="'.$goods['price'].'">';
         $goods['status'] = '<input type="text" name="status" value="'.$goods['status'].'">';
+        $goods['status'] = '<input type="radio" name="status" value="'.$goods['status'].'" title="" checked>';
+
         $goods['inven'] = '<input type="text" name="inven" value="'.$goods['inven'].'">';
-        $goods['gdesc'] = '<input type="text" name="gdesc" value="'.$goods['gdesc'].'">';
-
-        // return $goods;
+        
+            foreach($goods->message->all() as $v){
+                 $arr[] = $v['content'];
+            }
+       
+             $goods['content'] = $arr;
+        
+       
         return view('admin.good.det',['goods'=>$goods]);
-
     }
     public function create()
     {
@@ -101,12 +105,10 @@ class GoodsController extends Controller
         $addtime = date('Y-m-d H:i:s',time());
         $input['addtime'] = $addtime;
         $input['gdesc'] = strip_tags($input['gdesc']);
-         // return  $input;
         //2.添加到数据库
         $res = good::create($input);
         $input['gid'] = $res['gid'];
         
-        // $input['gdesc'] =$input['gdesc'];
        
         $res1 = goodsdetail::create($input);
 
@@ -141,18 +143,19 @@ class GoodsController extends Controller
     {
 
         $input = $request->except('_token');
+       
+
         $cid = cate::where('title',$input['cid'])->first();
         
         DB::beginTransaction();
         try{
             //根据id,遍历所有的记录
             foreach ($input as $k=>$v){
-
                 //根据当前遍历的id,获取网站配置记录
 //                $conf = Config::find($v);
                 //执行修改操作
                 //$conf->update(['conf_content'=>$input['conf_content'][$k]]);
-                DB::table('data_goods')->where('gid',$v)->update(['gname' => $input['gname'],'price' => $input['price'],'inven' => $input['inven'],'cid' => $cid['id']]);
+                DB::table('data_goods')->where('gid',$v)->update(['gname' => $input['gname'],'price' => $input['price'],'inven' => $input['inven'],'cid' => $cid['id'],'status' => $input['status']]);
            
 
                 DB::table('data_goodsdetail')->where('gid',$v)->update(['gdesc' => $input['gdesc']]);

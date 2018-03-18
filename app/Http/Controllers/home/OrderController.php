@@ -22,7 +22,7 @@ class OrderController extends Controller
     public function index()
     {
         // 获取用户的订单信息
-        $user = user::find(session('user')['uid']);
+        $user = user::find(session('use')['uid']);
         $user['show'] = $user->userShow;
         $user['order'] = $user->user_order;
         $user_good = user_good::where('user_id',session('user')['uid'])->get();

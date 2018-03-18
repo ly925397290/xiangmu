@@ -43,7 +43,7 @@
       </div>
       <xblock>
         
-        <a href="{{url('admin/goods/create')}}"><i class="layui-icon"></i>添加回收的二手商品</a> 
+        <a href="{{url('admin/goods/create')}}" class="layui-btn"><i class="layui-icon"></i>添加回收的二手商品</a> 
         <span class="x-right" style="line-height:40px">共有数据{{$count}} 条</span>
       </xblock>
       <table class="layui-table">

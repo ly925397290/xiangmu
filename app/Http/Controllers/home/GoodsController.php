@@ -25,6 +25,14 @@ class GoodsController extends Controller
      */
     public function index()
     {
+
+        //关联店铺表 判断店铺表中是否有用户id  
+        //再判断用户的这条信息店铺的status
+        // 如果是0 则不可以发布商品
+
+        // 若是1则可以发布商品
+        // 可能会使用中间件
+
          $cate = DB::table('data_cate')->select('*',DB::raw('concat(path,",",id) as paths'))->orderBy('paths','asc')->get();
         // 处理分类名称
         foreach ($cate as $key => $value) {
@@ -42,11 +50,10 @@ class GoodsController extends Controller
         }
         //计算购物车中商品总和
         $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
-         $user = user::find(session('user')['uid']);
+        $user = user::find(session('user')['uid']);
         $user['show'] = $user->userShow;
         return view('home.shop.goodadd',compact('count','user_good','user','good','cate'));
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -82,7 +89,7 @@ class GoodsController extends Controller
     }
 
         public function upload(Request $request)
-    {
+        {
         //1.获取上传文件
         $file = $request->file('file_upload');
         //  2.判断上传文件的有效性

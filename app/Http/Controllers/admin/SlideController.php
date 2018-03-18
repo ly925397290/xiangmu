@@ -25,6 +25,7 @@ class SlideController extends Controller
         $slideshow = Slide::find($sid);
         $res = $slideshow->update(['order'=>$order]);
         if($res)
+        {
             $data =[
                 'status'=> 0,
                 'msg'=>'修改成功'
@@ -72,7 +73,9 @@ class SlideController extends Controller
         $res = Slide::create($input);
         //判断
         if($res)
+        {
             return  redirect('/admin/slide')->with('msg','添加成功');
+        
         }else{
             return back()->with('msg','添加失败');
         }
@@ -98,7 +101,6 @@ class SlideController extends Controller
     {
         $slideshow = Slide::find($id);
         
-
         return view ('Admin.slide.edit',compact('slideshow'));
     }
 
@@ -114,10 +116,10 @@ class SlideController extends Controller
         $res = Slide::find($id)->update($input);
         //判断
         if($res)
-        
-            return redirect('/admin/slide')->with('msg','修改成功');;
+        {
+            return redirect('/admin/slide')->with('msg','修改成功');
         }else{
-            return back()->with('msg','修改失败');;
+            return back()->with('msg','修改失败');
         }
     }
     /**
@@ -130,7 +132,7 @@ class SlideController extends Controller
 
         $res = Slide::find($id)->delete();
         if($res)
-            $data = 1;
+         {   $data = 1;
         }else{
             $data = 0;
         }
@@ -169,6 +171,7 @@ class SlideController extends Controller
         $res = slide::where('sid',$input['id'])->update(['status'=>$status]);
         // 判断是否成功,将结果返回客户端
         if($res)
+        {
             $data = [
                 'status'=>1,
             ];

@@ -16,19 +16,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 /***后台登录验证***/
-Route::group(['middleware'=>['login']],function(){
+//Route::group(['middleware'=>['login']],function(){
 	// 无权限访问页面
 	Route::get('noaccess','Admin\IndexController@noaccess');
 	// 后台登录页面显示
-	Route::get('admin/login','Admin\LoginController@login');
+	//Route::get('admin/login','Admin\LoginController@login');
 	// 后台登录处理
-	Route::post('admin/dologin','Admin\LoginController@dologin');
+	//Route::post('admin/dologin','Admin\LoginController@dologin');
 	// 后台首页
 	Route::get('admin/index','Admin\IndexController@index');
 	// 后台详情页
 	Route::get('admin/welcome','Admin\IndexController@welcome');
 	/**验证后台用户权限**/
-	Route::group(['middleware'=>['permission']],function(){
+	//Route::group(['middleware'=>['permission']],function(){
 		//用户管理
 		Route::resource('admin/user','Admin\UserController');
 		// 用户状态
@@ -104,19 +104,19 @@ Route::group(['middleware'=>['login']],function(){
 		Route::resource('admin/link','Admin\LinkController');
 		// 链接状态
 		Route::post('admin/link/changestatus','Admin\LinkController@changestatus');
-	});
-});
+	//});
+//});
 // 创建登录页面的 Admin 命名空间
-Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
-	// 后台登录
-	Route::get('login', 'LoginController@login')->name('admin.login');
-	// 获取验证码
-	Route::get('yzm', 'LoginController@yzm');
-	// 提交后台登录数据
-	Route::post('dologin', 'LoginController@dologin');
-	// 未登录测试
-	Route::get('ceshi', 'LoginController@ceshi');
-});
+// Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
+// 	// 后台登录
+// 	Route::get('login', 'LoginController@login')->name('admin.login');
+// 	// 获取验证码
+// 	Route::get('yzm', 'LoginController@yzm');
+// 	// 提交后台登录数据
+// 	Route::post('dologin', 'LoginController@dologin');
+// 	// 未登录测试
+// 	Route::get('ceshi', 'LoginController@ceshi');
+// });
 
 // 加载验证码
 Route::get('/code/captcha/{tmp}', 'Admin\LoginController@captcha');
@@ -127,11 +127,11 @@ Route::get('/code/captcha/{tmp}', 'Admin\LoginController@captcha');
 */
 
 // 设置路由组 统一命名空间下的控制器 有需要的再提出来
-Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
+// Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
                                                                     
-// 退出登录
-Route::get('outlogin','LoginController@outlogin');
-});
+// // 退出登录
+// Route::get('outlogin','LoginController@outlogin');
+// });
 
 
 /****************************前台路由************************************/
@@ -139,7 +139,7 @@ Route::get('outlogin','LoginController@outlogin');
 
 
 /*********前台需要登录的路由**********/
-Route::group(['middleware'=>['homeLogin']],function(){
+// Route::group(['middleware'=>['homeLogin']],function(){
 /**
  * 个人中心
  */
@@ -172,6 +172,15 @@ Route::get('home/pinglun/{id}','Home\OrderController@pinglun');
 // 加载评论处理
 Route::post('home/pinglun/{id}','Home\OrderController@store');
 
+
+/**
+ * 收藏
+ */
+// 加载收藏
+Route::post('home/shoucang','Home\GuanZhuController@doadd');
+
+
+
 /**
  * 购物车
  */
@@ -193,7 +202,7 @@ Route::get('home/aftersale','Home\AftersaleController@index');
  */
 //创建商铺
 Route::resource('home/shop','Home\ShopController');
-// Route::post('/home/shop/shenhe/{id}','Home\ShopController@shenhe');
+
 Route::get('home/shop/shenhe/{id}','Home\ShopController@shenhe');
 //前台发布闲置商品
 Route::resource('home/goods','Home\goodsController');
@@ -206,7 +215,7 @@ Route::post('/home/goods/editAll/','Home\goodsController@editAll');
 //商品描述修改
 Route::post('/home/goods/edit/','Home\goodsController@edit');
 
-});
+// });
 /****************************************/
 
 // 前台首页
@@ -240,7 +249,8 @@ Route::get('/home/index/links','Home\indexController@links');
 Route::get('/home/index/slide','Home\indexController@slide');
 
 //前台文章分类列表
-Route::get('/home/articleslist','Home\indexController@articleslist');
+Route::get('/home/articleslist/{cate_id}','Home\indexController@articleslist');
+
 //菜单分类显示
 Route::get('home/cate/{id}','Home\cateController@index');
 
@@ -249,40 +259,40 @@ Route::get('home/cate/{id}','Home\cateController@index');
 /**
 * 注册组
 * RegisterController
-*/ 
-Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+// */ 
+// Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
 	
-	// 加载手机注册页
-	Route::get('phonereg', 'RegisterController@phoneReg');
+// 	// 加载手机注册页
+// 	Route::get('phonereg', 'RegisterController@phoneReg');
 
-	// 加载注册逻辑
-	Route::post('update', 'RegisterController@upDate');
+// 	// 加载注册逻辑
+// 	Route::post('update', 'RegisterController@upDate');
 
-	// 加载手机验证码
-	Route::get('sendcode', 'RegisterController@sendCode');
+// 	// 加载手机验证码
+// 	Route::get('sendcode', 'RegisterController@sendCode');
 	
-	// 加载注册成功页
-	Route::get('success', 'RegisterController@sucCess');
-});
+// 	// 加载注册成功页
+// 	Route::get('success', 'RegisterController@sucCess');
+// });
 
 /**
 * 登录组
 * LoginController
-*/
-Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+// */
+// Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
 	
-	// 加载登录页
-	Route::get('login', 'LoginController@login');
+// 	// 加载登录页
+// 	Route::get('login', 'LoginController@login');
 
-	// 加载登录逻辑页
-	Route::post('dologin', 'LoginController@dologin');
+// 	// 加载登录逻辑页
+// 	Route::post('dologin', 'LoginController@dologin');
 
-	// 输出验证码
-	Route::get('yzm', 'LoginController@yzm');
+// 	// 输出验证码
+// 	Route::get('yzm', 'LoginController@yzm');
 
-	//退出登录
-	Route::get('outlogin','LoginController@outlogin');
-});
+// 	//退出登录
+// 	Route::get('outlogin','LoginController@outlogin');
+// });
 
 /**
 * 密码找回组

@@ -37,15 +37,15 @@ class IndexController extends Controller
         }
         //从数据库中取文章
         $cate = cate::get();
-        $articles = Article::get()->first();
-        $articleslast = Article::orderBy('aid','desc')->first();
+        $articles = Article::where('cate_id',0)->first();
+        $articleslast = Article::where('cate_id',1)->first();
         //获取所有轮播图
-        $Slide = Slide::get();
+        $Slide = Slide::orderBy('order')->get();
         return view('home/index',compact('goods','count','user_good','articles','articleslast','cate','Slide'));
      }
     
 
-    public function articleslist()
+    public function articleslist($cate_id)
     {
 
        $user_good = user_good::where('user_id',session('user')['uid'])->get();
@@ -56,11 +56,9 @@ class IndexController extends Controller
             $value['urls'] = $good['urls'];
         }
         $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
-        // $user = user::find(1);
-        // $good = $user->user_good;
 
          //从数据库中取文章
-        $articles = Article::get();
+        $articles = Article::where('cate_id',$cate_id)->orderBy('number')->get();
 
          return view('home/articlelist',compact('user_good','count','articles'));
 

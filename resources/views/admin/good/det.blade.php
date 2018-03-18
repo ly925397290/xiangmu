@@ -99,7 +99,7 @@
                                 // var myform = document.getElementById('art_from');
 
                                //将整个表单打包进formData
-                        // var formData = new FormData($('#art_form')[0]);
+                         var formData = new FormData($('#art_form')[0]);
 
                         //只将上传文件打包进formData
                                 var formData = new FormData();
@@ -149,16 +149,23 @@
           
             </tr>
           <tr>
-           <th width="">商品状态</th>  
+           <th width="">商品状态</th> 
+
+
+
               @if($goods->status == 0)
               <th>
-               <input type="text" name="" value="不显示">
-               不显示 | 已上架
+              
+               <input type="radio" name="status" value="0" title="下架" checked>下架
+               <input type="radio" name="status" value="1" title="上架" >上架
+
               </th>
               @else
                 <th>
-                <input type="text" name="" value="已上架">
-                不显示 | 已上架
+               
+                <input type="radio" name="status" value="1" title="上架" checked>上架
+                <input type="radio" name="status" value="0" title="下架" >下架
+
                 </th>
               @endif
                
@@ -170,17 +177,43 @@
           
             </tr>
           <tr>
-           <th width="">商品描述</th>            
-           <th width="">
-            {!!$goods['gdesc']!!}
-            </th>
+              <tr>
+                    <th>商品描述：</th>
+                    <td>
+                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
+                        <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+
+                        <script id="editor" type="text/plain" name="gdesc" style="width:600px;height:50px;">{!!$goods['gdesc']!!}</script>
+                        <script type="text/javascript">
+
+                            //实例化编辑器
+                            //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+                            var ue = UE.getEditor('editor');
+                        </script>
+                        <style>
+                            .edui-default{line-height: 28px;}
+                            div.edui-combox-body,div.edui-button-body,div.edui-splitbutton-body
+                            {overflow: hidden; height:20px;}
+                            div.edui-box{overflow: hidden; height:22px;}
+                        </style>
+                    </td>
+                </tr>
+
         </tr>
          <tr>
-           <th width="">商品评论</th>            
-           <th width=""></th>
-      
+           <th width="">商品评论</th> 
         </tr>
-           
+        <tr>   
+            @foreach($goods['content'] as $v)
+
+              <tr> 
+              <th></th>        
+              <th width="">{!!$v!!}</th>
+            </tr>
+            @endforeach
+          </tr>
         </tbody>
         
 
