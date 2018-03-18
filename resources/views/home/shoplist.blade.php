@@ -73,8 +73,6 @@
             <div class="action">
                 <button class="layui-btn layui-btn-warm" onclick="member_sc(this,{{$goods['gid']}})">加入购物车</button>
                 <button class="layui-btn" lay-filter="add" lay-submit="">立即购买</button>
-
-                <button class="layui-btn layui-btn-normal" lay-filter="add" onclick="guanzhu({{$goods['gid']}})">收藏</button>
             </div>
         </form>
     </div>
@@ -95,10 +93,10 @@
             alert(msg);
             if(msg){
                 parent.location.reload(true);
-                layer.msg('收藏成功', {icon: 1,time:500});
+                layer.msg('收藏成功', {icon: 1,time:700});
             }else{
                 parent.location.reload(true);
-                layer.msg('收藏失败', {icon: 1,time:500});
+                layer.msg('收藏失败', {icon: 1,time:700});
             }
           },error: function(){
             alert('asdf');

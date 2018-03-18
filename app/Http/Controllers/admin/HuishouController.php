@@ -62,4 +62,22 @@ class HuishouController extends Controller
 
         return $data;
      }
+
+     /**
+      * 确认检测处理
+      */
+    public function queren(Request $request)
+    {   
+        // 接收参数
+        $id = $request->input('id','');
+        // return $id;
+        // 修改订单状态
+        $res = huishou::where('id',$id)->update(['status'=>'1']);
+        if($res){
+            $data =1;
+        }else{
+            $data =0;
+        }
+        return $data;
+    }
 }

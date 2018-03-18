@@ -241,9 +241,7 @@ class Order extends Model
                         $order .= "<td>{$v['oprice']}</td>";
                         $order .= "<td>{$v['time']}</td>";
                         $order .= "<td class='td-status'><span class='layui-btn layui-btn-normal layui-btn-mini'>";
-                            if($v['status'] == 0){
-                                $order .= "待检测";
-                            }else{
+                            if($v['status'] == 1){
                                 $order .= "已检测";
                             }
                         $order .= "</span></td>";

@@ -86,6 +86,8 @@ Route::group(['middleware'=>['login']],function(){
 	/********************************************回收订单管理********************************************/
 		// 回收订单管理
 		Route::resource('admin/huishou','Admin\HuishouController');
+		// 回收订单确认检测处理
+		Route::post('admin/huishou/queren','Admin\HuishouController@queren');
 		// 回收订单批量删除
 		Route::post('admin/huishou/delAll','Admin\HuishouController@delAll');
 	/********************************************回收订单管理********************************************/
@@ -215,8 +217,8 @@ Route::get('outlogin','LoginController@outlogin');
 
 
 /****************************前台路由************************************/
-
-
+/*****网站状态检测中间件****/
+Route::group(['middleware'=>['web_status']],function(){
 
 /*********前台需要登录的路由**********/
 Route::group(['middleware'=>['homeLogin']],function(){
@@ -266,7 +268,6 @@ Route::post('home/pinglun/{id}','Home\OrderController@store');
 Route::post('home/shoucang','Home\GuanZhuController@doadd');
 
 
-
 /**
  * 购物车
  */
@@ -302,19 +303,12 @@ Route::post('/home/goods/editAll/','Home\goodsController@editAll');
 //商品描述修改
 Route::post('/home/goods/edit/','Home\goodsController@edit');
 
-});
-/****************************************/
 
-Route::group(['middleware'=>['web_status']],function(){
 // 前台首页
 Route::get('/','Home\IndexController@index');
 });
 //加载商品详情页
 Route::get('home/shoplist/{id}','Home\ShoplistController@index');
-
-
-
-
 // 加载评估等待页
 Route::get('home/assess','Home\AssessController@index');
 // 加载添加评估信息页
@@ -403,4 +397,5 @@ Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
 
 	// 修改密码逻辑页
 	Route::post('domodify', 'BackpassController@domodify');
+});
 });

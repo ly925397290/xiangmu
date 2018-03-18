@@ -57,7 +57,6 @@ class AccountController extends Controller
     {
         // 获取用户的信息
         $user = user::find(session('user')['uid']);
-        $user['show'] = $user->userShow;
         $user['password'] = Crypt::decrypt($user['password']);
         return view('home.password',compact('user'));
     }
@@ -77,6 +76,7 @@ class AccountController extends Controller
         //更新用户密码
         $res = user::where('uid',session('user')['uid'])->update(['password'=>$input['password']]);
         if($res){
+           session()->forget('user');
             $data = 1;
         }else{
             $data = 0;

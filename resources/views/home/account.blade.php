@@ -34,7 +34,7 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="L_repass" name="phone" required="" lay-verify="repass"
-                  autocomplete="off" class="layui-input" value="{{$user->phone or ''}}">
+                  autocomplete="off" class="layui-input" value="{{$nikname->phone or ''}}">
               </div>
           </div>
           <div class="layui-form-item">

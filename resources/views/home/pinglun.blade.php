@@ -62,7 +62,7 @@
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
                             parent.layer.close(index);
-                            parent.location.reload(true);
+                            // parent.location.reload(true);
                         });
                     }else{
                         layer.alert("评论失败", {icon: 6},function () {
@@ -70,7 +70,7 @@
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
                             parent.layer.close(index);
-                            parent.location.reload(true);
+                            // parent.location.reload(true);
                         });
                     }
                 }

@@ -72,6 +72,14 @@
             <td>{{$v->addr}}</td>
             <td>{{$v->time}}</td>
             <td class="td-manage">
+                @if($v->status == 0)
+                  <form class='layui-form'>
+                  <input type='hidden' name='id' value='{{$v['id']}}'>
+                  <button  class='layui-btn layui-btn-warm layui-btn-mini' lay-filter='queren' lay-submit=''><i class='layui-icon'></i>确定检测</button>
+                  </form>
+                @else
+                  <span class='layui-btn layui-btn-normal layui-btn-mini'>已检测</span>
+                @endif
               <a title="删除" onclick="member_del(this,'{{$v->id}}')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
@@ -89,6 +97,39 @@
     </div>
     <script>       
 
+/**确认检测收货**/
+  layui.use(['form','layer'], function(){
+        $ = layui.jquery;
+        var form = layui.form
+        ,layer = layui.layer;
+
+      /**确认检测收货**/
+      form.on('submit(queren)', function(data){
+            //发异步，把数据提交给php
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "POST",
+                url : '/admin/huishou/queren',
+                data : data.field,
+                dataType : "Json",
+                success : function(msg){
+                    // console.lgo(msg)
+                    if(msg){
+                          layer.msg("检测成功", {icon: 6},function () {
+                          location.reload(true);
+                        });
+                    }else{
+                        layer.msg("检测失败", {icon: 6},function () {
+                        location.reload(true);
+                        });
+                    }
+                }
+            });
+            return false;
+          });
+      });
       /*订单-删除*/
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
