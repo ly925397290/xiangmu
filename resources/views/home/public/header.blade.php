@@ -67,21 +67,52 @@
                     </ul>
                 </div>
             </div>
+
+
+                <script>
+                    /*商品-删除*/
+                          function member_del(obj,id){
+                            // console.log(1)
+                            // $(obj).parents("ul").remove();
+                            $.ajax({
+                              headers: {
+                                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                              },
+                              type : "POST",
+                              url : '/home/delete/'+id,
+                              dataType : "Json",
+                              success : function(msg){
+                                // console.log(msg)
+                                if(msg){
+                                    parent.location.reload(true);
+                                    layer.msg('删除成功', {icon: 1});
+                                    $(obj).parents("ul").remove();
+                                }else{
+                                    parent.location.reload(true);
+                                    layer.msg('删除失败', {icon: 1});
+                                }
+                              }
+                            });
+                          }
+                </script>
+            </div>
+
+        </div>
+        </div>
+        <!--bottombar-->
+        <div class="lower">
+            <div class="headerW">
+                <a class="logo" href="#">
+                    <img src="picture/logo.png" alt="爱否商城">
+                </a>
+                    <ul class="product-bar" id="nav">
+                        
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     </div>
-    <!--bottombar-->
-    <div class="lower">
-        <div class="headerW">
-            <a class="logo" href="#">
-                <img src="picture/logo.png" alt="爱否商城">
-            </a>
-            <ul class="product-bar" id="nav">
-                
-            </ul>
-       </div>
-    </div>
-</div>
 <script>
         /**前台信息自动加载**/
         $(function()

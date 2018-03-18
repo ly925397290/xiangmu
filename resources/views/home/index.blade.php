@@ -78,33 +78,16 @@
 <a class="prev i-icon"></a>
 <a class="next i-icon"></a>
 </section>
-<section class="m-ad">
-    <div class="w">
-        <div class="c xs020 m03 s04 x04">     
-        <!-- 注: 控制广告商品个数 3*n 否则会改变页面布局 -->
-        @foreach($goods as $v)
-                
-            @if($v->tuijian == 1) 
-                <a class="g x4" href="{{asset('home/shoplist')}}/{{$v->gid}}"><img class="n-active" src="{{$v->urls}}"></a> 
-                <input type="hidden" name="price" value="{{$v->price}}"> 
-            @endif                
-        @endforeach
-        <!--  -->
-        </div>       
-    </div>
-</section>
+
 
 <section class="m-parts-recommend w">
-    <div class="titles">
-        <h2>更多周边</h2>
-        <a href="#">更多</a>
-    </div>
+    
     <div class="wrap">
         <div class="slide c">
             <ul>
                 <!-- 热度商品遍历最好不低于4个 -->
                 @foreach($goods as $v)
-                    @if($v->tuijian == 2)
+                    @if($v->tuijian == 1)
                         <li>
                             <a href="{{asset('home/shoplist')}}/{{$v->gid}}">
                                 <p class="thumb"><img src="{{$v->urls}}"/></p>
@@ -121,6 +104,12 @@
     </div>
     <a class="left i-icon"></a>
     <a class="right i-icon"></a>
+    <div class="titles">
+        <h2>更多周边</h2>
+        <a href="#">更多</a>
+    </div>
+
+
 </section>
 <section class="m-pro-recommend">
     <div class="w">
@@ -131,7 +120,7 @@
         <div class="c xs020 m03 s04 x04">
             <!-- 推荐位遍历 -->
             @foreach($goods as $v)
-                @if($v->tuijian == 3)
+                @if($v->tuijian == 2)
                     <div class="g pro-item">
                          <a class="pro-item-a n-active" href="{{asset('home/shoplist')}}/{{$v->gid}}">
                              <img src="{{$v->urls}}"/>
@@ -154,7 +143,7 @@
     <div class="c xs020 m03 s04 x04">
         <!-- 注: 特别推荐 -->
         @foreach($goods as $v)
-            @if($v->tuijian == 4)
+            @if($v->tuijian == 3)
             <a class="g x6" href="{{asset('home/shoplist')}}/{{$v->gid}}">
                 <img class="n-active" src="{{$v->urls}}">
                  
@@ -164,6 +153,21 @@
         <!-- 遍历结束 -->    
     </div>
 </section>
+<section class="m-ad">
+    <div class="w">
+        <div class="c xs020 m03 s04 x04">     
+        <!-- 注: 控制广告商品个数 3*n 否则会改变页面布局 -->
+        @foreach($goods as $v)
+                
+            @if($v->tuijian == 4) 
+                <a class="g x4" href="{{asset('home/shoplist')}}/{{$v->gid}}"><img class="n-active" src="{{$v->urls}}"></a> 
+                <input type="hidden" name="price" value="{{$v->price}}"> 
+            @endif                
+        @endforeach
+        <!--  -->
+        </div>       
+    </div>
+</section>
 <section class="m-ad-other w">
     <div class="box-hd c">
         <h3 class="g">网站使用指导</h3>
@@ -171,11 +175,11 @@
     <div class="xs020">
         <!-- 注: 特别推荐 -->
 
-            <a class="g x6" href="{{asset('home/articleslist')}}">
+            <a class="g x6" href="{{asset('home/articleslist')}}/0">
                 <img class="n-active" src="{{$articles->art_thumb}}">
             </a>  
-            <a class="g x6" href="{{asset('home/articleslist')}}">
-                <img class="n-active" src="{{$articles->art_thumb}}">
+            <a class="g x6" href="{{asset('home/articleslist')}}/1">
+                <img class="n-active" src="{{$articleslast->art_thumb}}">
             </a>             
       
         <!-- 遍历结束 -->   

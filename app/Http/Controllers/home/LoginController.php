@@ -79,7 +79,7 @@ class LoginController extends Controller
         }
 
         // 登陆成功, 将信息保存到 session 中
-        Session::put('user',$user);
+        Session::put('use',$user);
         return redirect('/');
     }
 

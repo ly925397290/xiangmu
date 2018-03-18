@@ -23,6 +23,8 @@ class ShopController extends Controller
         $keywords1 = $request->input('keywords1','');
         $shop = Shop::where('shopname','like','%'.$keywords1.'%')->orderBy('id','desc')->paginate($request->input('num',4));
         $count = count($shop);
+
+
         return view('admin.shop.list',['shop'=>$shop,'count'=>$count,'request'=>$request]);
       
     }

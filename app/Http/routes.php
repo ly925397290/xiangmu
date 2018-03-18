@@ -30,6 +30,7 @@ Route::group(['middleware'=>['login']],function(){
 	Route::get('admin/index','Admin\IndexController@index');
 	// 后台详情页
 	Route::get('admin/welcome','Admin\IndexController@welcome');
+
 /**********************************************后台登录处理******************************************/
 
 
@@ -177,21 +178,23 @@ Route::group(['middleware'=>['login']],function(){
 		Route::resource('admin/link','Admin\LinkController');
 		// 链接状态
 		Route::post('admin/link/changestatus','Admin\LinkController@changestatus');
+
 	/********************************************评论管理管理********************************************/
 	});
 /**********************************************验证后台用户权限****************************************/
-
 });
 /*************************************************************************后台登录验证********************************************************************/
+
+
 // 创建登录页面的 Admin 命名空间
 Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
 	// 后台登录
 	Route::get('login', 'LoginController@login')->name('admin.login');
-	// 获取验证码
+ 	// 获取验证码
 	Route::get('yzm', 'LoginController@yzm');
-	// 提交后台登录数据
+ 	// 提交后台登录数据
 	Route::post('dologin', 'LoginController@dologin');
-	// 未登录测试
+ 	// 未登录测试
 	Route::get('ceshi', 'LoginController@ceshi');
 });
 
@@ -206,7 +209,7 @@ Route::get('/code/captcha/{tmp}', 'Admin\LoginController@captcha');
 // 设置路由组 统一命名空间下的控制器 有需要的再提出来
 Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
                                                                     
-// 退出登录
+// // 退出登录
 Route::get('outlogin','LoginController@outlogin');
 });
 
@@ -254,6 +257,15 @@ Route::post('home/order/queren','Home\OrderController@edit');
 Route::get('home/pinglun/{id}','Home\OrderController@pinglun');
 // 加载评论处理
 Route::post('home/pinglun/{id}','Home\OrderController@store');
+
+
+/**
+ * 收藏
+ */
+// 加载收藏
+Route::post('home/shoucang','Home\GuanZhuController@doadd');
+
+
 
 /**
  * 购物车
@@ -316,7 +328,6 @@ Route::post('home/recovery/{id}','Home\RecoveryController@store');
 
 
 
-
 /**********************************首页内容自动获取***************************/
 //前台导航
 Route::get('/home/index/show','Home\indexController@show');
@@ -330,7 +341,8 @@ Route::get('/home/index/shopping','Home\indexController@shopping');
 Route::get('/home/index/count','Home\indexController@count');
 
 //前台文章分类列表
-Route::get('/home/articleslist','Home\indexController@articleslist');
+Route::get('/home/articleslist/{cate_id}','Home\indexController@articleslist');
+
 //菜单分类显示
 Route::get('home/cate/{id}','Home\cateController@index');
 /***************************首页内容自动获取结束***************************************/
@@ -361,18 +373,18 @@ Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
 */
 Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
 	
-	// 加载登录页
+ 	// 加载登录页
 	Route::get('login', 'LoginController@login');
 
-	// 加载登录逻辑页
+ 	// 加载登录逻辑页
 	Route::post('dologin', 'LoginController@dologin');
 
-	// 输出验证码
+ 	// 输出验证码
 	Route::get('yzm', 'LoginController@yzm');
 
-	//退出登录
+ 	//退出登录
 	Route::get('outlogin','LoginController@outlogin');
-});
+ });
 
 /**
 * 密码找回组
@@ -391,5 +403,4 @@ Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
 
 	// 修改密码逻辑页
 	Route::post('domodify', 'BackpassController@domodify');
-
 });

@@ -63,28 +63,21 @@
         <tbody>
             @foreach($shop as $k=>$v)
   
-          <tr>
-            <input type="hidden" name="ids[]" value="{{$v->id}}">
-             <td>{{$v->id}}</td>
-             
-             <td>{{$v->shopname}}</td>
-
-             <td>{{$v->desc}}</td>
-             <td>
-              @if($v->status == 0)
-              
-               <input style="background-color:pink;color:red;border-color:green" type="text" name="status[]" value="等待审核">
-               
-                填写请“等待审核”或“审核通过”
-              @else
-                
-                <input colour="green" type="text" name="status[]" value="审核通过">
-               填写请“等待审核”或“审核通过”
-               
-              @endif
-              </td>
-            
-          </tr>
+              <tr>
+                <input type="hidden" name="ids[]" value="{{$v->id}}">
+                 <td>{{$v->id}}</td>
+                 <td>{{$v->shopname}}</td>
+                 <td>{{$v->desc}}</td>
+                 <td>
+                  @if($v->status == 0)
+                   <input type="radio" name="1[]" value="0" title="等待审核" checked>等待审核
+                   <input type="radio" name="2[]" value="1" title="审核通过" >审核通过
+                  @else
+                    
+                   <input type="radio" name="3[]" value="0" title="等待审核" >等待审核
+                   <input type="radio" name="4[]" value="1" title="审核通过" checked>审核通过 
+                  @endif            
+                  </td>
 
             @endforeach
         </tbody>
@@ -94,7 +87,7 @@
 
       <button  class="layui-btn" lay-filter="add" lay-submit="">
               批量修改
-        </button>
+      </button>
      </tfoot>
   </form>
   <div class="page">

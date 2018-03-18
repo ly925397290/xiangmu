@@ -11,9 +11,10 @@
          @foreach($articles as $v)
 
         <div class="answer-cell" style="width:750px;">
-            <div class="text question"><span>Q：</span>{{$v['title']}}</div>
+            <div class="text question"><span>Q：</span>{{$v['title']}}<br/>-----作者：{{$v['auth']}}  发布时间：{{$v['create_time']}}</div>
             <div class="text answer"><span>A：</span>{!!$v['content']!!}</div>
             <div class="text answer"><span>P：<img src="{{$v['art_thumb']}}"></div>
+            <div></div>
         </div>
 
         @endforeach

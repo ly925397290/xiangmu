@@ -24,7 +24,9 @@ class SlideController extends Controller
         $order = $request->input('order');
         $slideshow = Slide::find($sid);
         $res = $slideshow->update(['order'=>$order]);
-        if($res){   
+
+        if($res)
+        {
             $data =[
                 'status'=> 0,
                 'msg'=>'修改成功'
@@ -71,7 +73,8 @@ class SlideController extends Controller
         $input = $request->except('_token');
         $res = Slide::create($input);
         //判断
-        if($res){
+        if($res)
+        {
             return  redirect('/admin/slide')->with('msg','添加成功');
         
         }else{
@@ -99,7 +102,6 @@ class SlideController extends Controller
     {
         $slideshow = Slide::find($id);
         
-
         return view ('Admin.slide.edit',compact('slideshow'));
     }
 
@@ -114,11 +116,11 @@ class SlideController extends Controller
         $input = $request->except('_token','_method');
         $res = Slide::find($id)->update($input);
         //判断
-        if($res){
-        
-            return redirect('/admin/slide')->with('msg','修改成功');;
+        if($res)
+        {
+            return redirect('/admin/slide')->with('msg','修改成功');
         }else{
-            return back()->with('msg','修改失败');;
+            return back()->with('msg','修改失败');
         }
     }
     /**
@@ -130,9 +132,9 @@ class SlideController extends Controller
     {
 
         $res = Slide::find($id)->delete();
-        if($res){
-            $data = 1;
-        
+
+        if($res)
+         {   $data = 1;
         }else{
             $data = 0;
         }
@@ -170,14 +172,11 @@ class SlideController extends Controller
         $status = ($input['status'] == 0) ? 1 : 0;
         $res = slide::where('sid',$input['id'])->update(['status'=>$status]);
         // 判断是否成功,将结果返回客户端
-        if($res){
-            $data = [
-                'status'=>1,
-            ];
+        if($res)
+        {
+            $data = 1;
         }else{
-            $data = [
-                'status'=>0,
-            ];
+            $data = 0;
         }
         return $data;
      }

@@ -4,4 +4,5 @@
   'web_title' => '前台首页',
   'web_status' => '1',
   'admin_logo' => '/upload/logo/877d34d5d9ffa50cf8ccbcc6f53617b0.png',
+  'admin_logo' => '/upload/logo/3c0cdb0948ac6adc15e145f9c9d438e3.png',
 );
