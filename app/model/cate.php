@@ -14,7 +14,7 @@ class cate extends Model
      * @var bool
      */
     public $timestamps = false;
-     public $guarded = [];
+    public $guarded = [];
 
 //返回格式化的分类数据
     public function getTree()

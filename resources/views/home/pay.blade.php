@@ -27,9 +27,11 @@
         <li class="g new">
               <select class="layui-input" name="addr" lay-verify="addr" id="addr">
                   <option value="0">===请选择收货地址===</option>
-                  @foreach($addr as $v)
-                  <option value="{{$v->id}}">{{$v->addr}}</option>
-                  @endforeach
+                    @if(isset($addr))
+                        @foreach($addr as $v)
+                            <option value="{{$v->id}}">{{$v->addr}}</option>
+                        @endforeach
+                    @endif
               </select>
         </li>
     </ul>
@@ -48,27 +50,49 @@
     </ul>
     
     <ul class="list c">
-        @foreach($good as $k=>$v)
-        <li>
-            <div class="cell name">
-                <a class="info">
-                    <img src="{{$v['urls']}}"/>
-                    <div class="details" data-format='{"1":"117"}'>
-                        <strong>{{$v['gname']}}</strong>
+        @if(isset($good))
+            @foreach($good as $k=>$v)
+                <li>
+                    <div class="cell name">
+                        <a class="info">
+                            <img src="{{$v['urls']}}"/>
+                            <div class="details" data-format='{"1":"117"}'>
+                                <strong>{{$v['gname']}}</strong>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-            <div class="cell price">
-                <span class="vlc">&#165;{{$v['price']}}</span>
-            </div>
-            <div class="cell num">
-                <span class="vlc">{{$v['number']}}</span>
-            </div>
-            <div class="cell count">
-                <span class="vlc">&#165;{{($v['price'])*$v['number']}}</span>
-            </div>
-        </li>    
-        @endforeach
+                    <div class="cell price">
+                        <span class="vlc">&#165;{{$v['price']}}</span>
+                    </div>
+                    <div class="cell num">
+                        <span class="vlc">{{$v['number']}}</span>
+                    </div>
+                    <div class="cell count">
+                        <span class="vlc">&#165;{{($v['price'])*$v['number']}}</span>
+                    </div>
+                </li>    
+            @endforeach
+        @else
+            <li>
+                <div class="cell name">
+                    <a class="info">
+                        <img src="{{$goods['urls']}}"/>
+                        <div class="details" data-format='{"1":"117"}'>
+                            <strong>{{$goods['gname']}}</strong>
+                        </div>
+                    </a>
+                </div>
+                <div class="cell price">
+                    <span class="vlc">&#165;{{$goods['price']}}</span>
+                </div>
+                <div class="cell num">
+                    <span class="vlc">{{$goods['number']}}</span>
+                </div>
+                <div class="cell count">
+                    <span class="vlc">&#165;{{($goods['price'])*$goods['number']}}</span>
+                </div>
+            </li>  
+        @endif
     </ul>
     <div class="use-coupon">
         <a class="u-btnl f-fr use-btn">使用</a>
@@ -80,9 +104,13 @@
         </div>
         <div class="pay c">
             <input type="hidden" class="layui-input" name="price" value="{{$input['price']}}">
-            @foreach($good as $k=>$v)
-            <input type="hidden" class="layui-input" name="ids[{{$k}}]" value="{{($v['gid'])}}">
-            @endforeach
+                @if(isset($good))
+                    @foreach($good as $k=>$v)
+                        <input type="hidden" class="layui-input" name="ids[{{$k}}]" value="{{($v['gid'])}}">
+                    @endforeach
+                @else
+                    <input type="hidden" class="layui-input" name="id" value="{{($goods['gid'])}}">
+                @endif
             <button class="u-btn n-middle n-blue f-fr" lay-filter="add" lay-submit=""><i class="layui-icon"></i>支付宝付款</button>
                   <i class="layui-icon"></i>支付宝付款
             </button>

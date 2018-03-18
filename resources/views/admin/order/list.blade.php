@@ -48,13 +48,6 @@
             </select>
           </div>
           <div class="layui-input-inline">
-            <select name=" pay_status">
-              <option value="">支付状态</option>
-              <option value="1" @if($request['pay_status'] == 1)  selected  @endif>已支付</option>
-              <option value="2" @if($request['pay_status'] == 2)  selected  @endif>未支付</option>
-            </select>
-          </div>
-          <div class="layui-input-inline">
             <select name=" payment">
               <option value="">支付方式</option>
               <option value="1" @if($request['payment'] == 1)  selected  @endif>支付宝</option>
@@ -65,12 +58,11 @@
           <div class="layui-input-inline">
             <select name="order_status">
               <option value="">订单状态</option>
-              <option value="1" @if($request['order_status'] == 1)  selected  @endif>待确认</option>
-              <option value="2" @if($request['order_status'] == 2)  selected  @endif>已确认</option>
-              <option value="3" @if($request['order_status'] == 3)  selected  @endif>已收货</option>
-              <option value="4" @if($request['order_status'] == 4)  selected  @endif>已取消</option>
-              <option value="5" @if($request['order_status'] == 5)  selected  @endif>已完成</option>
-              <option value="6" @if($request['order_status'] == 6)  selected  @endif>已作废</option>
+              <option value="1" @if($request['order_status'] == 1)  selected  @endif>待发货</option>
+              <option value="2" @if($request['order_status'] == 2)  selected  @endif>已发货</option>
+              <option value="3" @if($request['order_status'] == 3)  selected  @endif>待收货</option>
+              <option value="4" @if($request['order_status'] == 4)  selected  @endif>已收货</option>
+              <option value="5" @if($request['order_status'] == 5)  selected  @endif>已评论</option>
             </select>
           </div>
           <input type="text" name="oid"  placeholder="请输入订单号" autocomplete="off" class="layui-input" value="{{$request->oid}}">
@@ -93,7 +85,6 @@
             <th>应付金额</th>
             <th>订单状态</th>
             <th>支付状态</th>
-            <th>发货状态</th>
             <th>支付方式</th>
             <th>配送方式</th>
             <th>下单时间</th>
@@ -110,11 +101,10 @@
             <td>{{$v->user_id}}</td>
             <td>{{$v->oprice}}</td>
             <td>{{$v->money}}</td>
-            <td>{{$v->order_status}}</td>
-            <td>{{$v->pay_status}}</td>
-            <td>{{$v->shipping_status}}</td>
-            <td>{{$v->payment}}</td>
-            <td>{{$v->delivery_method}}</td>
+            <td>{!!$v->order_status!!}</td>
+            <td>{!!$v->pay_status!!}</td>
+            <td>{!!$v->payment!!}</td>
+            <td>{!!$v->delivery_method!!}</td>
             <td>2017-08-17 18:22</td>
             <td class="td-manage">
               <a title="查看"  onclick="x_admin_show('查看','{{url('admin/order')}}/{{$v->id}}')" href="javascript:;">
@@ -136,21 +126,6 @@
 
     </div>
     <script>
-      layui.use('laydate', function(){
-        var laydate = layui.laydate;
-        
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#start' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#end' //指定元素
-        });
-      });
-
-
       /*订单-删除*/
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
@@ -210,6 +185,38 @@
             });
         });
       }
+
+      layui.use(['form','layer'], function(){
+        $ = layui.jquery;
+        var form = layui.form
+        ,layer = layui.layer;
+
+      /**确认发货**/
+      form.on('submit(queren)', function(data){
+            //发异步，把数据提交给php
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "POST",
+                url : '/admin/order/queren',
+                data : data.field,
+                dataType : "Json",
+                success : function(msg){
+                    if(msg){
+                          layer.msg("确认发货成功", {icon: 6},function () {
+                          location.reload(true);
+                        });
+                    }else{
+                        layer.msg("确认发货失败", {icon: 6},function () {
+                        location.reload(true);
+                        });
+                    }
+                }
+            });
+            return false;
+          });
+      });
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");

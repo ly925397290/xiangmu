@@ -103,7 +103,7 @@ class LoginController extends Controller
     public function outlogin()
     {
        // 清空session
-       session()->flush();
+       session()->forget('user');
        // 跳转回登录页面
        return redirect('/');
 

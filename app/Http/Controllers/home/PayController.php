@@ -24,31 +24,24 @@ class PayController extends Controller
     {
         //接收数据
         $input = $request->except('_token');
-        // return $input;
         //获取用户的收货地址
         $addr = user_details::where('user_id',session('user')['uid'])->get();
+        if(empty($input['ids'])){
+            $goods = good::find($id);
+            $goods['number'] = $input['number'][0];
+        }else{
+            // 获取请求中的商品
+            foreach ($input['ids'] as $key => $value) {
+                $good[] = good::find($value);
+            }
+            foreach ($good as  $key=>$value) {
+                $value['number'] = $input['number'][$key];
+                // $gid[$key] = $value['gid'];
+                // $good['price'] = $input['price'];
+            }
+        }
         
-        //获取所有购物车信息
-        $user_good = user_good::where('user_id',session('user')['uid'])->get();
-        foreach ($user_good as  $value) {
-            $goods = good::where('gid',$value['good_id'])->first();
-            $value['price'] = $goods['price'];
-            $value['gname'] = $goods['gname'];
-            $value['urls'] = $goods['urls'];
-        }
-        // 获取请求中的商品
-        foreach ($input['ids'] as $key => $value) {
-            $good[] = good::find($value);
-        }
-        foreach ($good as  $key=>$value) {
-            $value['number'] = $input['number'][$key];
-            // $gid[$key] = $value['gid'];
-            // $good['price'] = $input['price'];
-        }
-        // return $good;
-        //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
-        return view('home.pay',compact('addr','count','gid','user_good','good','input'));
+        return view('home.pay',compact('addr','good','input','goods'));
     }
 
 
@@ -76,6 +69,8 @@ class PayController extends Controller
             // 4.收货人信息
             $order['user_id'] = session('user')['uid'];//session
             $order['time'] = time();
+            // 5.支付状态
+            $order['pay_status'] = 1;
             // $order['order_id'] = DB::table('data_order')->insertGetId(['oid'=>$order['oid'],'oprice'=>$order['oprice'],'money'=>$order['money'],'user_id'=>$order['user_id']]);
             $oid = Order::create($order);
             $order['order_id'] = $oid->id;
@@ -85,13 +80,20 @@ class PayController extends Controller
             $addr = user_details::where('user_id',session('user')['uid'])->first();
             $order['addr_id'] = isset($input['addr']) ? $input['addr'] : $addr['id'];
             if($id == 0){
-                foreach ($input['ids'] as $key => $value) {
+                if(empty($input['ids'])){
                     //6.商品id
-                    $order['good_id'] = $value;
+                    $order['good_id'] = $id;
                     //7.订单表id
                     $orderdetail = orderdetail::create($order);
-                    //8购物车中的商品购买够删除(购物车中的商品信息)
-                    user_good::where('user_id',session('user')['uid'])->where('good_id',$value)->delete();
+                }else{
+                    foreach ($input['ids'] as $key => $value) {
+                        //6.商品id
+                        $order['good_id'] = $value;
+                        //7.订单表id
+                        $orderdetail = orderdetail::create($order);
+                        //8购物车中的商品购买够删除(购物车中的商品信息)
+                        user_good::where('user_id',session('user')['uid'])->where('good_id',$value)->delete();
+                    }
                 }
             }else{ 
                 //6.商品id

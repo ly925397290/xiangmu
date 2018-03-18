@@ -76,7 +76,7 @@ class LoginController extends Controller
         }
 
         // 登陆成功, 将信息保存到 session 中
-        Session::put('user',$user);
+        Session::put('admin',$user);
         return redirect('admin/index');
     }
 
@@ -127,7 +127,7 @@ class LoginController extends Controller
     public function outlogin()
     {
        // 清空session
-       session()->flush();
+       session()->forget('admin');
        // 跳转回登录页面
        return redirect('admin/login');
 

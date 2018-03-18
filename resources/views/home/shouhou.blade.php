@@ -34,7 +34,7 @@
             <div class="cart">
                 <a class="cartStyle">
                     <i class="i-icon"></i>
-                    <span>购物车</span> <em>0</em>                </a>
+                    <span>购物车</span> <em>0</em>  </a>
                 <div class="m-user-cart">
                     <i class="i-icon arrow"></i>
                     <div class="wrap">

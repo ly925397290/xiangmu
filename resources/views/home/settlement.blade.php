@@ -3,8 +3,6 @@
 @section('content')
 <link type="text/css" rel="stylesheet" href="{{asset('home/css/common.css')}}">
 <link type="text/css" rel="stylesheet" href="{{asset('home/css/public.css')}}">
-
-<input type="hidden" name="cart" id="cart" value="">
 <section class="m-buy-step w">
     <i class="line left-line"></i>
     <i class="line right-line"></i>
@@ -25,7 +23,7 @@
 <section class="m-cat-list w">
     <div class="container">
     <!-- 购物车开始 -->
-        <form action="{{url('home/pay')}}/{{$data['gid']}}" method="post">
+        <form action="{{url('home/pay')}}/{{$data['gid'] or $post['gid']}}" method="post">
         {{csrf_field()}}
         <div class="cart-panel">
         <div class="hd">
@@ -39,35 +37,65 @@
             </ul>
         </div>
         <div class="bd">
-            @foreach($user_good as $v)
-                <ul class="order-list" id="goods">
-                    <li class="img-box"><img src="{{$v['urls']}}" height="56" width="50"></li>
-                        <li class="product">
-                            <a href="/product/9012149.html" target="_blank">
-                                <span class="product-title">{{$v['gname']}}</span>
-                                <span class="feature"></span>
-                            </a>
+            @if(isset($user_good))
+                @foreach($user_good as $v)
+                    <ul class="order-list" id="goods">
+                        <li class="img-box"><img src="{{$v['urls'] or ''}}" height="56" width="50"></li>
+                            <li class="product">
+                                <a href="/product/9012149.html" target="_blank">
+                                    <span class="product-title">{{$v['gname'] or ''}}</span>
+                                    <span class="feature"></span>
+                                </a>
+                            </li>
+                        <li class="market-price">
+                            <span class="price-sign">¥</span>
+                            <span class="price-num">829</span>
                         </li>
-                    <li class="market-price">
-                        <span class="price-sign">¥</span>
-                        <span class="price-num">829</span>
-                    </li>
-                    <li class="order-price">
-                        <span class="price-sign">¥</span>
-                        <span class="price-num price_price">{{$v['price']}}</span>
-                        <input type="hidden" name="jrPrice" value="897">
-                    </li>
-                    <li class="num">
-                        <div class="input-num">
-                            <input type="hidden" class="form-control input-sm" name="number[]" value="{{$v['num']}}" maxlength="3" id="number">
-                            <a href="javascript:void(0);" class="btn btn-default no" onclick="fun_del(this)"><i class="ico ico-minus"></i></a>
-                            <input type="text" class="form-control input-sm" name="cpsl" value="{{$v['num']}}" maxlength="3" id="num">
-                            <a href="javascript:void(0)" class="btn btn-default" onclick="fun_add(this)"><i class="ico ico-add"></i></a>
-                        </div>
-                    </li>
-                    <li class="operate"><a href="javascript:void(0)" class="delBtn" onclick="member_del(this,'{{$v['good_id']}}')">删除</a><br><a href="javascript:void(0)" class="collectBtn" onclick="member_sc(this,{{$v->good_id}})">加入购物车</a></li>
-                </ul>
-            @endforeach
+                        <li class="order-price">
+                            <span class="price-sign">¥</span>
+                            <span class="price-num price_price">{{$v['price'] or ''}}</span>
+                            <input type="hidden" name="jrPrice" value="897">
+                        </li>
+                        <li class="num">
+                            <div class="input-num">
+                                <input type="hidden" class="form-control input-sm" name="number[]" value="{{$v['num'] or ''}}" maxlength="3" id="number">
+                                <a href="javascript:void(0);" class="btn btn-default no" onclick="fun_del(this)"><i class="ico ico-minus"></i></a>
+                                <input type="text" class="form-control input-sm" name="cpsl" value="{{$v['num'] or ''}}" maxlength="3" id="num">
+                                <a href="javascript:void(0)" class="btn btn-default" onclick="fun_add(this)"><i class="ico ico-add"></i></a>
+                            </div>
+                        </li>
+                        <li class="operate"><a href="javascript:void(0)" class="delBtn" onclick="member_del(this,'{{$v['good_id'] or ''}}')">删除</a><br><a href="javascript:void(0)" class="collectBtn" onclick="member_sc(this,{{$v->good_id}})">加入购物车</a></li>
+                    </ul>
+                @endforeach
+            @else
+                <ul class="order-list" id="goods">
+                        <li class="img-box"><img src="{{$post['urls'] or ''}}" height="56" width="50"></li>
+                            <li class="product">
+                                <a href="/product/9012149.html" target="_blank">
+                                    <span class="product-title">{{$post['gname'] or ''}}</span>
+                                    <span class="feature"></span>
+                                </a>
+                            </li>
+                        <li class="market-price">
+                            <span class="price-sign">¥</span>
+                            <span class="price-num">829</span>
+                        </li>
+                        <li class="order-price">
+                            <span class="price-sign">¥</span>
+                            <span class="price-num price_price">{{$post['price'] or ''}}</span>
+                            <input type="hidden" name="jrPrice" value="897">
+                        </li>
+                        <li class="num">
+                            <div class="input-num">
+                                <input type="hidden" class="form-control input-sm" name="number[]" value="{{$post['number'] or ''}}" maxlength="3" id="number">
+                                <a href="javascript:void(0);" class="btn btn-default no" onclick="fun_del(this)"><i class="ico ico-minus"></i></a>
+                                <input type="text" class="form-control input-sm" name="cpsl" value="{{$post['number'] or ''}}" maxlength="3" id="num">
+                                <a href="javascript:void(0)" class="btn btn-default" onclick="fun_add(this)"><i class="ico ico-add"></i></a>
+                            </div>
+                        </li>
+                        <li class="operate"><a href="javascript:void(0)" class="delBtn" onclick="member_del(this,'{{$post['gid'] or ''}}')">删除</a><br><a href="javascript:void(0)" class="collectBtn" onclick="member_sc(this,{{$post['gid'] or ''}})">加入购物车</a></li>
+                    </ul>
+            @endif
         </div>
     </div>
     <!-- 购物车结束 -->
@@ -80,14 +108,18 @@
                 应付金额:
                 <div class="price">
                     <span class="price-sign">¥</span>
-                    <span class="price-num" id="totalMoney">{{$price}}</span>
+                    <span class="price-num" id="totalMoney">{{$price or $post['price']}}</span>
                 </div>
             </div>
         </div>
-            @foreach($user_good as $v)
-            <input type="hidden" class="form-control input-sm" name="ids[]" value="{{$v->good_id}}" maxlength="3">
-            @endforeach
-            <input type="hidden" class="form-control input-sm" name="price" value="{{$price}}" maxlength="3" id="price">
+            @if(isset($user_good))
+                @foreach($user_good as $v)
+                <input type="hidden" class="form-control input-sm" name="ids[]" value="{{$v->good_id}}" maxlength="3">
+                @endforeach
+            @else
+                <input type="hidden" class="form-control input-sm" name="id" value="{{$post['gid'] or ''}}" maxlength="3">
+            @endif
+            <input type="hidden" class="form-control input-sm" name="price" value="{{$price or $post['price']}}" maxlength="3" id="price">
             <button class="layui-btn"><i class="layui-icon"></i>立即支付</button>
         </form>
         

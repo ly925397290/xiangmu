@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\model\Order;
+use App\model\message;
 use App\model\user_details;
 
 class OrderController extends Controller
@@ -41,7 +42,7 @@ class OrderController extends Controller
         $data = (new order())->tree($data);
         //格式化时间戳
         foreach ($data as  $value) {
-            $value['time'] = date('Y-m-d H:i:s');
+            $value['time'] = date('Y-m-d H:i:s',$value['time']);
         }
         $count = count($data);
         return view('admin.order.list',compact('request','data','count'));
@@ -76,6 +77,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
+        // return $id;
         // 获取订单信息
         $show = order::find($id);
         //4.处理支付方式
@@ -108,30 +110,9 @@ class OrderController extends Controller
         // return $user;
         // 获取用户信息
         $userShow = $user->userShow;
-        return view('admin.order.show',compact('show','user','userShow'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        //获取用户评论
+        $message = message::where('uid',$userShow['user_id'])->first();
+        return view('admin.order.show',compact('show','user','userShow','message'));
     }
 
     /**
@@ -177,4 +158,21 @@ class OrderController extends Controller
 
         return $data;
      }
+
+     /**
+      * 确认发货处理
+      */
+    public function queren(Request $request)
+    {   
+        // 接收参数
+        $id = $request->input('id','');
+        // 修改订单状态
+        $res = order::where('id',$id)->update(['order_status'=>'2']);
+        if($res){
+            $data =1;
+        }else{
+            $data =0;
+        }
+        return $data;
+    }
 }

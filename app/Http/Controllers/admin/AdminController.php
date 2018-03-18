@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\model\role;
 use App\model\admin;
 use App\model\user_role;
+use Crypt;
 use DB;
 
 class AdminController extends Controller
@@ -54,15 +55,23 @@ class AdminController extends Controller
     {
         // 1.获取提交的数据
         $input = $request->except('_token');
+        // 密码加密
+        $input['data']['password'] = Crypt::encrypt($input['data']['password']);
         // 2.获取数据入库后的ID
         $user_id = DB::table('data_admin')->insertGetId(['admin_name'=>$input['data']['admin_name'],'phone'=>$input['data']['phone'],'email'=>$input['data']['email'],'password'=>$input['data']['password']]);
         // 3.将角色的Id和权限id放入角色和权限的关联表中
-        foreach ($input['ids'] as $value) {
-            $res = user_role::create(['user_id'=>$user_id,'role_id'=>$value]);
+        if(isset($input['ids'])){
+            foreach ($input['ids'] as $value) {
+                $res = user_role::create(['user_id'=>$user_id,'role_id'=>$value]);
+            }
         }
         // 4.判断数据是否存储成功
-        ($user_id && $res) ? $status = 1 : $status = 0;
-        return $status;
+        if($user_id){
+            $data =1;
+        }else{
+            $data = 0;
+        }
+        return $data;
     }
 
     /**
@@ -158,6 +167,31 @@ class AdminController extends Controller
             ];
         }
 
+        return $data;
+     }
+
+     /**
+     * 管理员状态修改
+     */
+     public function changestatus(Request $request)
+     {
+        //接收数据
+        $input = $request->except('_token');
+        // 修改数据库信息
+        $user = admin::find($input['uid']);
+        $status = ($input['status'] == 0) ? 1 : 0;
+        $user->status = $status;
+        $res = $user->save();
+        // 判断是否成功,将结果返回客户端
+        if($res){
+            $data = [
+                'status'=>1,
+            ];
+        }else{
+            $data = [
+                'status'=>0,
+            ];
+        }
         return $data;
      }
 }

@@ -1,53 +1,13 @@
-﻿@extends('home.public.layout')
-<!-- 主体开始 -->
-@section('content')
-     <section class="m-uc-user">
-    <div class="w">
-        <div class="user">
-            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
-            <span>{{$user->uname or '你好'}}</span>
-            <p class="phone">绑定手机号：{{$user->phone or '130********'}}</p>
-        </div>
-    </div>
-</section>
-<section class="m-uc w">
-    <!--<aside class="m-uc-nav">
-    <h3>个人中心</h3>
-    <nav>
-        <a class="item " href="/order/list.html"><i></i>购买订单</a>
-        <a class="item " href="/solutionorder/list/s/1.html"><i></i>解用服务</a>
-        <a class="item " href="/saleorder/list.html"><i></i>回收服务</a>
-        <a class="item n-active" href="/wxorder/list.html"><i></i>维修服务</a>
-        <a class="item " href="/address/index.html"><i></i>地址管理</a>
-        <a class="item " href="/account/index.html"><i></i>账户管理</a>
-        <a class="item" href="/help/help.html#sale"><i></i>常见问题</a>
-    </nav>
-</aside>-->
-<aside class="m-uc-nav">
-    <nav>
-        <div class="list">
-            <h3>我的订单</h3>
-            <a class="item n-active" href="{{url('home/order')}}"><i></i>我的订单</a>
-        </div>
-        <div class="list">
-            <h3>信息管理</h3>
-            <a class="item " href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
-            <a class="item " href="{{url('home/account')}}"><i></i>账户管理</a>
-            <a class="item " href="{{url('home/account/password')}}"><i></i>密码管理</a>
-        </div>  
-        <div class="list">
-            <h3>店铺管理</h3>
-            <a class="item " href="{{url('/home/shop')}}"><i>创建店铺</i></a>
-            <a class="item " href="{{url('/home/goods')}}"><i>发布商品</i></a>
-            <a class="item " href="{{url('/home/goods/show/')}}"><i>商品列表</i></a>
-            <a class="item " href="{{url('/home/shop/shenhe/1')}}"><i>商铺审核进度</i></a> 
-        </div>
-    </nav>
-</aside> 
-    <div class="main">
+﻿@extends('home.personal.layout')
+  @section('personal')
+        <div class="main">
         <div class="m-uc-hd other">
             <div class="list">
-                <a class="n-active" href="javascript:;">全部订单</a>
+                <a class="item n-active" data-cid="1" href="javascript:;" onclick="change(1)" id="1">全部订单</a>
+                <a class="item" data-cid="2" href="javascript:;" onclick="change(2)" id="2">待发货</a>
+                <a class="item" data-cid="3" href="javascript:;" onclick="change(3)" id="3">待收货</a>
+                <a class="item" data-cid="4" href="javascript:;" onclick="change(4)" id="4">待评价</a>
+                <a class="item" data-cid="5" href="javascript:;" onclick="change(5)" id="5">待检测</a>
 
             </div>
         </div>
@@ -60,32 +20,41 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody>  
-            @foreach($user->order as $v) 
-                <tr>
-                    <td>{{$v->oid}}</td>
-                    <td>{{$v->oprice}}</td>
-                    <td>{{$v->time}}</td>
-                    <td>
-                        @if($v['order_status'] == 2)
-                        <button class="layui-btn" onclick="x_admin_show('评论','{{url('home/pinglun/')}}/{{$v->oid}}',600,400)"><i class="layui-icon"></i>评论</button>
-                        @else
-                        <form class="layui-form">
-                             {{csrf_field()}}
-                             <input type="hidden" name="id" value="{{$v->id}}">
-                            <button  class="layui-btn" lay-filter="add" lay-submit="">
-                                <i class="layui-icon"></i>确定收货
-                            </button>
-                        </form>
-                        @endif
-                    </td>
-              </tr>
-             @endforeach 
+            <tbody id="order">  
+
             </tbody>  
       </table>
     </div>
 </section> 
  <script>
+ /**点击链接某个链接颜色变化**/
+ $(document).on('click','.m-uc-hd div a',function(){
+    var _this = $(this);
+    if(_this.hasClass('n-active'))return false;
+    var cid = _this.data('cid');
+    _this.addClass('n-active').siblings('a').removeClass('n-active');
+})
+
+ /******网页加载时自动获取全部订单******/
+$(function(){
+    $.ajax({
+        type : "get",
+        url : '/home/order/1.html',
+        success : function(msg){
+            $('#order').html(msg)
+        }
+    });
+})
+ /***通过AJAX改变订单内容****/
+ function change(obj){
+    $.ajax({
+        type : "get",
+        url : '/home/order/'+obj+'.html',
+        success : function(msg){
+            $('#order').html(msg)
+        }
+    });
+ }
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -118,6 +87,6 @@
           });
         });
     </script>
-@endsection
-<!-- 主体结束 -->
+    @endsection
+    
   

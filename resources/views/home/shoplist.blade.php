@@ -3,13 +3,12 @@
 @section('content')
 <style>
     .m{ width: 800px; margin-left: auto; margin-right: auto; margin-top: 100px}
-* { margin: 0; padding: 0; list-style-type: none; text-decoration: none; font: 16px '微软雅黑'; }
 /*外层盒子和里边图片的一点点样式*/
 .jqueryzoom { position: relative; padding: 0; border: solid 1px #eaeaea; width: 300px; height:300px; overflow: hidden; display: inline-block; }
 /*放大镜是基于图片大小自动生成的，每次都要把jqueryzoom中img的大小和jqueryzoom盒子大小设置为一样的，不然放大镜滑块有可能溢出*/
 .jqueryzoom img { width: 300px; }
-ul li { float: left; margin-right: 5px; }
-ul li img { width: 100px; height: 100px; }
+/*ul li { float: left; margin-right: 5px; }*/
+/*ul li img { width: 100px; height: 100px; }*/
     .cloudzoom-gallery-active{opacity: .5}
 </style>
 <!--引入cloudzoom的css和js，顺序不要错，先css，再jQuery再cloudzoom的js，这个cloudzoom也是需要jQuery支持的，其实很多插件都是基于jQuery开发的-->
@@ -66,12 +65,11 @@ ul li img { width: 100px; height: 100px; }
             </div>
         </div>
         
-        
-
-        <form class="layui-form">
+        <form class="layui-form" method="post" action="/home/settlement/{{$goods['gid']}}">
             {{csrf_field()}}
             <input type="hidden" class="form-control input-sm" name="price" value="{{$goods['price']}}" maxlength="3" id="price">
             <input type="hidden" class="form-control input-sm" name="number" value="1" maxlength="3" id="number">
+            <input type="hidden" class="form-control input-sm" name="gid" value="{{$goods['gid']}}" maxlength="3" id="number">
             <div class="action">
             <button class="layui-btn layui-btn-warm" onclick="member_sc(this,{{$goods['gid']}})">加入购物车</button>
             <button class="layui-btn" lay-filter="add" lay-submit="">立即购买</button>
@@ -79,7 +77,7 @@ ul li img { width: 100px; height: 100px; }
         </form>
     </div>
 </section>
-<script type="text/JavaScript">
+<script>
     /*商品-收藏*/
       function member_sc(obj,id){
         //获取商品数量
@@ -103,45 +101,45 @@ ul li img { width: 100px; height: 100px; }
           }
         });
       }
-      layui.use(['form','laydate','layer'], function(){
-        var laydate = layui.laydate;
-        var form = layui.form;
-        var layer = layui.layer;
-        //监听提交
-      form.on('submit(add)', function(data){
-        //发异步，把数据提交给php
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type : "POST",
-            url : '/home/pay/store/'+{{$goods->gid}},
-            data : data.field,
-            dataType : "Json",
-            success : function(msg){
-                // console.log(msg)
-                if(msg){
-                    layer.alert("支付成功", {icon: 6},function () {
-                        // 获得frame索引
-                        var index = parent.layer.getFrameIndex(window.name);
-                        //关闭当前frame
-                        parent.layer.close(index);
-                        parent.location.reload(true);
-                    });
-                }else{
-                    layer.alert("支付失败", {icon: 6},function () {
-                        // 获得frame索引
-                        var index = parent.layer.getFrameIndex(window.name);
-                        //关闭当前frame
-                        parent.layer.close(index);
-                        parent.location.reload(true);
-                    });
-                }
-            }
-        });
-        return false;
-      });
-      });
+      // layui.use(['form','laydate','layer'], function(){
+      //   var laydate = layui.laydate;
+      //   var form = layui.form;
+      //   var layer = layui.layer;
+      //   //监听提交
+      // form.on('submit(add)', function(data){
+      //   //发异步，把数据提交给php
+      //   $.ajax({
+      //       headers: {
+      //           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //       },
+      //       type : "POST",
+      //       url : '/home/pay/store/'+{{$goods->gid}},
+      //       data : data.field,
+      //       dataType : "Json",
+      //       success : function(msg){
+      //           // console.log(msg)
+      //           if(msg){
+      //               layer.alert("支付成功", {icon: 6},function () {
+      //                   // 获得frame索引
+      //                   var index = parent.layer.getFrameIndex(window.name);
+      //                   //关闭当前frame
+      //                   parent.layer.close(index);
+      //                   parent.location.reload(true);
+      //               });
+      //           }else{
+      //               layer.alert("支付失败", {icon: 6},function () {
+      //                   // 获得frame索引
+      //                   var index = parent.layer.getFrameIndex(window.name);
+      //                   //关闭当前frame
+      //                   parent.layer.close(index);
+      //                   parent.location.reload(true);
+      //               });
+      //           }
+      //       }
+      //   });
+      //   return false;
+      // });
+      // });
           // 计算
         var totalMoney = document.getElementById('totalMoney');
         var price_price = document.getElementById('price_price');

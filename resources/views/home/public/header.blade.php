@@ -22,121 +22,72 @@
 <script src="{{asset('home/js/jquery-2.1.1.min.js')}}"></script>
 <script src="{{asset('home/js/common.js')}}"></script>
 <script src="{{asset('home/js/aform.js')}}"></script>
-<!-- <link type="text/css" rel="stylesheet" href="{{asset('home/css/common.css')}}"> -->
-<!-- <link type="text/css" rel="stylesheet" href="{{asset('home/css/public.css')}}"> -->
+<style>
 
+</style>
 </head>
 <body  data-tpage="首页" data-tproduct="" data-tuserid="148240">
 <header class="m-header">
-        <!--l-proBarClear l-onlyUupperPart -->
-    <div class="header-c  l-key-index">
-        <div class="upper">
-        <div class="headerW">
-            <a class="logo" href="#">
-                <img src="{{ config('webconfig.web_logo')}}" alt="爱否商城" width="98" height="98" />
-            </a>
-            <nav class="nav">
-                <a href="/">商城首页</a>
-                <a href="{{url('home/recovery')}}">回收服务</a>
-                <a href="{{url('home/shop')}}">创建店铺</a>
-                <a href="{{url('home/goods')}}">发布商品</a>
-
-            </nav>
-            <!-- 购物车 -->
-            <div class="cart">
-                <a class="cartStyle">
-                    <i class="i-icon"></i>
-                    <span>购物车</span> <em>{{$count}}</em></a>
-                <div class="m-user-cart">
+    <!--l-proBarClear l-onlyUupperPart -->
+<div class="header-c  l-key-index">
+    <div class="upper">
+    <div class="headerW">
+        <a class="logo" href="#">
+            <img src="{{ config('webconfig.web_logo')}}" alt="爱否商城" width="98" height="98" />
+        </a>
+        <nav class="nav">
+            <a href="/">商城首页</a>
+            <a href="{{url('home/recovery')}}">回收服务</a>
+            <a href="{{url('home/shop')}}">创建店铺</a>
+            <a href="{{url('home/goods')}}">发布商品</a>
+        </nav>
+        <!-- 购物车 -->
+        <div class="cart">
+            <a class="cartStyle">
+                <i class="i-icon"></i>
+                <span>购物车</span> <em id="count"></em></a>
+            <div class="m-user-cart">
+                <i class="i-icon arrow"></i>
+                <div class="wrap">
+                    <div class="n-none">
+                        <img src="{{asset('home/picture/index.png')}}"><p>空空如也<br>赶紧去挑选几件中意商品吧</p>
+                    </div>
+                </div>      
+                <!-- 购物车有货状态 -->
+            </div>
+        </div>         
+        <div class="user">
+            <div class="uname">
+                <a class="avatar">{!!isset(session('user')['uname']) ? session('user')['uname'] : "<a href='/home/login'>请登录</a>" !!}</a>
+                <div class="menu">
                     <i class="i-icon arrow"></i>
-                    <div class="wrap">
-                        @foreach($user_good as $v)
-                        <ul>
-                        <li data-id="167805">
-                            <a class="thumb">
-                                <img src="{{$v->urls}}">
-                            </a>
-                            <a class="details">
-                                <p class="desc">{{$v->gname}}</p>
-                                <p class="price">￥{{$v->price}}</p>
-                            </a>
-                             <i class="i-icon delete" onclick="member_del(this,'{{$v->good_id}}')"></i>
-                             <!--删除 -->
-                        </li>
-
-                        </ul>
-                        <div class="action">
-                            <p class="cartinfo">
-                                <span class="cartcount">共有<em>{{$v->num}}</em>件商品</span>
-                            </p>
-                        <a class="u-btn n-middle f-fr" href="{{asset('home/settlement')}}/{{$v->good_id}}">前往结算</a>
-                        </div>
-                        @endforeach
-                    </div>
-       
-                    <!-- 购物车有货状态 -->
+                    <ul>
+                        <li class="listItem"><a href="{{url('home/order')}}">个人中心</a></li>
+                        <li class="listItem"><a href="{{ url('home/outlogin') }}">退出登录</a></li>
+                    </ul>
                 </div>
-            </div> 
-           
-            <div class="user">
-                <div class="uname">
-                    <a class="avatar">{!!isset(session('user')['uname']) ? session('user')['uname'] : "<a href='/home/login'>请登录</a>" !!}</a>
-                    <div class="menu">
-                        <i class="i-icon arrow"></i>
-                        <ul>
-                            <li class="listItem"><a href="{{url('home/order')}}">个人中心</a></li>
-                            <li class="listItem"><a href="{{ url('home/outlogin') }}">退出登录</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <script>
-                    /*商品-删除*/
-                          function member_del(obj,id){
-                            // console.log(1)
-                            // $(obj).parents("ul").remove();
-                            $.ajax({
-                              headers: {
-                                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                              },
-                              type : "POST",
-                              url : '/home/delete/'+id,
-                              dataType : "Json",
-                              success : function(msg){
-                                // console.log(msg)
-                                if(msg){
-                                    parent.location.reload(true);
-                                    layer.msg('删除成功', {icon: 1});
-                                    $(obj).parents("ul").remove();
-                                }else{
-                                    parent.location.reload(true);
-                                    layer.msg('删除失败', {icon: 1});
-                                }
-                              }
-                            });
-                          }
-                </script>
             </div>
         </div>
-        </div>
-        <!--bottombar-->
-        <div class="lower">
-            <div class="headerW">
-                <a class="logo" href="#">
-                    <img src="picture/logo.png" alt="爱否商城">
-                </a>
-                    <ul class="product-bar" id="nav">
-                        
-                    </ul>
-           </div>
-        </div>
- 
-        <script src="{{asset('home/js/6052ddad28e5436fbee87f5918025856.js')}}"></script>
-        <script src="{{asset('home/js/b14e46ee2b1e418298be1f361a4bcaa1.js')}}"></script>
-        <script src="{{asset('home/js/category.bundle.js')}}"></script>
-        <script type="">
-            $(function()
-            {
-                $.ajax({
+    </div>
+    </div>
+    <!--bottombar-->
+    <div class="lower">
+        <div class="headerW">
+            <a class="logo" href="#">
+                <img src="picture/logo.png" alt="爱否商城">
+            </a>
+            <ul class="product-bar" id="nav">
+                
+            </ul>
+       </div>
+    </div>
+</div>
+<script>
+        /**前台信息自动加载**/
+        $(function()
+        {
+           //前台导航
+            $.ajax({
                 headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -145,6 +96,63 @@
                 success : function(msg){
                     $('#nav').html(msg)
                   }
-                });
-            })
-        </script>
+            });
+            //前台购物车
+            $.ajax({
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "GET",
+                url : '/home/index/shopping',
+                success : function(msg){
+                    $('.wrap').html(msg)
+                  }
+            });
+            //前台购物车总数
+            $.ajax({
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : "GET",
+                url : '/home/index/count',
+                success : function(msg){
+                    $('#count').html(msg)
+                  }
+            });
+        })
+
+            
+/****前台自动加载结束*****/
+</script>
+ </header>
+    <script src="{{asset('home/js/6052ddad28e5436fbee87f5918025856.js')}}"></script>
+    <script src="{{asset('home/js/b14e46ee2b1e418298be1f361a4bcaa1.js')}}"></script>
+    <script src="{{asset('home/js/category.bundle.js')}}"></script>
+    <script>
+
+
+    /*购物车商品-删除*/
+      function member_del(obj,id){
+        // console.log(1)
+        // $(obj).parents("ul").remove();
+        $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          type : "POST",
+          url : '/home/delete/'+id,
+          dataType : "Json",
+          success : function(msg){
+            // console.log(msg)
+            if(msg){
+                parent.location.reload(true);
+                layer.msg('删除成功', {icon: 1});
+                $(obj).parents("ul").remove();
+            }else{
+                parent.location.reload(true);
+                layer.msg('删除失败', {icon: 1});
+            }
+          }
+        });
+      }
+</script>

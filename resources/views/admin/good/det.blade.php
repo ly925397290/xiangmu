@@ -73,6 +73,7 @@
            <th width="">
             <img src="{{$goods->urls}}" id="art_thumb_img">
              <input id="file_upload" name="file_upload" type="file" enctype="multipart/form-data" method="post">
+             <input id="art_thumb" name="urls" type="hidden" >
                      
                         <script type="text/javascript">
                             $(function () {

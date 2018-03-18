@@ -83,7 +83,7 @@ class WebsController extends Controller
                     $v->web_content = $str;
                     break;
                 case 'file':
-                    $v->web_content = '<img src="'.$v->web_content.'" />';
+                    $v->web_content = '<input type="hidden"  name="web_content[]" value="'.$v->web_content.'"><img src="'.$v->web_content.'" />';
                     break;
 
             }
@@ -285,7 +285,7 @@ class WebsController extends Controller
     public function editAll(Request $request)
     {
         $input = $request->except('_token');
-        
+        // return $input;
         DB::beginTransaction();
         try{
             //根据id,遍历所有的记录

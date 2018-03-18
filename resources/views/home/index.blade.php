@@ -6,7 +6,7 @@
             <div class="category wbox">
                 <div class="sidecategory">
                     <h2>
-                        <a data-code="1000036957" href="//list.gome.com.cn" target="_blank">全部商品分类</a></h2>
+                        <a data-code="1000036957" href="#" target="_blank">全部商品分类</a></h2>
                     <div id="navBox" class='lisnav'>
                         <div class="lisbg"></div>
                         <!-- 一级菜单 -->

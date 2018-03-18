@@ -57,7 +57,7 @@
                 success : function(msg){
                     // console.log(msg)
                     if(msg){
-                        layer.alert("增加成功", {icon: 6},function () {
+                        layer.alert("评论成功", {icon: 6},function () {
                             // 获得frame索引
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
@@ -65,7 +65,7 @@
                             parent.location.reload(true);
                         });
                     }else{
-                        layer.alert("增加失败", {icon: 6},function () {
+                        layer.alert("评论失败", {icon: 6},function () {
                             // 获得frame索引
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame

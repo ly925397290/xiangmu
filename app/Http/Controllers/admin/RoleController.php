@@ -57,14 +57,20 @@ class RoleController extends Controller
         // 1.获取提交的数据
         $input = $request->except('_token');
         // 2.获取数据入库后的ID
-        $role_id = DB::table('data_role')->insertGetId(['role_name'=>$input['data']['role_name'],'status'=>0]);
+        $role_id = DB::table('data_role')->insertGetId(['role_name'=>$input['data']['role_name']]);
         // 3.将角色的Id和权限id放入角色和权限的关联表中
-        foreach ($input['ids'] as $value) {
-            $res = role_permission::create(['role_id'=>$role_id,'permission_id'=>$value]);
+        if(isset($input['ids'])){
+            foreach ($input['ids'] as $value) {
+                $res = role_permission::create(['role_id'=>$role_id,'permission_id'=>$value]);
+            }
         }
         // 4.判断数据是否存储成功
-        ($role_id && $res) ? $status = 1 : $status = 0;
-        return $status;
+        if($role_id){
+            $data =1;
+        }else{
+            $data = 0;
+        }
+        return $data;
     }
 
     /**
@@ -110,19 +116,26 @@ class RoleController extends Controller
     {
         // 接收数据
         $input = $request->except('_tokne');
+        // var_dump(isset($input['ids']));
+        // return;
+        // return $input;
         // 修改角色信息
         $role = role::where('id',$id)->update(['role_name'=>$input['data']['role_name']]);
         //修改角户权限
             // 1.先删除用户所有权限
-                DB::table('role_permission')->where('role_id',$id)->delete();
+                $del = DB::table('role_permission')->where('role_id',$id)->delete();
             // 2.重新赋予权限
                 if(!empty($input['ids'])){
                     foreach ($input['ids'] as $value) {
                         $res = role_permission::create(['role_id'=>$id,'permission_id'=>$value]);
                     }
                 }
-        ($role && $res) ? $status = 1 : $status = 0;
-        return $status;
+        if($role || $res || $del){
+            $data =1;
+        }else{
+            $data = 0;
+        }
+        return $data;
     }
 
     /**
@@ -164,6 +177,31 @@ class RoleController extends Controller
             ];
         }
 
+        return $data;
+    }
+
+    /**
+     * 角色状态修改
+     */
+     public function changestatus(Request $request)
+     {
+        //接收数据
+        $input = $request->except('_token');
+        // 修改数据库信息
+        $user = role::find($input['uid']);
+        $status = ($input['status'] == 0) ? 1 : 0;
+        $user->status = $status;
+        $res = $user->save();
+        // 判断是否成功,将结果返回客户端
+        if($res){
+            $data = [
+                'status'=>1,
+            ];
+        }else{
+            $data = [
+                'status'=>0,
+            ];
+        }
         return $data;
      }
 }

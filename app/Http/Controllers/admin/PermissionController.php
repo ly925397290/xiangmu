@@ -22,7 +22,7 @@ class PermissionController extends Controller
         $pcate = pcate::get();
         $permission = permission::paginate(5);
         foreach($permission as $v){
-            $v['pcate']= $v->permission_pcate;
+            $v['pcate']= pcate::find($v['pcate_id']);
         }
         $count = count($pcate);
         return view('admin.permission.list',compact('pcate','permission','count'));

@@ -1,50 +1,12 @@
-@extends('home.public.layout')
-<!-- 主体开始 -->
-
-@section('content')
-    <section class="m-uc-user">
-    <div class="w">
-        <div class="user">
-            <!-- 头像 -->
-            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
-            <!-- 昵称 -->
-            <span>{{$user->uname or '你好'}}</span>
-            <p class="phone">绑定手机号：{{$user->phone or '130********'}}</p>
-        </div>
-    </div>
-</section>
-<section class="m-uc w">
-<aside class="m-uc-nav">
-    <nav>
-        <div class="list">
-            <h3>我的订单</h3>
-            <a class="item" href="{{url('home/order')}}"><i></i>我的订单</a>
-        </div>
-        <div class="list">
-            <h3>信息管理</h3>
-            <a class="item " href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
-            <a class="item " href="{{url('home/account')}}"><i></i>账户管理</a>
-            <a class="item " href="{{url('home/account/password')}}"><i></i>密码管理</a>
-        </div>  
-        <div class="list">
-            <h3>店铺管理</h3>
-            <a class="item " href="{{url('/home/shop')}}"><i>创建店铺</i></a>
-            <a class="item n-active" href="{{url('/home/goods')}}"><i>发布商品</i></a>
-            <a class="item " href="{{url('/home/goods/show/')}}"><i>商品列表</i></a>
-
-            <a class="item " href="{{url('/home/shop/shenhe/1')}}"><i>商铺审核进度</i></a> 
-                                                          <!-- 1改成session -->
-                          
-        </div>
-    </nav>
-</aside> 
+@extends('home.personal.layout')
+  @section('personal')
     <div class="main">
         <section class="m-select-account">
-            <div class="title">
-                <strong>发布闲置商品列表</strong>
-                <a class="u-btnl"></a>
-                <a class="u-btn">退出发布</a>
+            <div class="m-uc-hd other">
+            <div class="list">
+                <a class="n-active" href="javascript:;">发布商品</a>
             </div>
+        </div>
 
             <form  class="layui-form" action="{{ url('home/goods') }}" method="post" enctype="multipart/form-data">
                  {{csrf_field()}}
@@ -103,14 +65,14 @@
 
                 <div class="am-form-group">
                <div class="layui-form-item">
-           <div class="layui-form-item">
+          <!--  <div class="layui-form-item">
               <label for="L_username" class="layui-form-label" style="width:100px">
                      <span class="x-red">*</span>缩略图
                   </label>
               <td> 
                   <input type="file" id="file_upload" name="file_upload" value="">
                   <input type="hidden" name="urls" id="urls" value="">
-                  <img src="" id="art_thumb_img" width="200">
+                  <img src="" id="art_thumb_img" width="200"> -->
                   <script type="text/javascript">
                       $(function () {
                           $("#file_upload").change(function () {

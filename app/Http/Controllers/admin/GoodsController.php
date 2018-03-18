@@ -42,6 +42,8 @@ class GoodsController extends Controller
         $goodsdetail = goodsdetail::get();
        //查询商品所属分类
         foreach ($goods as $value) {
+       
+
             $value['cid'] = $value->good_cate->title;
         }
         $count = count($goods);
@@ -141,6 +143,7 @@ class GoodsController extends Controller
     {
 
         $input = $request->except('_token');
+        // return $input;
         $cid = cate::where('title',$input['cid'])->first();
         
         DB::beginTransaction();
@@ -152,7 +155,7 @@ class GoodsController extends Controller
 //                $conf = Config::find($v);
                 //执行修改操作
                 //$conf->update(['conf_content'=>$input['conf_content'][$k]]);
-                DB::table('data_goods')->where('gid',$v)->update(['gname' => $input['gname'],'price' => $input['price'],'inven' => $input['inven'],'cid' => $cid['id']]);
+                DB::table('data_goods')->where('gid',$v)->update(['gname' => $input['gname'],'price' => $input['price'],'inven' => $input['inven'],'cid' => $cid['id'],'urls'=>$input['urls']]);
            
 
                 DB::table('data_goodsdetail')->where('gid',$v)->update(['gdesc' => $input['gdesc']]);

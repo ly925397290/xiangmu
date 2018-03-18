@@ -28,6 +28,13 @@ class User extends Model
     {
         return $this->hasMany('App\model\Order','user_id');
     }
+    /**
+     * 创建用户回收订单一对多模型
+     */
+    public function user_huishou()
+    {
+        return $this->hasMany('App\model\huishou','user_id');
+    }
 
     // 创建用户商品多对多模型(购物车)
     public function user_good()

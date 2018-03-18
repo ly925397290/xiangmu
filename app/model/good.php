@@ -20,7 +20,7 @@ class good extends Model
     public $guarded = [];
 
     //
-     protected $fillable  = ['gname','status','price','inven','urls','cid','tuijian','addtime','user_id'];
+     protected $fillable  = ['gname','status','price','inven','urls','cid','tuijian','addtime','uid'];
 
         
 //返回格式化的分类数据

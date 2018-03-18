@@ -80,12 +80,11 @@
                   </select>
               </div>
           </div>
-          <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-              </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  修改
-              </button>
+           <div class="layui-form-item layui-form-text">
+              <label class="layui-form-label">用户评论</label>
+              <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea">{{$message['content'] or ''}}</textarea>
+              </div>
           </div>
       </form>
     </div>

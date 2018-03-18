@@ -33,18 +33,7 @@ class GoodsController extends Controller
             // 重复使用字符串 拼接分类名称
             $cate[$key]['title'] = str_repeat('|----',$n).$cate[$key]['title'];
         }
-        $user_good = user_good::where('user_id',session('user')['uid'])->get();
-        foreach ($user_good as  $value) {
-            $good = good::where('gid',$value['good_id'])->first();
-            $value['price'] = $good['price'];
-            $value['gname'] = $good['gname'];
-            $value['urls'] = $good['urls'];
-        }
-        //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
-         $user = user::find(session('user')['uid']);
-        $user['show'] = $user->userShow;
-        return view('home.shop.goodadd',compact('count','user_good','user','good','cate'));
+        return view('home.shop.goodadd',compact('cate'));
     }
 
 
@@ -61,8 +50,9 @@ class GoodsController extends Controller
         $input = $request->except('_token');
         // return $input;
         $input['gdesc'] = strip_tags($input['gdesc']);
-        $input['user_id'] = session('user')['uid'];//1改成seesion
-         // return  $input;
+        $input['uid'] = session('user')['uid'];//1改成seesion
+        $input['urls'] = '/upload/11.jpg';//1改成seesion
+         // return  $input;/
         //2.添加到数据库
         $res = good::create($input);
         $input['gid'] = $res['gid'];
@@ -81,7 +71,7 @@ class GoodsController extends Controller
         }
     }
 
-        public function upload(Request $request)
+    public function upload(Request $request)
     {
         //1.获取上传文件
         $file = $request->file('file_upload');
@@ -108,21 +98,9 @@ class GoodsController extends Controller
     public function show($id)
     {
         
-
-       $user_good = user_good::where('user_id',session('user')['uid'])->get();
-        foreach ($user_good as  $value) {
-            $good = good::where('gid',$value['good_id'])->first();
-            $value['price'] = $good['price'];
-            $value['gname'] = $good['gname'];
-            $value['urls'] = $good['urls'];
-        }
-        //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
         //查询用户发表的商品
-         $goods = good::where('user_id',session('user')['uid'])->get();
-       $user = user::find(session('user')['uid']);
-        $user['show'] = $user->userShow;
-        return view('home.shop.goodlist',compact('user_good','count','goods','user'));
+         $goods = good::where('uid',session('user')['uid'])->get();     
+        return view('home.shop.goodlist',compact('goods'));
     }
 
     /**

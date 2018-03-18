@@ -24,7 +24,10 @@ class admin extends Model
      */
     public function user_role()
     {
-    	return $this->belongsToMany('App\model\role','user_role','user_id','role_id');
+    	return $this->belongsToMany('App\model\role','user_role','user_id','role_id')->where('status','1');
     }
-    
+    public function role_permission()
+    {
+        return $this->belongsToMany('App\model\permission','role_permission','role_id','permission_id');
+    }
 }

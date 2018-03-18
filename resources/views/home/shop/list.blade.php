@@ -1,42 +1,5 @@
-@extends('home.public.layout')
-<!-- 主体开始 -->
-
-@section('content')
-    <section class="m-uc-user">
-    <div class="w">
-        <div class="user">
-            <!-- 头像 -->
-            <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
-            <!-- 昵称 -->
-            <span>{{$user->uname or '你好'}}</span>
-            <p class="phone">绑定手机号：{{$user->phone or '130********'}}</p>
-        </div>
-    </div>
-</section>
-<section class="m-uc w">
-<aside class="m-uc-nav">
-    <nav>
-        <div class="list">
-            <h3>我的订单</h3>
-            <a class="item " href="/order/list.html"><i></i>购买订单</a>
-            <a class="item " href="/saleorder/list.html"><i></i>回收服务</a>
-           
-        </div>
-        <div class="list">
-            <h3>信息管理</h3>
-            <a class="item " href="/address/index.html"><i></i>地址管理</a>
-            <a class="item n-active" href="/account/index.html"><i></i>账户管理</a>
-        </div>
-        <div class="list">
-            <h3><a href="{{url('home/shop')}}">创建商铺</a></h3>
-            <a class="item " href="{{url('/home/shop/deng')}}"><i></i>商铺审核进度</a>
-           
-        </div>
-        <div class="list">
-            <h3><a href="/help/help.html#sale"><i></i>常见问题</a></h3>
-        </div>
-    </nav>
-</aside> 
+@extends('home.personal.layout')
+  @section('personal')
     <div class="main">
         <section class="m-select-account">
             <div class="title">

@@ -35,7 +35,7 @@
                 <thead>
                     <tr>
                         <th>
-                            <input type="checkbox" name="" value="">
+                          <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
                         </th>
                         <th>
                             ID
@@ -53,9 +53,6 @@
                             回复时间
                         </th>
                         <th>
-                            状态
-                        </th>
-                        <th>
                             操作
                         </th>
                     </tr>
@@ -64,7 +61,7 @@
                 <?php foreach($message as $v): ?>
                     <tr>
                         <td>
-                            <input type="checkbox" value="1" name="">
+                          <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='<?php echo e($v->id); ?>'><i class="layui-icon">&#xe605;</i></div>
                         </td>
                         <td>
                             <?php echo e($v->id); ?>
@@ -86,13 +83,8 @@
                             <?php echo e($v->created_at); ?>
 
                         </td>
-                        <td >
-                            <span class="layui-btn layui-btn-normal layui-btn-mini">
-                                被采纳
-                            </span>
-                        </td>
                         <td class="td-manage">
-                            <a title="删除" href="javascript:;" onclick="commemt_del(this,'<?php echo e($v->id); ?>')" 
+                            <a title="删除" href="javascript:;" onclick="member_del(this,'<?php echo e($v->id); ?>')" 
                             style="text-decoration:none">
                                 <i class="layui-icon">&#xe640;</i>
                             </a>

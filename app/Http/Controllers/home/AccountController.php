@@ -20,19 +20,12 @@ class AccountController extends Controller
      */
     public function index()
     {
-        // 获取用户的信息
-        $user = user::find(session('user')['uid']);
-        $user['show'] = $user->userShow;
-        $user_good = user_good::where('user_id',session('user')['uid'])->get();
-        foreach ($user_good as  $value) {
-            $good = good::where('gid',$value['good_id'])->first();
-            $value['price'] = $good['price'];
-            $value['gname'] = $good['gname'];
-            $value['urls'] = $good['urls'];
-        }
-        //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
-        return view('home/account',compact('user','user_good','count'));
+        $id = session('user')['uid'];
+        //获取用户昵称信息
+        $nikname = user::where('uid',$id)->first();
+        //获取用户的头像信息
+        $user = user_details::where('user_id',$id)->first();
+        return view('home/account',compact('user','nikname'));
     }
 
      public function upload(Request $request)
@@ -55,7 +48,7 @@ class AccountController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 加载密码页
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -66,16 +59,7 @@ class AccountController extends Controller
         $user = user::find(session('user')['uid']);
         $user['show'] = $user->userShow;
         $user['password'] = Crypt::decrypt($user['password']);
-        $user_good = user_good::where('user_id',session('user')['uid'])->get();
-        foreach ($user_good as  $value) {
-            $good = good::where('gid',$value['good_id'])->first();
-            $value['price'] = $good['price'];
-            $value['gname'] = $good['gname'];
-            $value['urls'] = $good['urls'];
-        }
-        //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
-        return view('home.password',compact('user','user_good','count'));
+        return view('home.password',compact('user'));
     }
 
 
@@ -119,6 +103,24 @@ class AccountController extends Controller
         }else{
             return back();
         }
+    }
+
+    /**
+     * 自动获取用户信息
+     */
+    public function personal()
+    {
+        // 获取用户的信息
+        $data = user::find(session('user')['uid']);
+        $data['show'] = $data->userShow;
+        // 拼接用户字符串
+        $user = '';
+        $user .= "<!-- 头像 -->";
+        $user .= "<a class='avatar'><img src='{$data['show']['header']}'/></a>";
+        $user .= "<!-- 昵称 -->";
+        $user .= "<span>{$data['uname']}</span>";
+        $user .= "<p class='phone'>绑定手机号：{$data['phone']}</p>";
+        return $user;
     }
 
 }

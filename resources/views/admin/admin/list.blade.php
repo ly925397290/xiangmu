@@ -89,12 +89,21 @@
                     {{$v1->role_name}}
                 @endforeach
             </td>
-            <td class="td-status">
-              <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
-            <td class="td-manage">
-              <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+            @if($v->status)
+              <td class="td-status">
+                <span class="layui-btn layui-btn-normal layui-btn-mini">@if($v->status == 1)已启用@endif</span></td>
+              <td class="td-manage">
+              <a title="禁用超级管理员身份" onclick="member_stop(this,'{{$v->id}}')" href="javascript:;" status="{{$v->status}}">
                 <i class="layui-icon">&#xe601;</i>
               </a>
+              @else
+              <td class="td-status">
+                <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">@if($v->status == 0)已禁用@endif</span></td>
+              <td class="td-manage">
+              <a title="启用超级管理员身份" onclick="member_stop(this,'{{$v->id}}')" href="javascript:;" status="{{$v->status}}">
+                <i class="layui-icon"></i>
+              </a>
+              @endif
               <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/admin/')}}/{{$v->id}}/edit')" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
@@ -130,27 +139,60 @@
 
        /*用户-停用*/
       function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
-
-              if($(obj).attr('title')=='启用'){
-
+        // 获取当前用户状态
+        var status = $(obj).attr('status');
+            if($(obj).attr('title')=='启用超级管理员身份'){
+              layer.confirm('确认要启用超级管理员身份吗？',function(index){
                 //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type : "POST",
+                    url : '/admin/admin/changestatus',
+                    data : {"uid":id,"status":status},
+                    dataType : "Json",
+                    success : function(msg){
+                        // console.log(msg)
+                        if(msg.status){
+                            layer.msg('已启用超级管理员身份!',{icon: 6,time:1000});
+                            location.reload(true);
 
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
+                        }else{
+                            location.reload(true);
 
-              }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
+                            layer.msg('修改失败!',{icon: 5,time:1000});
+                        }
+                    }
+                });
+              });
+            }else{
+              layer.confirm('确认要禁用超级管理员身份吗？',function(index){
+                //发异步把用户状态进行更改
+                $.ajax({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  type : "POST",
+                  url : '/admin/admin/changestatus',
+                  data : {"uid":id,"status":status},
+                  dataType : "Json",
+                  success : function(msg){
+                          // console.log(msg)
+                      if(msg.status){
+                          location.reload(true);
 
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
-              }
-              
-          });
-      }
+                          layer.msg('已禁用超级管理员身份!',{icon: 5,time:1000});
+                      }else{
+                          location.reload(true);
+
+                          layer.msg('修改失败!',{icon: 5,time:1000});
+                      }
+                  }
+                });
+              });
+            }
+        }
 
       /*管理员-删除*/
       function member_del(obj,id){

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Crypt;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
 use App\model\user;
+use App\model\user_details;
 use Hash;
+use DB;
 class UserController extends Controller
 {
     /**
@@ -39,17 +42,14 @@ class UserController extends Controller
     {
         // 1.接收数据
         $input = $request->except('_token');
-        // return $input;
         // 2.添加到数据库
-        $flight = new user;
-        $flight->uname = $input['uname'];
-        $flight->password = $input['password'];
-        $flight->identity = $input['identity'];
-        //将数据保存到数据库
-        $res = $flight->save();
+        $input['repasswprd'] = Crypt::encrypt($input['password']);
+        
+        $id = DB::table('data_users')->insertGetId(['uname'=>$input['uname'],'password'=>$input['repasswprd'],'phone'=>$input['phone']]);
         // $res = user::create($input); 
+        $user = user_details::create(['phone'=>$input['phone'],'user_id'=>$id]);
         // 3.判读是否成功返回给客户端
-        if($res){
+        if($id){
             $data = [
                 'status'=>1,
                 'msg'=>'添加成功'

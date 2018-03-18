@@ -125,7 +125,6 @@
             $('.layui-form-checked').each(function(i,v){
                  ids.push($(v).attr('role-id'));
             })
-            console.log(ids);
             //发异步，把数据提交给php
             $.ajax({
                 headers: {
@@ -137,7 +136,7 @@
                 dataType : "Json",
                 success : function(msg){
                     // console.log(msg)
-                    if(msg){
+                    if(msg == 1){
                         layer.alert("增加成功", {icon: 6},function () {
                             // 获得frame索引
                             var index = parent.layer.getFrameIndex(window.name);
@@ -156,12 +155,6 @@
                     }
                 }
             });
-            // layer.alert("增加成功", {icon: 6},function () {
-            //     // 获得frame索引
-            //     var index = parent.layer.getFrameIndex(window.name);
-            //     //关闭当前frame
-            //     parent.layer.close(index);
-            // });
             return false;
           });
           

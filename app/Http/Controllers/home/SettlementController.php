@@ -21,24 +21,33 @@ class SettlementController extends Controller
      */
     public function index(Request $request,$id)
     {   
-        $data = good::find($id);
-        //获取用户加入购物车商品
-        $user_good = user_good::where('user_id',session('user')['uid'])->get();
-        foreach ($user_good as  $value) {
-            $good = good::where('gid',$value['good_id'])->first();
-            $value['price'] = $good['price'];
-            $value['gname'] = $good['gname'];
-            $value['urls'] = $good['urls'];
+        if($request->isMethod('post')){
+            //接收数据
+            $post = $request->except('_token');
+            //获取商品信息
+            $good = good::where('gid',$post['gid'])->first();
+            // 将所有信息放在同一数组中
+            $post['gname'] = $good['gname'];
+            $post['urls'] = $good['urls'];
+            // return $post;
+        }else{
+            $data = good::find($id);
+            //获取用户加入购物车商品
+            $user_good = user_good::where('user_id',session('user')['uid'])->get();
+            foreach ($user_good as  $value) {
+                $good = good::where('gid',$value['good_id'])->first();
+                $value['price'] = $good['price'];
+                $value['gname'] = $good['gname'];
+                $value['urls'] = $good['urls'];
+            }
+            // return $user_good;
+            //总价格
+            foreach ($user_good as $key => $value) {
+                 $price[] = $user_good[$key]['price']*$user_good[$key]['num'];
+            }
+            $price = array_sum($price);
         }
-        // return $user_good;
-        //总价格
-        foreach ($user_good as $key => $value) {
-             $price[] = $user_good[$key]['price']*$user_good[$key]['num'];
-        }
-        $price = array_sum($price);
-        //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
-        return view('home/settlement',compact('data','user_good','count','price'));
+        return view('home/settlement',compact('data','user_good','price','post'));
     }
 
     /**

@@ -43,3 +43,51 @@ response body = <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
     </TemplateSMS>
 </Response>
 
+request body = <TemplateSMS>
+                    <to>15556094522</to>
+                    <appId>8a216da861f5a25701620025b06704d3</appId>
+                    <templateId>1</templateId>
+                    <datas><data>4746</data><data>10</data></datas>
+                  </TemplateSMS>
+request url = https://app.cloopen.com:8883/2013-12-26/Accounts/8a216da861f5a25701620025b00404cc/SMS/TemplateSMS?sig=7E60493D9F3618DC07515684DE116556
+response body = <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Response>
+    <statusCode>000000</statusCode>
+    <TemplateSMS>
+        <smsMessageSid>fe0f813f3f924dc6b89fb092ac9bd299</smsMessageSid>
+        <dateCreated>20180316160015</dateCreated>
+    </TemplateSMS>
+</Response>
+
+request body = <TemplateSMS>
+                    <to>13520249366</to>
+                    <appId>8a216da861f5a25701620025b06704d3</appId>
+                    <templateId>1</templateId>
+                    <datas><data>7571</data><data>10</data></datas>
+                  </TemplateSMS>
+request url = https://app.cloopen.com:8883/2013-12-26/Accounts/8a216da861f5a25701620025b00404cc/SMS/TemplateSMS?sig=10215019FBA3D2457A59879C116DB1B7
+response body = <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Response>
+    <statusCode>000000</statusCode>
+    <TemplateSMS>
+        <smsMessageSid>05fde900899249539ccc3a208a705619</smsMessageSid>
+        <dateCreated>20180316160109</dateCreated>
+    </TemplateSMS>
+</Response>
+
+request body = <TemplateSMS>
+                    <to>13520249366</to>
+                    <appId>8a216da861f5a25701620025b06704d3</appId>
+                    <templateId>1</templateId>
+                    <datas><data>4779</data><data>10</data></datas>
+                  </TemplateSMS>
+request url = https://app.cloopen.com:8883/2013-12-26/Accounts/8a216da861f5a25701620025b00404cc/SMS/TemplateSMS?sig=0A78D969C39F7256222A15392050ABCA
+response body = <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Response>
+    <statusCode>000000</statusCode>
+    <TemplateSMS>
+        <smsMessageSid>e6aeeb4d29524dfe89010291cf9ed5ac</smsMessageSid>
+        <dateCreated>20180316160243</dateCreated>
+    </TemplateSMS>
+</Response>
+

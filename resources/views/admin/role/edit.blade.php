@@ -29,7 +29,7 @@
                         <span class="x-red">*</span>角色名
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="name" name="role_name" required=""  autocomplete="off" class="layui-input" placeholder="{{$role->role_name}}">
+                        <input type="text" id="name" name="role_name" required=""  autocomplete="off" class="layui-input" value="{{$role->role_name}}">
                     </div>
                 </div>
                 <div class="layui-form-item layui-form-text">
@@ -62,7 +62,7 @@
                     </table>
                 </div>
                 <div class="layui-form-item">
-                <button class="layui-btn" lay-submit="" lay-filter="add">增加</button>
+                <button class="layui-btn" lay-submit="" lay-filter="add">修改</button>
               </div>
             </form>
     </div>

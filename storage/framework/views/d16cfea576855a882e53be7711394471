@@ -60,6 +60,7 @@
 </html>
 
 <script type="">
+/**前台友情链接**/
     $(function()
     {
         $.ajax({

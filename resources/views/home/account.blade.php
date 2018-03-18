@@ -1,44 +1,9 @@
-﻿@extends('home.public.layout')
-<!-- 主体开始 -->
-@section('content')
-<section class="m-uc-user">
-  <div class="w">
-    <div class="user">
-        <!-- 头像 -->
-        <a class="avatar"><img src="{{$user->show->header or '/upload/user/defal.jpg'}}"/></a>
-        <!-- 昵称 -->
-        <span>{{$user->uname or '你好'}}</span>
-        <p class="phone">绑定手机号：{{$user->phone or '130********'}}</p>
-    </div>
-  </div>
-</section>
-<section class="m-uc w">
-<aside class="m-uc-nav">
-    <nav>
-        <div class="list">
-            <h3>我的订单</h3>
-            <a class="item" href="{{url('home/order')}}"><i></i>我的订单</a>
-        </div>
-        <div class="list">
-            <h3>信息管理</h3>
-            <a class="item " href="{{url('home/addrmanag')}}"><i></i>地址管理</a>
-            <a class="item n-active" href="{{url('home/account')}}"><i></i>账户管理</a>
-            <a class="item " href="{{url('home/account/password')}}"><i></i>密码管理</a>
-        </div>  
-        <div class="list">
-            <h3>店铺管理</h3>
-            <a class="item " href="{{url('/home/shop')}}"><i>创建店铺</i></a>
-            <a class="item " href="{{url('/home/goods')}}"><i>发布商品</i></a>
-            <a class="item " href="{{url('/home/goods/show/')}}"><i>商品列表</i></a>
-            <a class="item " href="{{url('/home/goods/show')}}"><i>商铺审核进度</i></a> 
-        </div>
-    </nav>
-</aside> 
+﻿@extends('home.personal.layout')
+  @section('personal')
     <div class="main">
         <div class="m-uc-hd other">
             <div class="list">
-                <a class="n-active" href="javascript:;">个人信息</a>
-
+                <a class="n-active" href="javascript:;">账户管理</a>
             </div>
         </div>
         <form class="layui-form" method="post" action="/home/account/update/{{session('user')['uid']}}" enctype="multipart/form-data">
@@ -52,7 +17,7 @@
               </div>
               <input type="hidden" name="header" id="art_thumb" value="">
             {{--上传成功后显示上传图片--}}
-            <img src="{{$user->show->header or ''}}" id="art_thumb_img" alt="" style="width:100px;">
+            <img src="{{$user['header'] or ''}}" id="art_thumb_img" alt="" style="width:100px;">
           </div>
           <div class="layui-form-item">
               <label for="L_username" class="layui-form-label">
@@ -60,7 +25,7 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="L_username" name="uname" required="" lay-verify="nikename"
-                  autocomplete="off" class="layui-input" value="{{$user->uname or ''}}">
+                  autocomplete="off" class="layui-input" value="{{$nikname['uname'] or ''}}">
               </div>
           </div>
           <div class="layui-form-item">
@@ -135,6 +100,6 @@
         });
     }
 </script>
-@endsection
-<!-- 主体结束 -->
+  @endsection
              
+

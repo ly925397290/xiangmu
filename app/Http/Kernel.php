@@ -32,5 +32,6 @@ class Kernel extends HttpKernel
         'permission' => \App\Http\Middleware\permission::class,
         'login' => \App\Http\Middleware\login::class,
         'homeLogin' => \App\Http\Middleware\homeLogin::class,
+        'web_status' => \App\Http\Middleware\web_status::class,
     ];
 }
