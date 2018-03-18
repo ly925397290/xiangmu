@@ -43,9 +43,8 @@ class GoodsController extends Controller
         $goodsdetail = goodsdetail::get();
        //查询商品所属分类
         foreach ($goods as $value) {
-       
 
-            $value['cid'] = $value->good_cate->title;
+            $value['cid'] = isset($value->good_cate->title) ? $value->good_cate->title : '';
         }
         $count = count($goods);
         // return $goods;
@@ -62,7 +61,9 @@ class GoodsController extends Controller
     public function detail($id )
     {
         $goods = good::find($id);
-        $goods['cid'] = $goods->good_cate->title;
+        if($goods->good_cate){
+            $goods['cid'] = $goods->good_cate->title;
+        }     
         $goods['gdesc'] = $goods->data_goodsdetail->gdesc;
         $goods['gname'] = '<input type="text" name="gname" value="'.$goods['gname'].'">';
         $goods['price'] = '<input type="text" name="price" value="'.$goods['price'].'">';
@@ -70,12 +71,11 @@ class GoodsController extends Controller
         $goods['status'] = '<input type="radio" name="status" value="'.$goods['status'].'" title="" checked>';
 
         $goods['inven'] = '<input type="text" name="inven" value="'.$goods['inven'].'">';
-        
             foreach($goods->message->all() as $v){
                  $arr[] = $v['content'];
             }
        
-             $goods['content'] = $arr;
+             // $goods['content'] = $arr;
         
        
         return view('admin.good.det',['goods'=>$goods]);

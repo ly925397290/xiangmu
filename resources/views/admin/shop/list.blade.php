@@ -69,14 +69,14 @@
                  <td>{{$v->shopname}}</td>
                  <td>{{$v->desc}}</td>
                  <td>
-                  @if($v->status == 0)
-                   <input type="radio" name="1[]" value="0" title="等待审核" checked>等待审核
-                   <input type="radio" name="2[]" value="1" title="审核通过" >审核通过
-                  @else
-                    
-                   <input type="radio" name="3[]" value="0" title="等待审核" >等待审核
-                   <input type="radio" name="4[]" value="1" title="审核通过" checked>审核通过 
-                  @endif            
+                   <input type="radio" name="status[{{$k}}]" value="0" title="等待审核" 
+                     @if($v->status == 0)
+                      checked
+                     @endif
+                     >等待审核
+                   <input type="radio" name="status[{{$k}}]" value="1" title="审核通过" @if($v->status == 1)
+                   checked
+                   @endif>审核通过         
                   </td>
 
             @endforeach

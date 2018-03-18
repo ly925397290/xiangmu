@@ -25,26 +25,20 @@ class GoodsController extends Controller
      */
     public function index()
     {
-
-        //关联店铺表 判断店铺表中是否有用户id  
-        //再判断用户的这条信息店铺的status
-        // 如果是0 则不可以发布商品
-
-        // 若是1则可以发布商品
-        // 可能会使用中间件
-
-         $cate = DB::table('data_cate')->select('*',DB::raw('concat(path,",",id) as paths'))->orderBy('paths','asc')->get();
-        // 处理分类名称
-        foreach ($cate as $key => $value) {
-            // 统计字符串出现的次数
-            $n = substr_count($value['path'],',');
-            // 重复使用字符串 拼接分类名称
-            $cate[$key]['title'] = str_repeat('|----',$n).$cate[$key]['title'];
+        $id = session('user')['uid'];
+        $goods = Shop::where('uid',$id)->first();
+   
+        if($goods){
+            $cate = DB::table('data_cate')->select('*',DB::raw('concat(path,",",id) as paths'))->orderBy('paths','asc')->get();
+            // 处理分类名称
+            foreach ($cate as $key => $value) {
+                // 统计字符串出现的次数
+                $n = substr_count($value['path'],',');
+                // 重复使用字符串 拼接分类名称
+                $cate[$key]['title'] = str_repeat('|----',$n).$cate[$key]['title'];
+            }
         }
-
-        $user = user::find(session('user')['uid']);
-        $user['show'] = $user->userShow;
-        return view('home.shop.goodadd',compact('user','good','cate'));
+        return view('home.shop.goodadd',compact('user','goods','cate'));
     }
 
     /**
@@ -61,7 +55,8 @@ class GoodsController extends Controller
         // return $input;
         $input['gdesc'] = strip_tags($input['gdesc']);
         $input['uid'] = session('user')['uid'];//1改成seesion
-        $input['urls'] = '/upload/11.jpg';//1改成seesion
+        $addtime = date('Y-m-d H:i:s',time());
+        $input['addtime'] = $addtime;
          // return  $input;/
         //2.添加到数据库
         $res = good::create($input);
@@ -84,6 +79,7 @@ class GoodsController extends Controller
 
     public function upload(Request $request)
     {
+
 
         //1.获取上传文件
         $file = $request->file('file_upload');
@@ -123,15 +119,21 @@ class GoodsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+
        
         $input = $request->except('_token','_method');
         // $res = Article::find($id)->update($input);
         //判断
-        if($res)
-        {
-            return redirect('/admin/article');
+       $gdesc = strip_tags($input['gdesc']);
+
+        $res = $good = goodsdetail::where('gid',$id)->update(['gdesc'=>$gdesc]);
+
+
+        if($res){
+            return redirect('home/goods/show');
         }else{
-            return back()->with('msg','修改失败');
+            return redirect()->back();
         }
 
     }
@@ -174,29 +176,10 @@ class GoodsController extends Controller
 
     public function write($id)
     {
-        $user = user::find(session('user')['uid']);
-        $user['show'] = $user->userShow;
-         $user_good = user_good::where('user_id',session('user')['uid'])->get();
-        foreach ($user_good as  $value) {
-            $good = good::where('gid',$value['good_id'])->first();
-            $value['price'] = $good['price'];
-            $value['gname'] = $good['gname'];
-            $value['urls'] = $good['urls'];
-        }
-        //计算购物车中商品总和
-        $count = DB::table('user_good')->where('user_id',session('user')['uid'])->count();
-        $det = goodsdetail::find($id);
-        return view('home.shop.goodwrite',compact('user_good','count','user'));
+        $det = goodsdetail::where('gid',$id)->first();
+    
+        return view('home.shop.goodwrite',compact('det'));
     }
 
-    public function edit(Request $request){
-        $input = $request->except('_token');
-        $gdesc = strip_tags($input['gdesc']);
-        $res = $good = goodsdetail::create(['gdesc'=>$gdesc]);
-        if($res){
-            return redirect('home/goods/show');
-        }else{
-            return redirect()->back();
-        }
-    }
+ 
 }
