@@ -79,7 +79,7 @@ class IndexController extends Controller
     public function links()
     {
 
-        $links = Link::get();
+        $links = Link::where('status','1')->get();
         // return $links;
         $link = '';
           foreach($links as $v){

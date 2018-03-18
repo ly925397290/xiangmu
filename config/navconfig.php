@@ -1,4 +1,6 @@
 <?php 
  return array (
-  'https://' => '冰箱',
+  'https://' => 'ss',
+  'https://baidu.com' => 'ddd',
+  'https://ssss' => 'dddd',
 );

@@ -78,7 +78,7 @@
                         
                         <input id="file_upload" name="file_upload" type="file" multiple="true" >
                         <img src="" id="art_thumb_img" width="150">
-                        <input id="art_thumb" name="simg" type="hidden" >
+                        <input id="art_thumb" name="simg" type="hidden" value="{{$slideshow->simg}}">
                         <script type="text/javascript">
                             $(function () {
                                 $("#file_upload").change(function () {

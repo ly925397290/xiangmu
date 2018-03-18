@@ -57,7 +57,7 @@
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" ><i class=""></i>导航列表</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','{{url('admin/nav/create')}}',600,400)"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加导航','{{url('admin/nav/create')}}',600,400)"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：{{$count}} 条</span>
       </xblock>
       <table class="layui-table">

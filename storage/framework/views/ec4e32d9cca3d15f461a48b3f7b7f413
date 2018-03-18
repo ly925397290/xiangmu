@@ -149,7 +149,7 @@
                   dataType : "Json",
                   success : function(msg){
                           // console.log(msg)
-                      if(msg.status){
+                      if(msg){
                           location.reload(true);
                           layer.msg('已隐藏!',{icon: 5,time:1000});
                       }else{

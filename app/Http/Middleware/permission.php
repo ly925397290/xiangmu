@@ -49,7 +49,6 @@ class permission
 
                     }
                 }
-               
                 //3.去掉重复的权限
                 $own_permission = array_unique($own_permission);
                 // return $own_permission;
