@@ -67,7 +67,7 @@
           <tr>
             
             <th>{{$v->gid }}</th>     
-            <th>{{$v->cid}}</th>
+            <th>{{$v->cid or ''}}</th>
             <th>{{ $v->gname }}</th>
             <th><img src="{{$v->urls}}" alt=""></th>
             

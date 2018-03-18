@@ -36,13 +36,27 @@
             <input style="width:100px" type="text" name="price[]" value="{{$v->price}}">
         </td>
         <td> 
-            @if($v->status == 0)
-                 <input style="width:100px" type="text" name="status[]" value="下架">
-                     下架 | 已上架
-            @else
-                <input style="width:100px" type="text" name="status[]" value="已上架">
-                    下架 | 已上架
-            @endif
+           
+
+                   <input type="radio" name="status[{{$k}}]" value="0" title="下架" 
+                     @if($v->status == 0)
+                      checked
+                     @endif
+                     >
+                   <input type="radio" name="status[{{$k}}]" value="1" title="上架" @if($v->status == 1)
+                   checked
+                   @endif>  
+                 
+
+
+
+
+
+
+
+
+
+
         </td>
         <td><a title="查看商品详情" href="{{url('home/shop/write')}}/{{$v->gid}}"><i class="layui-icon">&#xe642;</i></a></td>
     </tr>

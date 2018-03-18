@@ -52,14 +52,14 @@
         <tbody>
             <tr>
             <th width="100">商品ID号</th>            
-            <th width="">{{$goods->gid}}</th>
+            <th width="">{{$goods->gid or ''}}</th>
             <input type="hidden" name="gid" value="{{$goods->gid}}">
           </tr>
 
            
             <tr>
            <th width="">商品所属分类</th>            
-           <th width="">{{$goods->cid}}</th>
+           <th width="">{{$goods->cid or ''}}</th>
            <input type="hidden" name="cid" value="{{$goods->cid}}">
             </tr>
             <tr>
@@ -207,13 +207,14 @@
            <th width="">商品评论</th> 
         </tr>
         <tr>   
+          @if($goods['content'])
             @foreach($goods['content'] as $v)
-
-              <tr> 
-              <th></th>        
-              <th width="">{!!$v!!}</th>
-            </tr>
-            @endforeach
+                <tr> 
+                <th></th>        
+                <th width="">{!!$v!!}</th>
+              </tr>
+              @endforeach
+          @endif
           </tr>
         </tbody>
         

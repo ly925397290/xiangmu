@@ -7,18 +7,11 @@
                 <a class="n-active" href="javascript:;">发布商品</a>
             </div>
         </div>
-
+          @if(isset($cate))
             <form  class="layui-form" action="{{ url('home/goods') }}" method="post" enctype="multipart/form-data">
                  {{csrf_field()}}
                  <br>
-              <div class="layui-form-item">
-                  <label for="L_username" class="layui-form-label" style="width:100px">
-                     <span class="x-red" >*</span>商品名称
-                  </label>
-                  <div class="layui-input-inline">
-                      <input type="text" class="layui-input" id="shopname" placeholder="商品名称" name="gname">
-                  </div>
-              </div>
+           
               <div class="layui-form-item">
               <label for="L_pass" class="layui-form-label" style="width:100px">
                   <span class="x-red">*</span>商品分类
@@ -65,14 +58,14 @@
 
                 <div class="am-form-group">
                <div class="layui-form-item">
-          <!--  <div class="layui-form-item">
+           <div class="layui-form-item">
               <label for="L_username" class="layui-form-label" style="width:100px">
                      <span class="x-red">*</span>缩略图
                   </label>
               <td> 
                   <input type="file" id="file_upload" name="file_upload" value="">
                   <input type="hidden" name="urls" id="urls" value="">
-                  <img src="" id="art_thumb_img" width="200"> -->
+                  <img id="art_thumb_img" width="200">
                   <script type="text/javascript">
                       $(function () {
                           $("#file_upload").change(function () {
@@ -102,7 +95,7 @@
                       formData.append('file_upload',$('#file_upload')[0].files[0]);
                                $.ajax({
                                   type: "POST",
-                                  url: '{{url('/admin/goods/upload')}}',
+                                  url: '{{url('/home/goods/upload')}}',
                                    headers: {
                                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                   },
@@ -149,7 +142,9 @@
             </div>
         </form>
     </div>
-
+    @else
+    您还没有创建店铺
+    @endif
 </div>
 @endsection
 <!-- 主体结束 -->
