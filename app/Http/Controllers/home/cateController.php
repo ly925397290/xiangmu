@@ -21,11 +21,10 @@ class cateController extends Controller
         $cate = cate::where('pid',$id)->get();
         // 拼接字符串
         $caidan = '';
-        $caidan .= "<a href='#' target='_blank' id='' title='手机' data-code='1000051971-0'>";
-        foreach($cate as $v){
-            $caidan .=$v->title;
+        foreach ($cate as$value) {
+     	  $caidan .= "<a href='#' target='_blank' id='' title='手机' data-code='1000051971-0'>{$value['title']}</a>";
         }
-        $caidan .= "</a>";
+
         return $caidan;
     }
 }

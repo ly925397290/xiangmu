@@ -36,24 +36,9 @@ class OrderController extends Controller
         if($status){
             $data = 1;
         }else{
-            $data = 0;
-            // 获取用户的订单信息
-            $user = user::find(session('use')['uid']);
-            $user['show'] = $user->userShow;
-            $user['order'] = $user->user_order;
-            $user_good = user_good::where('user_id',session('user')['uid'])->get();
-            foreach ($user_good as  $value) {
-                $good = good::where('gid',$value['good_id'])->first();
-                $value['price'] = $good['price'];
-                $value['gname'] = $good['gname'];
-                $value['urls'] = $good['urls'];
-            }
-            //格式化时间戳
-            foreach ($user['order'] as  $value) {
-                $value['time'] = date('Y-m-d H:i:s');
-            }
-            return $data;
+      
         }
+        return $data;
     }
     /**
      * 评论页

@@ -147,12 +147,11 @@ class CateController extends Controller
             if($cate){
                 return $data = 1;
             }else{
-                return 2;
                 // 查询要删除的用户
                  $res = cate::find($value)->delete();
                 // 判断是否成功,将结果返回客户端
                 if($res){
-                    return  $data = 0;
+                    return $data = 0;
                 }else{
                     return $data = 2;
                 }

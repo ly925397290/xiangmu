@@ -67,7 +67,7 @@
           <tr>
             
             <th><?php echo e($v->gid); ?></th>     
-            <th><?php echo e($v->cid); ?></th>
+            <th><?php echo e(isset($v->cid) ? $v->cid : ''); ?></th>
             <th><?php echo e($v->gname); ?></th>
             <th><img src="<?php echo e($v->urls); ?>" alt=""></th>
             

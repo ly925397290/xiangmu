@@ -162,7 +162,7 @@
         $('.layui-form-checked').not('.header').each(function(i,v){
              ids.push($(v).attr('data-id'));
         })
-        console.log(ids)
+        
         layer.confirm('确认要删除吗？',function(index){
             //捉到所有被选中的，发异步进行删除
             $.ajax({
@@ -175,15 +175,16 @@
               dataType : "Json",
               success : function(msg){
                 if(msg == 0){
+                	layer.msg('删除成功!',{icon:1,time:1000});
                     location.reload(true);
                     $(obj).parents("tr").remove();
-                    layer.msg('删除成功!',{icon:1,time:1000});
                 }else if(msg == 1){
-                    location.reload(true);
                     layer.msg('要删除的分类有子类!',{icon:1,time:1000});
-                }else{
                     location.reload(true);
+                }else{
                     layer.msg('删除失败!',{icon:1,time:1000});
+                    location.reload(true);
+
                 }
               }
             });

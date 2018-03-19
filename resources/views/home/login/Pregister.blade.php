@@ -7,9 +7,9 @@
 	<meta name="content" content="月光宝盒">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-    <link type="text/css" rel="stylesheet" href="{{ url('home/register/css/login.css') }}">
-    <script type="text/javascript" src="{{ url('lib/layui/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{url('lib/layui/layui.js')}}" charset="utf-8"></script>
+    <link type="text/css" rel="stylesheet" href="{{ asset('home/register/css/login.css') }}">
+    <script type="text/javascript" src="{{ asset('admin/layui/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{asset('admin/layui/layui.js')}}" charset="utf-8"></script>
 </head>
 <body class="login_bj" >
 @if (count($errors) > 0)
@@ -59,6 +59,7 @@
     </div>
 </div>
 <script type="text/javascript">
+
 setTimeout(function(){document.getElementById("test").style.display="none";},2000);
     function sendCode(){
         // 获取用户手机号

@@ -12,9 +12,9 @@
 */
 
 /****************************后台路由************************************/
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 	// 无权限访问页面
 	Route::get('noaccess','Admin\IndexController@noaccess');
@@ -220,6 +220,8 @@ Route::get('outlogin','LoginController@outlogin');
 /*****网站状态检测中间件****/
 Route::group(['middleware'=>['web_status']],function(){
 
+// 前台首页
+Route::get('/','Home\IndexController@index');
 /*********前台需要登录的路由**********/
 Route::group(['middleware'=>['homeLogin']],function(){
 /**
@@ -303,9 +305,6 @@ Route::post('/home/goods/editAll/','Home\goodsController@editAll');
 //商品描述修改
 Route::post('/home/goods/edit/','Home\goodsController@edit');
 
-
-// 前台首页
-Route::get('/','Home\IndexController@index');
 });
 //加载商品详情页
 Route::get('home/shoplist/{id}','Home\ShoplistController@index');

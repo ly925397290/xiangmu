@@ -77,7 +77,10 @@ class LoginController extends Controller
         if(strtolower($input['code']) != strtolower(session('code'))) {
             return redirect('home/login')->with('errors','验证码不正确');
         }
-
+        //6.判断账号是否禁用
+        if($user['status'] == 0) {
+            return redirect('home/login')->with('errors','账号已被禁用');
+        }
         // 登陆成功, 将信息保存到 session 中
         Session::put('user',$user);
         return redirect('/');

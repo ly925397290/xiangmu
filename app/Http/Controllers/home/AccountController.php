@@ -25,6 +25,7 @@ class AccountController extends Controller
         $nikname = user::where('uid',$id)->first();
         //获取用户的头像信息
         $user = user_details::where('user_id',$id)->first();
+        isset($user['header']) ? $user['header'] :'/upload/user/defal.jpg';
         return view('home/account',compact('user','nikname'));
     }
 

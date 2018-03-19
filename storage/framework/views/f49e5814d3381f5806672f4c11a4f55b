@@ -53,21 +53,23 @@
                     <th width="120"><i class="require">*</i>文章父级分类：</th>
                     <td>
                         <select name="cate_id">
-                            <option value='0' name="title">顶级文章父类</option>
-                            <?php foreach($articles as $v): ?>
-                            <option value="<?php echo e($v['aid']); ?>" name="title" ><?php echo e($v['title']); ?></option>
-                            <?php endforeach; ?>
+                            <option value='0' name="公告">公告</option>
+                            <option value="1" name="指南" >指南</option>
+                            <option value="2" name="回收" >回收</option>
+                            <option value="3" name="热销" >热销</option>
+                            <option value="4" name="资讯" >资讯</option>
+                           
                         </select>
                     </td>
                 </tr> 
-            <tr>
+                <tr>
                     <th><i class="require">*</i> 文章标题：</th>
                     <td>
                         <input type="text" class="lg" name="title">
                     </td>
                 </tr>
                 <tr>
-                    <th>作者</th>
+                    <th>作者：</th>
                     <td>
                         <input type="text" class="sm" name="auth">
                     </td>
@@ -185,7 +187,7 @@
                 </tr>
                 <th>排序：</th>
                     <td>
-                        <input type="text" class="lg" name="number">
+                        <input type="text" class="sm" name="number"><b style="color:blue">*请您输入数字</b>
                     </td>
                 <tr>
                     <th></th>

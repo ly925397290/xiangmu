@@ -47,9 +47,8 @@
       <table class="layui-table">
         <thead>
           <tr>        
-            <th>排序</th>
-            <th>ID号</th>            
-            <th>所属类别</th>           
+            <th>排序</th>         
+            <th width="80px">所属类别</th>           
             <th>文章题目</th>
             <th>文章缩列图</th>
             <th>文章作者</th>
@@ -60,9 +59,20 @@
         <tbody>
          <?php foreach($articles as $v): ?>
           <tr>
-            <th><?php echo e($v['number']); ?></th>
-           <th><?php echo e($v['aid']); ?></th>     
-            <th><?php echo e($v['apath']); ?></th>
+            <th><?php echo e($v['number']); ?></th> 
+            <th>
+              <?php if($v['cate_id']==0): ?>
+                *公告*
+              <?php elseif($v['cate_id']==1): ?>
+                @指南@
+              <?php elseif($v['cate_id']==2): ?>
+                #回收#
+              <?php elseif($v['cate_id']==3): ?>
+              $热销$
+              <?php else: ?>
+              %资讯%
+              <?php endif; ?>
+          </th>
             <th><?php echo e($v['title']); ?></th>
             <th><img src="<?php echo e($v['art_thumb']); ?>"></th>
             <!-- <th><?php echo e($v['art_thumb']); ?></th> -->

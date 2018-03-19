@@ -112,7 +112,7 @@ class Order extends Model
         switch ($id) {
             case 1:
                 // 1.1获取当前所有用户的订单
-                $user = order::where('user_id',(session('user')['uid']))->get();
+                $user = order::where('user_id',(session('user')['uid']))->orderBy('id','desc')->get();
                 // return $user;
                 //格式化时间戳
                 foreach ($user as  $value) {
@@ -136,7 +136,7 @@ class Order extends Model
                                 $order .= "<button  class='layui-btn' lay-filter='add' lay-submit=''><i class='layui-icon'></i>确定收货</button>";
                                 $order .= "</form>";
                             }elseif($v['order_status'] == 4){
-                                $order .= '<button class="layui-btn" onclick="x_admin_show(\'评论\',\'/home/pinglun/'.$v["oid"].'\')"><i class="layui-icon"></i>评论</button>';
+                                $order .= '<button class="layui-btn" onclick="x_admin_show(\'评论\',\'/home/pinglun/'.$v["oid"].'\'600,400)"><i class="layui-icon"></i>评论</button>';
                             }elseif($v['order_status'] == 5){
                                 $order .= "<span class='layui-btn layui-btn-normal layui-btn-mini'>已完成</span>";
                             }
@@ -147,7 +147,7 @@ class Order extends Model
             // 2.当获取的参数为 2 时代表获取所有的待发货的订单
             case 2:
                 // 2.1获取当前所有用户的待发货的订单
-                $user = order::where('user_id',(session('user')['uid']))->where('order_status','1')->orWhere('order_status','2')->get();
+                $user = order::where('user_id',(session('user')['uid']))->where('order_status','1')->orWhere('order_status','2')->orderBy('id','desc')->get();
                 // return $user;
                 //格式化时间戳
                 foreach ($user as  $value) {
@@ -173,7 +173,7 @@ class Order extends Model
             // 3.当获取的参数为 3 时代表获取所有待收货的订单
             case 3:
                  // 3.1获取当前所有用户待收货的订单
-                $user = order::where('user_id',(session('user')['uid']))->where('order_status','2')->orWhere('order_status','4')->get();
+                $user = order::where('user_id',(session('user')['uid']))->where('order_status','2')->orWhere('order_status','4')->orderBy('id','desc')->get();
                 //格式化时间戳
                 foreach ($user as  $value) {
                     $value['time'] = date('Y-m-d H:i:s',$value['time'] );
@@ -201,7 +201,7 @@ class Order extends Model
             // 4.当获取的参数为 4 时代表获取所待评价的订单
             case 4:
                 // 4.1获取当前所有用户的待评价的订单
-                $user = order::where('user_id',(session('user')['uid']))->where('order_status','4')->orWhere('order_status','5')->get();
+                $user = order::where('user_id',(session('user')['uid']))->where('order_status','4')->orWhere('order_status','5')->orderBy('id','desc')->get();
                 // return $user;
                 //格式化时间戳
                 foreach ($user as  $value) {
@@ -216,7 +216,7 @@ class Order extends Model
                         $order .= "<td>{$v['time']}</td>";
                         $order .= "<td>";
                         if($v['order_status'] == 4){
-                            $order .= '<button class="layui-btn" onclick="x_admin_show(\'评论\',\'/home/pinglun/'.$v["oid"].'\')"><i class="layui-icon"></i>评论</button>';
+                            $order .= '<button class="layui-btn" onclick="x_admin_show(\'评论\',\'/home/pinglun/'.$v["oid"].'\',600,400)"><i class="layui-icon"></i>评论</button>';
                         }else{
                             $order .= "<span class='layui-btn layui-btn-normal layui-btn-mini'>已评价</span>";
                         }
@@ -227,7 +227,7 @@ class Order extends Model
             // 5.当获取的参数为 5 时代表获取所有回收的订单
             case 5:
                 // 5.1获取当前所有用户的回收的订单
-                $user = huishou::where('user_id',(session('user')['uid']))->get();
+                $user = huishou::where('user_id',(session('user')['uid']))->orderBy('id','desc')->get();
                 // return $user;
                 //格式化时间戳
                 foreach ($user as  $value) {

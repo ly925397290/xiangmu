@@ -70,14 +70,14 @@
                  <td><?php echo e($v->shopname); ?></td>
                  <td><?php echo e($v->desc); ?></td>
                  <td>
-                  <?php if($v->status == 0): ?>
-                   <input type="radio" name="1[]" value="0" title="等待审核" checked>等待审核
-                   <input type="radio" name="2[]" value="1" title="审核通过" >审核通过
-                  <?php else: ?>
-                    
-                   <input type="radio" name="3[]" value="0" title="等待审核" >等待审核
-                   <input type="radio" name="4[]" value="1" title="审核通过" checked>审核通过 
-                  <?php endif; ?>            
+                   <input type="radio" name="status[<?php echo e($k); ?>]" value="0" title="等待审核" 
+                     <?php if($v->status == 0): ?>
+                      checked
+                     <?php endif; ?>
+                     >等待审核
+                   <input type="radio" name="status[<?php echo e($k); ?>]" value="1" title="审核通过" <?php if($v->status == 1): ?>
+                   checked
+                   <?php endif; ?>>审核通过         
                   </td>
 
             <?php endforeach; ?>
